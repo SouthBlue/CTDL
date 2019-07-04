@@ -4,12 +4,15 @@
 using namespace std;
 
 
+void loginDisplay(){
+	gotoxy(300, 200);
+	
+}
 
-
-void resizeConsole()
-{
+void resizeConsole(){
+	
 	HWND console = GetConsoleWindow();
-	SetWindowPos( console, 0, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER );
+	SetWindowPos(console, 0, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER );
 	RECT r;
 	GetWindowRect(console, &r);
 	MoveWindow(console, r.left, r.top, 1365, 730, TRUE);
@@ -20,4 +23,5 @@ void resizeConsole()
 
 int main(){
 	resizeConsole();
+	cout << "jjd";
 }
