@@ -4,8 +4,8 @@
 CPP      = g++.exe
 CC       = gcc.exe
 WINDRES  = windres.exe
-OBJ      = DoAnThiTracNghiem.o
-LINKOBJ  = DoAnThiTracNghiem.o
+OBJ      = DoAnThiTracNghiem.o Display.o
+LINKOBJ  = DoAnThiTracNghiem.o Display.o
 LIBS     = -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib" -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib" -static-libgcc
 INCS     = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"
 CXXINCS  = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"
@@ -26,3 +26,6 @@ $(BIN): $(OBJ)
 
 DoAnThiTracNghiem.o: DoAnThiTracNghiem.cpp
 	$(CPP) -c DoAnThiTracNghiem.cpp -o DoAnThiTracNghiem.o $(CXXFLAGS)
+
+Display.o: Display.cpp
+	$(CPP) -c Display.cpp -o Display.o $(CXXFLAGS)

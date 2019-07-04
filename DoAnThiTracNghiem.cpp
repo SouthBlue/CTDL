@@ -1,11 +1,18 @@
 #include <iostream>
 #include <mylib.h>
 #include <windows.h>
+#include <conio.h>
+#include "Display.h"
 using namespace std;
 
 
 void loginDisplay(){
-	gotoxy(300, 200);
+	
+//	for()
+	gotoxy(60, 20);
+	cout<<"User Name:";
+	gotoxy(60, 24);
+	cout<<"Password:";
 	
 }
 
@@ -22,6 +29,9 @@ void resizeConsole(){
 
 
 int main(){
-	resizeConsole();
-	cout << "jjd";
+	hello();
+//	
+//	resizeConsole();
+//	loginDisplay();
+//	getch();
 }
