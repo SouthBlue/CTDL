@@ -2,9 +2,10 @@
 #include <iomanip>
 #include <mylib.h>
 #include <string>
+#include "Display.h"
 using namespace std;
 
-const int so_item1 = 5;
+const int so_item1 = 4;
 const int so_item2 = 5;
 const int dong = 2;
 const int cot = 3;
@@ -13,8 +14,8 @@ const int Down = 80;
 const int RIGHT = 77;
 const int LEFT = 75;
 
-#define MAXLOP 500;
-#define MAXCAUHOI 2000;
+#define MAXLOP 500
+#define MAXCAUHOI 2000
 						   
 
 // khai bao ds
@@ -51,7 +52,7 @@ typedef struct nodeSinhVien{
 	SinhVien sv;
 	struct nodeSinhVien *next;
 };
-typedef struct nodeSinhVien *SV
+typedef struct nodeSinhVien *SV;
 
 typedef struct Lop{
 	string maLop;
@@ -60,7 +61,7 @@ typedef struct Lop{
 };
 typedef struct listLop{
 	int slLop;
-	lop nodesL[MAXLOP];
+	Lop nodesL[MAXLOP];
 };
 
 typedef struct CauHoi{
@@ -80,13 +81,13 @@ typedef struct nodeCauHoi{
 
 /////////////////////
 
-char menu1 [so_item1][30] = {"Nhap Lop",
-							 "In Danh Sach Lop",
-						  	 "Nhap SV Cua Lop",
-						  	 "Nhap Mon Hoc",
-						   	 "Nhap Cau Hoi Thi"};
+char menu1 [so_item1][30] = {"Lop",
+							 "Cau Hoi Thi",
+						  	 "Mon Hoc",
+						  	 "Bang Diem",
+						   	};
 						   	 
-char menu2 [so_item2][50] = {"Nhan: ", "<-, ->: De di chuyen", "Enter: De chon", "Esc: De thoat"};
+char menu2 [so_item2][50] = {"Nhan: ", "<-, ->: Di chuyen", "Enter: Chon", "Esc: Thoat"};
 
 void Normal(){
 	SetColor(3);
@@ -123,13 +124,13 @@ void rectangle(int x, int y, int width, int height)
 void teacherInterface(){
 	SetColor(3);
 	rectangle(0, 0, 105, 5);
-	rectangle(0, 5, 105, 33);
-	rectangle(106, 0, 60, 38);
-	rectangle(0, 38, 166, 3);
+	rectangle(0, 5, 105, 31);
+	rectangle(106, 0, 38, 36);
+	rectangle(0, 36, 144, 4);
 }
 void press_key(char td2[so_item2][50]){
 	for(int i = 0; i< so_item2; i++){
-		gotoxy(3+i*30, 39);
+		gotoxy(3+i*20, 37);
 		cout<< td2[i];
 	}
 }
@@ -179,47 +180,64 @@ int teacherMenu(char td[so_item1][30]){
 	  } while (1);
 }	
 						   
-
+void TieuDe(){
+	gotoxy(5, 2);
+	cout << "       ______  __              ______                          __  __          __                   \n";
+	gotoxy(5, 3);
+	cout << "      /\\__  _\\/\\ \\      __    /\\__  _\\                        /\\ \\/\\ \\        /\\ \\      __              \n";
+	gotoxy(5, 4); 
+	cout << "      \\/_/\\ \\/\\ \\ \\___ /\\_\\   \\/_/\\ \\/ _ __    __      ___    \\ \\ `\\\\ \\     __\\ \\ \\___ /\\_\\     __    ___ ___     \n";
+	gotoxy(5, 5);
+	cout << "         \\ \\ \\ \\ \\  _ `\\/\\ \\     \\ \\ \\/\\`'__\\/'__`\\   /'___\\   \\ \\ , ` \\  /'_ `\\ \\  _ `\\/\\ \\  /'__`\\/' __` __`\\   \n";
+	gotoxy(5, 6);
+	cout << "          \\ \\ \\ \\ \\ \\ \\ \\ \\ \\     \\ \\ \\ \\ \\//\\ \\L\\.\\_/\\ \\__/    \\ \\ \\`\\ \\/\\ \\L\\ \\ \\ \\ \\ \\ \\ \\/\\  __//\\ \\/\\ \\/\\ \\  \n";
+	gotoxy(5, 7);
+	cout << "           \\ \\_\\ \\ \\_\\ \\_\\ \\_\\     \\ \\_\\ \\_\\\\ \\__/.\\_\\ \\____\\    \\ \\_\\ \\_\\ \\____ \\ \\_\\ \\_\\ \\_\\ \\____\\ \\_\\ \\_\\ \\_\\ \n";
+	gotoxy(5, 8);
+	cout << "            \\/_/  \\/_/\\/_/\\/_/      \\/_/\\/_/ \\/__/\\/_/\\/____/     \\/_/\\/_/\\/___L\\ \\/_/\\/_/\\/_/\\/____/\\/_/\\/_/\\/_/ \n";
+	gotoxy(5, 9);
+	cout << "                                                                            /\\____/                               \n";
+	gotoxy(5, 10);
+	cout << "                                                                            \\_/__/                                \n";
+}
  	
 void loginDisplay(){
+	
 	SetColor(3);
-	for(int i = 60; i < 110; i++){
-		for(int j = 15; j < 28; j++){
-		gotoxy(i,j); 
-		if(i>62 && i<107 && j>15 && j<27 ) cout<<" ";
-		cout << static_cast<char>(219);	
-		}
-	}		
-	gotoxy(70,19);
-	cout << "UserName:";
-	gotoxy(70,21);
-	cout << "Password:";
-	for(int i=70; i<100; i++){		
-		gotoxy(i, 24);
-		cout << static_cast<char>(219);
-	}
-	gotoxy(82, 24); cout << "LOGIN";
+	rectangle(0, 0, 145, 39);
+	TieuDe();
+	rectangle(45, 15, 50 , 15);
+	rectangle(46, 16, 48 , 14);	
+	rectangle(52, 19, 37, 3);
+	gotoxy(55,19);
+	cout << "NguoiDung:";
+	rectangle(52, 23, 37, 3);
+	gotoxy(57,23);
+	cout << "MatKhau:";
+	gotoxy(63, 16); cout << "=> DANG NHAP <=";
 
 }
+
 
 
 void resizeConsole(){
 	
 	HWND console = GetConsoleWindow();
-	SetWindowPos(console, 0, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER );
+	SetWindowPos(console, 0, 50, 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER );
 	RECT r;
 	GetWindowRect(console, &r);
-	MoveWindow(console, r.left, r.top, 1365, 730, TRUE);
+	MoveWindow(console, r.left, r.top, 1200, 700, TRUE);
 }
 
 
 
 
 int main(){
+
 //	ios::sync_with_stdio(0);
 //	cin.tie(0);
 	resizeConsole();
-//	loginDisplay();
-	teacherMenu(menu1);
+	loginDisplay();
+//	teacherMenu(menu1);
 	getch();
 }
