@@ -3,21 +3,32 @@
 #include <mylib.h>
 #include <string>
 #include "Display.h"
+
 using namespace std;
 
-const int so_item1 = 4;
-const int so_item2 = 5;
-const int dong = 2;
-const int cot = 3;
-const int Up = 72;
-const int Down = 80;
-const int RIGHT = 77;
-const int LEFT = 75;
-
+#define Up 72
+#define Down 80
+#define RIGHT 77
+#define LEFT 75
+#define	ENTER 13
+#define	ESC 27
+#define	INSERT 45
+#define	DELETE 46
+#define SPACE 32
+#define TAB 9
 #define MAXLOP 500
 #define MAXCAUHOI 2000
+#define WHITE 15
+#define BLACK 0
+#define BLUE 3
+#define GREEN 10
+#define RED 4
 						   
-
+const int so_item1 = 4;
+const int so_item2 = 3;
+const int so_item3 = 5;
+const int dong = 4;
+const int cot = 10;
 // khai bao ds
 typedef struct MonHoc{
 	string maMonHoc;
@@ -25,9 +36,11 @@ typedef struct MonHoc{
 };
 typedef struct listMonHoc{
 	int slMonHoc;
+	MonHoc mh;
 	listMonHoc *left;
 	listMonHoc *right;
 };
+typedef struct listMonHoc *MH;
 
 typedef struct DiemThi{
 	string maMonHoc;
@@ -81,21 +94,17 @@ typedef struct nodeCauHoi{
 
 /////////////////////
 
-char menu1 [so_item1][30] = {"Lop",
-							 "Cau Hoi Thi",
-						  	 "Mon Hoc",
-						  	 "Bang Diem",
-						   	};
-						   	 
-char menu2 [so_item2][50] = {"Nhan: ", "<-, ->: Di chuyen", "Enter: Chon", "Esc: Thoat"};
+char menu1 [so_item1][30] = {"    Lop    ", " Cau Hoi Thi", "  Mon Hoc  ", " Bang Diem "};					   	 
+char menu2 [so_item2][50] = {"<-  ->: Di chuyen", "      Enter: Chon", "       Esc: Thoat"};
+char menuLop [so_item3][50] = {"Esc: Quay lai", "F1: Menu chinh", "Enter: Chon lop", "Delete: Xoa lop", "Insert: Them lop"};
 
 void Normal(){
-	SetColor(3);
-	SetBGColor(0);
+	SetColor(BLUE);
+	SetBGColor(BLACK);
 }
 void HighLight(){
-	SetColor(3);
-	SetBGColor(15);	
+	SetColor(BLUE);
+	SetBGColor(WHITE);	
 }
 void rectangle(int x, int y, int width, int height)
 {
@@ -123,28 +132,37 @@ void rectangle(int x, int y, int width, int height)
 }
 void GiaoDienGV(){
 	SetColor(3);
-	rectangle(0, 0, 105, 5);
-	rectangle(0, 5, 105, 31);
-	rectangle(106, 0, 38, 36);
-	rectangle(0, 36, 144, 4);
+	rectangle(0, 0, 105, 10);
+	rectangle(0, 10, 105, 27);
+	rectangle(106, 0, 38, 37);
+	rectangle(0, 37, 144, 3);
+	gotoxy(112, 1);
+	cout << "=======> THONG TIN <========";
+	gotoxy(3, 37);
+	cout << "---> HUONG DAN <---";
 }
 void press_key(char td2[so_item2][50]){
 	for(int i = 0; i< so_item2; i++){
-		gotoxy(3+i*20, 37);
+		gotoxy(40+i*20, 38);
 		cout<< td2[i];
 	}
 }
 int MenuGV(char td[so_item1][30]){
+	system("cls");
 	GiaoDienGV();
+	rectangle(8, 3, 15, 3);
+	rectangle(34, 3, 15, 3);
+	rectangle(58, 3, 15, 3);
+	rectangle(83, 3, 15, 3);
 	press_key(menu2);
 	int chon =0;
  	int i;
  	for ( i=0; i< so_item1 ; i++){
-	 	gotoxy(cot + 20*i, dong);
+	 	gotoxy(cot + 25*i, dong);
     	cout << td[i];
  	}
 	  HighLight();
-	  gotoxy(cot + 20*chon, dong);
+	  gotoxy(cot + 25*chon, dong);
 	  cout << td[chon];
 	  char kytu;
 	do {
@@ -154,28 +172,26 @@ int MenuGV(char td[so_item1][30]){
 	    case LEFT :if (chon+1 >1)
 	  			  {
 	  		        Normal();
-	              	gotoxy(cot + chon*20, dong);
+	              	gotoxy(cot + chon*25, dong);
 	              	cout << td[chon];
 	              	chon --;
 	              	HighLight();
-	              	gotoxy(cot + chon*20,dong);
-              	cout << td[chon];
-  				
+	              	gotoxy(cot + chon*25,dong);
+              		cout << td[chon];		
 	  			  }
 	  			  break;
 	  	case RIGHT :if (chon+1 <so_item1)
 	  			  {
 	  		        Normal();
-	              	gotoxy(cot + chon*20, dong);
+	              	gotoxy(cot + chon*25, dong);
 	              	cout << td[chon];
 	              	chon ++;
 	              	HighLight();
-	              	gotoxy(cot + chon*20, dong);
-	              	cout << td[chon];
-	  				
+	              	gotoxy(cot + chon*25, dong);
+	              	cout << td[chon];	
 	  			  }
 	  			  break;
-	  	case 13 : return chon+1;
+	  	case ENTER : return chon+1;
 	  } 
 	  } while (1);
 }	
@@ -203,7 +219,7 @@ void TieuDe(){
  	
 void DangNhap(){
 	
-	SetColor(3);
+	SetColor(GREEN);
 	rectangle(0, 0, 145, 39);
 	TieuDe();
 	rectangle(45, 15, 50 , 15);
@@ -231,11 +247,34 @@ void ThongBaoDN(){
 	gotoxy(50, 35);
 	cout << "~~~~~~~~~~~~~~~~~ENTER~~~~~~~~~~~~~~~~";
 }
+///////////////////////////Lop////////////////////
+
+/////////////////////////MonHoc////////////
+void KhoiTao_MH(MH &root){
+
+	root = NULL;
+
+}
+bool empty_MH(MH root){
+	return(root = NULL);
+}
+
+void insert_MH(MH &p, int x, MonHoc a){
+	if(p==NULL){
+		p = new listMonHoc;
+		p->slMonHoc = x; p->mh = a;
+		p->left = NULL; p->right = NULL;
+	}
+	else
+		if(x < p->slMonHoc)
+			insert_MH(p->left,x,a);
+		else 
+			if(x > p->slMonHoc) insert_MH(p->right,x,a);
+}
 
 
 
-void resizeConsole(){
-	
+void resizeConsole(){	
 	HWND console = GetConsoleWindow();
 	SetWindowPos(console, 0, 50, 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER );
 	RECT r;
@@ -251,8 +290,9 @@ int main(){
 //	ios::sync_with_stdio(0);
 //	cin.tie(0);
 	resizeConsole();
-//	DangNhap();
-	ThongBaoDN();
-//	MenuGV(menu1);
+	DangNhap();
+	getch();
+//	ThongBaoDN();
+	MenuGV(menu1);
 	getch();
 }
