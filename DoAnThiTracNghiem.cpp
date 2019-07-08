@@ -121,7 +121,7 @@ void rectangle(int x, int y, int width, int height)
 	cout<<static_cast<char>(188);
 
 }
-void teacherInterface(){
+void GiaoDienGV(){
 	SetColor(3);
 	rectangle(0, 0, 105, 5);
 	rectangle(0, 5, 105, 31);
@@ -134,8 +134,8 @@ void press_key(char td2[so_item2][50]){
 		cout<< td2[i];
 	}
 }
-int teacherMenu(char td[so_item1][30]){
-	teacherInterface();
+int MenuGV(char td[so_item1][30]){
+	GiaoDienGV();
 	press_key(menu2);
 	int chon =0;
  	int i;
@@ -201,7 +201,7 @@ void TieuDe(){
 	cout << "                                                                            \\_/__/                                \n";
 }
  	
-void loginDisplay(){
+void DangNhap(){
 	
 	SetColor(3);
 	rectangle(0, 0, 145, 39);
@@ -215,7 +215,19 @@ void loginDisplay(){
 	gotoxy(57,23);
 	cout << "MatKhau:";
 	gotoxy(63, 16); cout << "=> DANG NHAP <=";
+	rectangle(65, 26, 10, 3);
+	gotoxy(69, 27);
+	cout << "OK";
+}
 
+void ThongBaoDN(){
+	rectangle(40, 31, 60, 6);
+	gotoxy(50, 32);
+	cout << "Tai khoan hoac mat khau khong chinh xac!";
+	gotoxy(60, 33);
+	cout << "vui long nhap lai!";
+	gotoxy(50, 35);
+	cout << "~~~~~~~~~~~~~~~~~ENTER~~~~~~~~~~~~~~~~~";
 }
 
 
@@ -237,7 +249,8 @@ int main(){
 //	ios::sync_with_stdio(0);
 //	cin.tie(0);
 	resizeConsole();
-	loginDisplay();
-//	teacherMenu(menu1);
+	DangNhap();
+	ThongBaoDN();
+//	MenuGV(menu1);
 	getch();
 }
