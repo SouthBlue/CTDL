@@ -222,12 +222,14 @@ void DangNhap(){
 
 void ThongBaoDN(){
 	rectangle(40, 31, 60, 6);
-	gotoxy(50, 32);
-	cout << "Tai khoan hoac mat khau khong chinh xac!";
+//	gotoxy(50, 32);
+//	cout << "Tai khoan hoac mat khau khong chinh xac!";
+	gotoxy(52, 32);
+	cout << "Ban chua nhap tai khoan hoac mat khau!";
 	gotoxy(60, 33);
 	cout << "vui long nhap lai!";
 	gotoxy(50, 35);
-	cout << "~~~~~~~~~~~~~~~~~ENTER~~~~~~~~~~~~~~~~~";
+	cout << "~~~~~~~~~~~~~~~~~ENTER~~~~~~~~~~~~~~~~";
 }
 
 
@@ -249,7 +251,7 @@ int main(){
 //	ios::sync_with_stdio(0);
 //	cin.tie(0);
 	resizeConsole();
-	DangNhap();
+//	DangNhap();
 	ThongBaoDN();
 //	MenuGV(menu1);
 	getch();
