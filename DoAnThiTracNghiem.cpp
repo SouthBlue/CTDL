@@ -177,13 +177,20 @@ void rectangle(int x, int y, int width, int height)
 	gotoxy(x + width - 1, y + height - 1);
 	cout << static_cast<char>(188);
 
-}
-void GiaoDienGV(){
+void GiaoDienGV(){{
 	SetColor(3);
 	rectangle(0, 0, 105, 5);
 	rectangle(0, 5, 105, 31);
 	rectangle(106, 0, 38, 36);
 	rectangle(0, 36, 144, 4);
+	rectangle(0, 0, 105, 10);
+	rectangle(0, 10, 105, 27);
+	rectangle(106, 0, 38, 37);
+	rectangle(0, 37, 144, 3);
+	gotoxy(112, 1);
+	cout << "=======> THONG TIN <========";
+	gotoxy(3, 37);
+	cout << "---> HUONG DAN <---";
 }
 void press_key(char td2[so_item2][50]){
 	for(int i = 0; i< so_item2; i++){
