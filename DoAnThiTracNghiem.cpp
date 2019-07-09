@@ -109,19 +109,21 @@ typedef struct listGiaoVien listGV;
 
 
 // Khai bao lop
-typedef struct Lop{
+struct Lop{
 	string maLop;
 	string tenLop;
-	nodeSV First;
+	//nodeSV First;
 };
 
 // Khoi tao mang con tro lop
-typedef struct listLop{
+struct listLop{
 	int slLop;
 	Lop *nodesL[MAXLOP];
 };
 
-typedef struct CauHoi{
+listLop listLp;
+
+struct CauHoi{
 	int id;
 	string maMonHoc;
 	string noiDung;
@@ -131,10 +133,49 @@ typedef struct CauHoi{
 	string D;
 	string dapAn;
 };
-typedef struct nodeCauHoi{
+struct nodeCauHoi{
 	int slCauHoi;
 	CauHoi *nodesCH[MAXCAUHOI];	
 };
+
+///////////////////Code doi voi cac danh sach//////////////////
+
+void nhapLop()
+{
+	int i;
+	cout << "nhap vao so lop muon them " << endl;
+	cin >> i;
+	for (int j = 0; j < i; j++)
+	{
+		listLp.nodesL[j] = new Lop;
+		cout << "Nhap vao ma lop: ";
+		cin >> listLp.nodesL[j]->maLop;
+		cout << "Nhap vao ten lop: ";
+		cin >> listLp.nodesL[j]->tenLop;
+		listLp.slLop ++;
+
+	}
+}
+void xuatLop()
+{
+	cout << "So luong lop hien tai la" << listLp.slLop << endl;
+	for (int i = 0; i <= listLp.slLop; i ++)
+	{
+		cout << "Thong tin cac lop la: " << endl;
+		cout << "Ma lop: " << listLp.nodesL[i]->maLop << endl;
+		cout << "Ten Lop: " << listLp.nodesL[i]->tenLop << endl;
+		cout << "////////////////////" << endl;
+	}
+}
+
+
+
+
+
+
+
+
+
 
 /////////////////////////////////////////
 
@@ -176,8 +217,8 @@ void rectangle(int x, int y, int width, int height)
 	cout << static_cast<char>(200);
 	gotoxy(x + width - 1, y + height - 1);
 	cout << static_cast<char>(188);
-
-void GiaoDienGV(){{
+}
+void GiaoDienGV(){
 	SetColor(3);
 	rectangle(0, 0, 105, 5);
 	rectangle(0, 5, 105, 31);
@@ -312,11 +353,13 @@ void resizeConsole(){
 
 int main(){
 
+	nhapLop();
+	xuatLop();
+	getch();
 //	ios::sync_with_stdio(0);
 //	cin.tie(0);
 	resizeConsole();
 //	DangNhap();
 // 	ThongBaoDN();
-	MenuGV(menu1);
-	getch();
+//	MenuGV(menu1);
 }
