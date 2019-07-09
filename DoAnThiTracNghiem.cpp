@@ -4,6 +4,7 @@
 #include <string>
 #include "Display.h"
 
+
 using namespace std;
 
 #define Up 72
@@ -30,8 +31,9 @@ const int so_item3 = 5;
 const int dong = 4;
 const int cot = 10;
 // khai bao ds
+// Khai bao mon hoc (cay nhi phan)
 typedef struct MonHoc{
-	string maMonHoc;
+	string maMonHoc[16];
 	string tenMonHoc;
 };
 typedef struct listMonHoc{
@@ -42,39 +44,101 @@ typedef struct listMonHoc{
 };
 typedef struct listMonHoc *MH;
 
+// Khoi tao cay nhi phan
+typedef struct nodeMonHoc{
+	MonHoc MH;     ///// + ////
+	struct nodeMonHoc *left;
+	struct nodeMonHoc *right;
+};
+typedef struct nodeMonHoc *nodeMH;
+nodeMH tree;
+// Khoi tao thong tin diem thi
 typedef struct DiemThi{
 	string maMonHoc;
 	float diem;
 };
+// Khoi tao danh sach diem thi (danh sach lien ket don)
 typedef struct nodeDiemThi{
 	DiemThi dt;
 	struct nodeDiemThi *next;
 };
-typedef struct nodeDiemThi *Diem;
+typedef struct nodeDiemThi *nodeDiem; /// + ///
 
+struct listDiemThi
+{
+	nodeDiem *pLast;
+	nodeDiem *pFirst;
+};
+
+typedef struct listDiemThi listDiem;
+
+// Khai bao thong tin sinhvien
 typedef struct SinhVien{
-	int maSV;
-	string ho;
-	string tenDem;
-	string ten;
+	string maSV;
+	string Ho;
+	string Ten;
 	float phai;
 	char password;
-	Diem FirstDiem;
+	nodeDiem FirstDiem;
 };
+// Khoi tao danh sach lien ket don sinh vien
 typedef struct nodeSinhVien{
 	SinhVien sv;
 	struct nodeSinhVien *next;
 };
-typedef struct nodeSinhVien *SV;
+typedef struct nodeSinhVien *nodeSV;
 
+struct listSinhVien
+{
+	nodeSV *pLast;
+	nodeSV *pFirst;
+};
+
+typedef struct listSinhVien  listSV;
+
+// Khai bao giao vien
+
+typedef struct GiaoVien
+{
+	string MaGV;
+	string Ho;
+	string Ten;
+	string Chucvu;
+	float phai;
+	char password;
+};
+
+typedef struct nodeGiaoVien
+{
+	GiaoVien GV;
+	struct nodeGiaoVien *next;
+};
+
+typedef struct nodeGiaoVien *nodeGV;
+
+///Khoi tao danh sach lien ket don giao vien
+
+struct listGiaoVien
+{
+	nodeGV *pFirst;
+	nodeGV *pLast;
+};
+
+typedef struct listGiaoVien listGV;
+
+
+
+// Khai bao lop
 typedef struct Lop{
 	string maLop;
 	string tenLop;
-	SV First;
+	nodeSV First;
 };
+
+// Khoi tao mang con tro lop
 typedef struct listLop{
 	int slLop;
-	Lop nodesL[MAXLOP];
+	Lop *nodesL[MAXLOP];
 };
 
 typedef struct CauHoi{
@@ -89,10 +153,10 @@ typedef struct CauHoi{
 };
 typedef struct nodeCauHoi{
 	int slCauHoi;
-	CauHoi nodesCH[MAXCAUHOI];	
+	CauHoi *nodesCH[MAXCAUHOI];	
 };
 
-/////////////////////
+/////////////////////////////////////////
 
 char menu1 [so_item1][30] = {"    Lop    ", " Cau Hoi Thi", "  Mon Hoc  ", " Bang Diem "};					   	 
 char menu2 [so_item2][50] = {"<-  ->: Di chuyen", "      Enter: Chon", "       Esc: Thoat"};
@@ -106,28 +170,6 @@ void HighLight(){
 	SetColor(BLUE);
 	SetBGColor(WHITE);	
 }
-void rectangle(int x, int y, int width, int height)
-{
-	gotoxy(x, y);
-	cout<<static_cast<char>(201);
-	for(int i = x; i < x+width-2; i++){
-		gotoxy(i+1,y);
-		cout<<static_cast<char>(205);
-		gotoxy(i+1,y+height-1);
-		cout<<static_cast<char>(205);
-	}
-	gotoxy(x+width-1,y);
-	cout<<static_cast<char>(187)<<endl;
-	for(int i = y; i < y+height-1; i++){
-		gotoxy(x, i+1);
-		cout<<static_cast<char>(186);
-		gotoxy(x+width-1,i+1);
-		cout<<static_cast<char>(186)<<endl;
-	}
-	gotoxy(x,y+height-1);
-	cout<<static_cast<char>(200);
-	gotoxy(x+width-1, y+height-1);
-	cout<<static_cast<char>(188);
 
 }
 void GiaoDienGV(){
