@@ -3,7 +3,6 @@
 #include <mylib.h>
 #include <string>
 #include "Display.h"
-#include "lib.h"
 using namespace std;
 
 const int so_item1 = 4;
@@ -179,19 +178,12 @@ void rectangle(int x, int y, int width, int height)
 	cout << static_cast<char>(188);
 
 }
-void GiaoDienGV(){{
-	gotoxy(x, y);
-	cout << static_cast<char>(201);
-	for (int i = x; i < x + width - 2; i++) {
-		gotoxy(i + 1, y);
-		cout << static_cast<char>(205);
-		
+void GiaoDienGV(){
 	SetColor(3);
 	rectangle(0, 0, 105, 5);
 	rectangle(0, 5, 105, 31);
 	rectangle(106, 0, 38, 36);
 	rectangle(0, 36, 144, 4);
-	re
 }
 void press_key(char td2[so_item2][50]){
 	for(int i = 0; i< so_item2; i++){
