@@ -31,6 +31,14 @@ typedef struct nodeMonHoc{
 	struct nodeMonHoc *left;
 	struct nodeMonHoc *right;
 };
+typedef struct listMonHoc *MH;
+
+// Khoi tao cay nhi phan
+typedef struct nodeMonHoc{
+	MonHoc MH;     ///// + ////
+	struct nodeMonHoc *left;
+	struct nodeMonHoc *right;
+};
 typedef struct nodeMonHoc *nodeMH;
 nodeMH tree;
 // Khoi tao thong tin diem thi
@@ -157,18 +165,19 @@ void HighLight(){
 }
 
 void GiaoDienGV(){{
-	gotoxy(x, y);
-	cout << static_cast<char>(201);
-	for (int i = x; i < x + width - 2; i++) {
-		gotoxy(i + 1, y);
-		cout << static_cast<char>(205);
-		
 	SetColor(3);
 	rectangle(0, 0, 105, 5);
 	rectangle(0, 5, 105, 31);
 	rectangle(106, 0, 38, 36);
 	rectangle(0, 36, 144, 4);
-	re
+	rectangle(0, 0, 105, 10);
+	rectangle(0, 10, 105, 27);
+	rectangle(106, 0, 38, 37);
+	rectangle(0, 37, 144, 3);
+	gotoxy(112, 1);
+	cout << "=======> THONG TIN <========";
+	gotoxy(3, 37);
+	cout << "---> HUONG DAN <---";
 }
 void press_key(char td2[so_item2][50]){
 	for(int i = 0; i< so_item2; i++){
