@@ -3,6 +3,7 @@
 #include <mylib.h>
 #include <string>
 #include "Display.h"
+#include "lib.h"
 using namespace std;
 
 const int so_item1 = 4;
@@ -19,49 +20,106 @@ const int LEFT = 75;
 						   
 
 // khai bao ds
+// Khai bao mon hoc (cay nhi phan)
 typedef struct MonHoc{
-	string maMonHoc;
+	string maMonHoc[16];
 	string tenMonHoc;
 };
-typedef struct listMonHoc{
-	int slMonHoc;
-	listMonHoc *left;
-	listMonHoc *right;
+// Khoi tao cay nhi phan
+typedef struct nodeMonHoc{
+	MonHoc MH;     ///// + ////
+	struct nodeMonHoc *left;
+	struct nodeMonHoc *right;
 };
-
+typedef struct nodeMonHoc *nodeMH;
+nodeMH tree;
+// Khoi tao thong tin diem thi
 typedef struct DiemThi{
 	string maMonHoc;
 	float diem;
 };
+// Khoi tao danh sach diem thi (danh sach lien ket don)
 typedef struct nodeDiemThi{
 	DiemThi dt;
 	struct nodeDiemThi *next;
 };
-typedef struct nodeDiemThi *Diem;
+typedef struct nodeDiemThi *nodeDiem; /// + ///
 
+struct listDiemThi
+{
+	nodeDiem *pLast;
+	nodeDiem *pFirst;
+};
+
+typedef struct listDiemThi listDiem;
+
+// Khai bao thong tin sinhvien
 typedef struct SinhVien{
-	int maSV;
-	string ho;
-	string tenDem;
-	string ten;
+	string maSV;
+	string Ho;
+	string Ten;
 	float phai;
 	char password;
-	Diem FirstDiem;
+	nodeDiem FirstDiem;
 };
+// Khoi tao danh sach lien ket don sinh vien
 typedef struct nodeSinhVien{
 	SinhVien sv;
 	struct nodeSinhVien *next;
 };
-typedef struct nodeSinhVien *SV;
+typedef struct nodeSinhVien *nodeSV;
 
+struct listSinhVien
+{
+	nodeSV *pLast;
+	nodeSV *pFirst;
+};
+
+typedef struct listSinhVien  listSV;
+
+// Khai bao giao vien
+
+typedef struct GiaoVien
+{
+	string MaGV;
+	string Ho;
+	string Ten;
+	string Chucvu;
+	float phai;
+	char password;
+};
+
+typedef struct nodeGiaoVien
+{
+	GiaoVien GV;
+	struct nodeGiaoVien *next;
+};
+
+typedef struct nodeGiaoVien *nodeGV;
+
+///Khoi tao danh sach lien ket don giao vien
+
+struct listGiaoVien
+{
+	nodeGV *pFirst;
+	nodeGV *pLast;
+};
+
+typedef struct listGiaoVien listGV;
+
+
+
+// Khai bao lop
 typedef struct Lop{
 	string maLop;
 	string tenLop;
-	SV First;
+	nodeSV First;
 };
+
+// Khoi tao mang con tro lop
 typedef struct listLop{
 	int slLop;
-	Lop nodesL[MAXLOP];
+	Lop *nodesL[MAXLOP];
 };
 
 typedef struct CauHoi{
@@ -76,12 +134,12 @@ typedef struct CauHoi{
 };
 typedef struct nodeCauHoi{
 	int slCauHoi;
-	CauHoi nodesCH[MAXCAUHOI];	
+	CauHoi *nodesCH[MAXCAUHOI];	
 };
 
-/////////////////////
+/////////////////////////////////////////
 
-char menu1 [so_item1][30] = {"Lop",
+char menu1 [so_item1][30] = {"Lop", 
 							 "Cau Hoi Thi",
 						  	 "Mon Hoc",
 						  	 "Bang Diem",
@@ -95,38 +153,22 @@ void Normal(){
 }
 void HighLight(){
 	SetColor(3);
-	SetBGColor(15);	
+	SetBGColor(15);
 }
-void rectangle(int x, int y, int width, int height)
-{
-	gotoxy(x, y);
-	cout<<static_cast<char>(201);
-	for(int i = x; i < x+width-2; i++){
-		gotoxy(i+1,y);
-		cout<<static_cast<char>(205);
-		gotoxy(i+1,y+height-1);
-		cout<<static_cast<char>(205);
-	}
-	gotoxy(x+width-1,y);
-	cout<<static_cast<char>(187)<<endl;
-	for(int i = y; i < y+height-1; i++){
-		gotoxy(x, i+1);
-		cout<<static_cast<char>(186);
-		gotoxy(x+width-1,i+1);
-		cout<<static_cast<char>(186)<<endl;
-	}
-	gotoxy(x,y+height-1);
-	cout<<static_cast<char>(200);
-	gotoxy(x+width-1, y+height-1);
-	cout<<static_cast<char>(188);
 
-}
-void teacherInterface(){
+void GiaoDienGV(){{
+	gotoxy(x, y);
+	cout << static_cast<char>(201);
+	for (int i = x; i < x + width - 2; i++) {
+		gotoxy(i + 1, y);
+		cout << static_cast<char>(205);
+		
 	SetColor(3);
 	rectangle(0, 0, 105, 5);
 	rectangle(0, 5, 105, 31);
 	rectangle(106, 0, 38, 36);
 	rectangle(0, 36, 144, 4);
+	re
 }
 void press_key(char td2[so_item2][50]){
 	for(int i = 0; i< so_item2; i++){
@@ -134,8 +176,8 @@ void press_key(char td2[so_item2][50]){
 		cout<< td2[i];
 	}
 }
-int teacherMenu(char td[so_item1][30]){
-	teacherInterface();
+int MenuGV(char td[so_item1][30]){
+	GiaoDienGV();
 	press_key(menu2);
 	int chon =0;
  	int i;
@@ -201,7 +243,7 @@ void TieuDe(){
 	cout << "                                                                            \\_/__/                                \n";
 }
  	
-void loginDisplay(){
+void DangNhap(){
 	
 	SetColor(3);
 	rectangle(0, 0, 145, 39);
@@ -215,7 +257,21 @@ void loginDisplay(){
 	gotoxy(57,23);
 	cout << "MatKhau:";
 	gotoxy(63, 16); cout << "=> DANG NHAP <=";
+	rectangle(65, 26, 10, 3);
+	gotoxy(69, 27);
+	cout << "OK";
+}
 
+void ThongBaoDN(){
+	rectangle(40, 31, 60, 6);
+//	gotoxy(50, 32);
+//	cout << "Tai khoan hoac mat khau khong chinh xac!";
+	gotoxy(52, 32);
+	cout << "Ban chua nhap tai khoan hoac mat khau!";
+	gotoxy(60, 33);
+	cout << "vui long nhap lai!";
+	gotoxy(50, 35);
+	cout << "~~~~~~~~~~~~~~~~~ENTER~~~~~~~~~~~~~~~~";
 }
 
 
@@ -237,7 +293,8 @@ int main(){
 //	ios::sync_with_stdio(0);
 //	cin.tie(0);
 	resizeConsole();
-	loginDisplay();
-//	teacherMenu(menu1);
+//	DangNhap();
+// 	ThongBaoDN();
+	MenuGV(menu1);
 	getch();
 }
