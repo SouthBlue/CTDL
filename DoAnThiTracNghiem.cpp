@@ -52,17 +52,17 @@ typedef struct DiemThi{
 // Khoi tao danh sach diem thi (danh sach lien ket don)
 typedef struct nodeDiemThi{
 	DiemThi dt;
-	struct nodeDiemThi *next;
+	struct nodeDiemThi *dnext;
 };
-typedef struct nodeDiemThi *nodeDiem; /// + ///
+typedef struct nodeDiemThi *NODEDIEM; /// + ///
 
 struct listDiemThi
 {
-	nodeDiem *pLast;
-	nodeDiem *pFirst;
+	NODEDIEM *dLast;
+	NODEDIEM *dFirst;
 };
 
-typedef struct listDiemThi listDiem;
+typedef struct listDiemThi LISTDIEM;
 
 // Khai bao thong tin sinhvien
 typedef struct SinhVien{
@@ -71,22 +71,22 @@ typedef struct SinhVien{
 	char Ten[20];
 	float phai;
 	char password[32];
-	nodeDiem FirstDiem;
+	NODEDIEM FirstDiem;
 };
 // Khoi tao danh sach lien ket don sinh vien
 typedef struct nodeSinhVien{
 	SinhVien sv;
-	struct nodeSinhVien *next;
+	struct nodeSinhVien *svnext;
 };
-typedef struct nodeSinhVien *nodeSV;
+typedef struct nodeSinhVien NODESV;
 
 struct listSinhVien
 {
-	nodeSV *pLast;
-	nodeSV *pFirst;
+	NODESV *svLast;
+	NODESV *svFirst;
 };
 
-typedef struct listSinhVien  listSV;
+typedef struct listSinhVien LISTSV;
 
 // Khai bao giao vien
 
@@ -103,20 +103,20 @@ typedef struct GiaoVien
 typedef struct nodeGiaoVien
 {
 	GiaoVien GV;
-	struct nodeGiaoVien *next;
+	struct nodeGiaoVien *gvnext;
 };
 
-typedef struct nodeGiaoVien *nodeGV;
+typedef struct nodeGiaoVien *NODEGV;
 
 ///Khoi tao danh sach lien ket don giao vien
 
 struct listGiaoVien
 {
-	nodeGV *pFirst;
-	nodeGV *pLast;
+	NODEGV *pFirst;
+	NODEGV *pLast;
 };
 
-typedef struct listGiaoVien listGV;
+typedef struct listGiaoVien LISTGV;
 
 
 
@@ -124,7 +124,7 @@ typedef struct listGiaoVien listGV;
 typedef struct Lop{
 	char maLop[15];
 	char tenLop[50];
-	nodeSV First;
+	NODESV First;
 };
 
 // Khoi tao mang con tro lop
@@ -322,9 +322,56 @@ bool empty_MH(NODEMH root){
 // 			if(p->MH < a) 
 // 			insert_MH(p->right,a);
 // }
-/////////////////
 
+////////////////SINHVIEN////////////
+void initialize_SV(LISTSV &l)
+{
+	l.svFirst = l.svLast = NULL;
+}
 
+NODESV* Get_nodeSV(SinhVien a)
+{
+	NODESV *p = new NODESV;
+	if(p == NULL)
+	{
+		return NULL;
+	}
+	p -> sv = a;
+	p -> svnext = NULL;
+	return p;
+}
+
+void insertFist_SV(LISTSV &l, NODESV *p)
+{
+	if(l.svFirst == NULL)
+	{
+		l.svFirst == l.svLast == NULL;
+	}
+	else
+	{
+		p -> svnext = l.svFirst;
+		l.svFirst = p;
+	}
+}
+void insertLast_SV(LISTSV &l, NODESV *p)
+{
+	if(l.svFirst == NULL)
+	{
+		l.svFirst == l.svLast == NULL;
+	}
+	else
+	{
+		l.svLast -> svnext = p;
+		l.svLast = p; 
+	}
+	
+}
+void Input_SV(LISTSV &l)
+{
+	
+}
+
+///////////////////////////////////
 void resizeConsole(){	
 	HWND console = GetConsoleWindow();
 	SetWindowPos(console, 0, 50, 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER );
