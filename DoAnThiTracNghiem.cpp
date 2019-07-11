@@ -76,21 +76,6 @@ struct listSinhVien
 
 typedef struct listSinhVien LISTSV;
 
-void khoiTaoSinhVien(listSV &lSv)
-{
-	lSv.pFirst = NULL;
-	lSv.pLast = NULL;
-}
-
-nodeSV khoiTaoNodeSinhVien(SinhVien sv)
-{
-	nodeSV p = new nodeSinhVien;
-	p->sv = sv;
-	p->next = NULL;
-
-	return p;
-}
-
 
 // Khai bao giao vien
 
@@ -182,18 +167,6 @@ void xuatLop()
 		cout << "Ten Lop: " << listLp.nodesL[i]->tenLop << endl;
 		cout << "////////////////////" << endl;
 	}
-}
-void ThemSinhVienVaoDau(listSV &lSV, nodeSV *pSV)
-{
-	if(lSV.pFirst == NULL)
-	{
-		lSV.pFirst == lSV.pLast == pSV;
-	}
-	else
-	{
-		
-	}
-	
 }
 
 
