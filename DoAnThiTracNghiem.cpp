@@ -16,7 +16,24 @@ const int LEFT = 75;
 
 #define MAXLOP 500
 #define MAXCAUHOI 2000
-						   
+
+#define Up 72
+#define Down 80
+#define RIGHT 77
+#define LEFT 75
+#define	ENTER 13
+#define	ESC 27
+#define	INSERT 45
+#define	DELETE 46
+#define SPACE 32
+#define TAB 9
+#define MAXLOP 500
+#define MAXCAUHOI 2000
+#define WHITE 15
+#define BLACK 0
+#define BLUE 3
+#define GREEN 10
+#define RED 4						   
 
 // khai bao ds
 // Khai bao mon hoc (cay nhi phan)
