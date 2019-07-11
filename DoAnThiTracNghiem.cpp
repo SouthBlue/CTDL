@@ -67,7 +67,8 @@ typedef struct listDiemThi LISTDIEM;
 // Khai bao thong tin sinhvien
 typedef struct SinhVien{
 	char maSV[11];
-	char Ho[50];
+	char Ho[20];
+	char TenDem[20];
 	char Ten[20];
 	float phai;
 	char password[32];
@@ -78,7 +79,7 @@ typedef struct nodeSinhVien{
 	SinhVien sv;
 	struct nodeSinhVien *svnext;
 };
-typedef struct nodeSinhVien NODESV;
+typedef struct nodeSinhVien* NODESV;
 
 struct listSinhVien
 {
@@ -106,7 +107,7 @@ typedef struct nodeGiaoVien
 	struct nodeGiaoVien *gvnext;
 };
 
-typedef struct nodeGiaoVien *NODEGV;
+typedef struct nodeGiaoVien* NODEGV;
 
 ///Khoi tao danh sach lien ket don giao vien
 
@@ -136,12 +137,12 @@ typedef struct listLop{
 typedef struct CauHoi{
 	int id;
 	char maMonHoc[16];
-	char noiDung[1000];
-	char A[1];
-	char B[1];
-	char C[1];
-	char D[1];
-	char dapAn[1];
+	string noiDung;
+	string A;
+	string B;
+	string C;
+	string D;
+	string dapAn;
 };
 typedef struct nodeCauHoi{
 	int slCauHoi;
@@ -246,12 +247,14 @@ int MenuGV(char td[so_item1][30]){
 	              	chon ++;
 	              	HighLight();
 	              	mauChu(cot + chon*25, dong, BLUE, td[chon]);
-					gotoxy(0, 0);	
+					gotoxy(0, 0);
+
 	  			  }
 	  			  break;
 	  	case ENTER : return chon+1;
 	  } 
 	  } while (1);
+
 }	
 						   
 void TieuDe(){
@@ -331,7 +334,7 @@ void initialize_SV(LISTSV &l)
 
 NODESV* Get_nodeSV(SinhVien a)
 {
-	NODESV *p = new NODESV;
+	NODESV p = new NODESV;
 	if(p == NULL)
 	{
 		return NULL;
@@ -366,11 +369,65 @@ void insertLast_SV(LISTSV &l, NODESV *p)
 	}
 	
 }
-void Input_SV(LISTSV &l)
+void input_SV(LISTSV &l)
 {
-	
+
+	initialize_SV(l);
+
+		SinhVien a;
+		gotoxy(112, 10);
+		cout << "Ma Sinh Vien: ";
+		cin >> a.maSV;
+		// gotoxy(112, 11);
+		// cout << "Ho: ";
+		// cin >> a.Ho;
+		// gotoxy(112, 12);
+		// cout << "Ten: ";
+		// cin >> a.Ten;
+		// gotoxy(112, 13);
+		// cout << "Phai: ";
+		// cin >> a.phai;
+		// gotoxy(112, 14);
+		// cout << "Password: ";
+		// cin >> a.password;
+		NODESV *p = Get_nodeSV(a);
+		insertFist_SV(l, p);
+
+}
+void table_SV()
+{
+	gotoxy(2, 13);
+	cout << "         MASV       ||              Ho             ||          Ten            ||    Phai   ||";
 }
 
+void sex_SV(bool x)
+{
+	if(x == 1)
+	{
+		cout << "nam";
+	}
+	else cout << "nu";
+}
+
+void output_SV(LISTSV l)
+{
+
+	int x = 2, y = 14;
+	table_SV();
+	for(NODESV *p = l.svFirst; l.svFirst != NULL; p = p -> svnext)
+	{	
+		gotoxy(x, y);
+		cout << p->sv.maSV;
+		// gotoxy(x + 23, y); 
+		// cout << p->sv.Ho;
+		// gotoxy(x + 31, y);
+		// cout << p->sv.Ten;
+		// gotoxy(x + 19, y);
+		// sex_SV(p->sv.phai);
+		// x = 2;
+		// y++;
+	}
+}
 ///////////////////////////////////
 void resizeConsole(){	
 	HWND console = GetConsoleWindow();
@@ -392,5 +449,9 @@ int main(){
 	getch();
 //	ThongBaoDN();
 	MenuGV(menu1);
+	SetBGColor(BLACK);
+	LISTSV l;
+	input_SV(l);
+	output_SV(l);
 	getch();
 }
