@@ -22,7 +22,7 @@ const int MAXLOP = 500;
 #define	ENTER 13
 #define	ESC 27
 #define	INSERT 45
-#define	DELETE 46
+//#define	DELETE 46
 #define SPACE 32
 #define TAB 9
 #define MAXLOP 500
@@ -139,7 +139,7 @@ struct listLop{
 listLop LISTLOP;
 
 struct CauHoi{
-	int id;
+	int id = 0;
 	char maMonHoc[16];
 	char noiDung[1000];
 	char A[1];
@@ -148,10 +148,12 @@ struct CauHoi{
 	char D[1];
 	char dapAn[1];
 };
-struct nodeCauHoi{
+struct listCauHoi{
 	int slCauHoi;
 	CauHoi *nodesCH[MAXCAUHOI];	
 };
+
+listCauHoi LISTCAUHOI;
 
 ///////////////////////////
 
@@ -310,7 +312,7 @@ void ThongBaoDN(){
 
 void insert_Lop()
 {
-	int x = 108, y= 10;
+	int x = 10, y= 10;
 	int i;
 	gotoxy(x, y);
 	cout << "So lop muon them: ";
@@ -371,6 +373,27 @@ void output_Lop()
 // }
 
 /////////////////////////////////////////
+
+
+/////////////////////////////////////////CauHoi///////////
+void insert_cauhoi()
+{
+	int i;
+	cout << "So Cau Hoi muon them: ";
+	cin >> i;
+	for (int j = 0; j < i; j ++)
+	{
+		LISTCAUHOI.nodesCH[j] = new CauHoi;
+		cout << "Nhap ma mon hoc: ";
+		cin >> LISTCAUHOI.nodesCH[j]->maMonHoc;
+		cout << "Nhap vao cau hoi:  ";
+		cin >> LISTCAUHOI.nodesCH[j]->noiDung;
+		cout << "Nhap dap an: ";
+		cin >> LISTCAUHOI.nodesCH[j]->dapAn;
+		LISTCAUHOI.slCauHoi ++;
+
+	}
+}
 /////////////////////////MonHocKhoiTao////////////
 void KhoiTao_MH(NODEMH &root){
 
@@ -514,16 +537,17 @@ int main(){
 
 //	ios::sync_with_stdio(0);
 //	cin.tie(0);
-	resizeConsole();
-	DangNhap();
-	getch();
+	//resizeConsole();
+	//DangNhap();
+	//getch();
 	// ThongBaoDN();
-	MenuGV(menu1);
+	//MenuGV(menu1);
 
 	SetBGColor(BLACK);
 	// LISTSV l;
 	// input_SV(l);
 	// output_SV(l);
+	//table_LOP();
 	insert_Lop();
 	output_Lop();
 
