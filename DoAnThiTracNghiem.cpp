@@ -22,7 +22,7 @@ const int MAXLOP = 500;
 #define	ENTER 13
 #define	ESC 27
 #define	INSERT 45
-//#define	DELETE 46
+#define	DELETE 46
 #define SPACE 32
 #define TAB 9
 #define MAXLOP 500
@@ -89,7 +89,9 @@ struct listSinhVien
 	NODESV *svFirst;
 };
 
-typedef struct listSinhVien LISTSV;
+struct listSinhVien LISTSV;
+
+
 
 
 // Khai bao giao vien
@@ -314,21 +316,34 @@ void insert_Lop()
 {
 	int x = 10, y= 10;
 	int i;
-	gotoxy(x, y);
+	//gotoxy(x, y);
 	cout << "So lop muon them: ";
 	cin >> i;
 	cin.ignore();
 	for (int j = 0; j < i; j++)
 	{
-		LISTLOP.nodesL[j] = new Lop;
-		gotoxy(x, y + j + 1);
+		int k = 0;
+		LISTLOP.nodesL[j] = new Lop; 
+		//gotoxy(x + j + 1, y + j + 1);
 		cout << "Nhap vao ma lop: ";
-		cin.getline(LISTLOP.nodesL[j]->maLop, 15); 
-		gotoxy(x, y + j + 2);
-		cout << "Nhap vao ten lop: ";
-		cin.getline(LISTLOP.nodesL[j]->tenLop, 50);
-		LISTLOP.slLop ++;
-		cout<<endl;
+		cin.getline(LISTLOP.nodesL[j ]->maLop, 15);
+		while(k < j )
+		{
+			if(LISTLOP.nodesL[j]->maLop != LISTLOP.nodesL[k]->maLop)
+			{
+				//cout << "Ma lop hop le ";
+				k++;
+			}
+			else
+			{
+				cout << "Ma lop da bi trung ";
+			}
+		}
+		//gotoxy(x + j + 1, y + j + 2);
+		// cout << "Nhap vao ten lop: ";
+		// cin.getline(LISTLOP.nodesL[j]->tenLop, 50);
+		// LISTLOP.slLop ++;
+		// cout<<endl;
 
 	}
 }
@@ -521,6 +536,56 @@ bool empty_MH(NODEMH root){
 // 	}
 // }
 ///////////////////////////////////
+
+///////////////////////////Sinh Vien -> Duong /////////////////
+void createListSV()
+{
+	LISTSV.svFirst = LISTSV.svLast = NULL;
+}
+
+NODESV* createNodeSv(SinhVien sv)
+{
+	NODESV* node = new NODESV;
+	node->sv = sv;
+	node->svnext = NULL;
+	return node;
+	
+}
+void AddHead()
+{
+   if (!LISTSV.svFirst) //xét danh sách r?ng
+      LISTSV.svFirst  = LISTSV.svLast = node;
+   else
+   {
+      NODESV->svnext = LISTSV.svFirst; //s?a lk node c?n thêm
+      LISTSV.svFirst = NODESV; //ch?nh l?i con tr? c?a danh sách
+   }
+}
+ 
+void AddTail()
+{
+   if (!LISTSV.svFirst)
+      LISTSV.svFirst = LISTSV.svLast = NODESV;
+   else
+   {
+      LISTSV.svLast->svnext = NODESV;
+      LISTSV.svLast = NODESV;
+   }
+}
+ 
+void AddAfter(NODESV *node, NODESV *before)
+{
+   if (!before)
+   {
+      node->svnext = before->svnext; //s?a liên k?t c?a node m?i
+      before->svnext = node; //s?a l?i lk c?a node có s?n
+      if (LISTSV.svLast == before)
+         LISTSV.svLast = node; //s?a l?i con tr? ch? danh sách
+   }
+   else
+      AddHead();
+}
+///////////////////////////////////
 void resizeConsole(){	
 	HWND console = GetConsoleWindow();
 	SetWindowPos(console, 0, 50, 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER );
@@ -549,7 +614,7 @@ int main(){
 	// output_SV(l);
 	//table_LOP();
 	insert_Lop();
-	output_Lop();
+	//output_Lop();
 
 	getch();
 	return 0;
