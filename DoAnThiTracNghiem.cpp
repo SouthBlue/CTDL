@@ -2,7 +2,7 @@
 #include <iomanip>
 #include "mylib.h"
 #include <string>
-#include "Display.h"
+#include <vector>
 using namespace std;
 
 const int so_item1 = 4;
@@ -12,7 +12,7 @@ const int dong = 4;
 const int cot = 10;
 
 
-const int MAXLOP = 500;
+#define MAXLOP 500
 #define MAXCAUHOI 2000
 
 #define Up 72
@@ -25,6 +25,7 @@ const int MAXLOP = 500;
 #define	DELETE 46
 #define SPACE 32
 #define TAB 9
+#define BACKSPACE 8
 #define MAXLOP 500
 #define MAXCAUHOI 2000
 #define WHITE 15
@@ -70,10 +71,10 @@ typedef struct listDiemThi LISTDIEM;
 // Khai bao thong tin sinhvien
 typedef struct SinhVien{
 	char maSV[11];
-	char Ho[20];
-	char Ten[20];
+	char Ho[31];
+	char Ten[21];
 	float phai;
-	char password[32];
+	char password[17];
 	NODEDIEM FirstDiem;
 };
 // Khoi tao danh sach lien ket don sinh vien
@@ -81,17 +82,14 @@ typedef struct nodeSinhVien{
 	SinhVien sv;
 	struct nodeSinhVien *svnext;
 };
-typedef struct nodeSinhVien* NODESV;
+typedef struct nodeSinhVien NODESV;
 
 struct listSinhVien
 {
 	NODESV *svLast;
 	NODESV *svFirst;
 };
-
-struct listSinhVien LISTSV;
-
-
+typedef struct listSinhVien LISTSV;
 
 
 // Khai bao giao vien
@@ -128,8 +126,8 @@ typedef struct listGiaoVien LISTGV;
 
 // Khai bao lop
 typedef struct Lop{
-	char maLop[15];
-	char tenLop[50];
+	char maLop[16];
+	char tenLop[51];
 	NODESV First;
 };
 
@@ -144,11 +142,11 @@ struct CauHoi{
 	int id = 0;
 	char maMonHoc[16];
 	char noiDung[1000];
-	char A[1];
-	char B[1];
-	char C[1];
-	char D[1];
-	char dapAn[1];
+	char A[50];
+	char B[50];
+	char C[50];
+	char D[50];
+	int dapAn;
 };
 struct listCauHoi{
 	int slCauHoi;
@@ -214,7 +212,7 @@ void GiaoDienGV(){
 void press_key(char td2[so_item2][50]){
 	SetColor(WHITE);
 	for(int i = 0; i< so_item2; i++){
-		gotoxy(3+i*20, 37);
+		gotoxy(3+i*20, 38);
 		cout<< td2[i];
 	}
 }
@@ -312,40 +310,75 @@ void ThongBaoDN(){
 
 ///////////////////Code doi voi cac danh sach//////////////////
 
+vector<char> input_check(int x, int y, int max, int width)
+{
+	int a = 0, b = 0;
+	char key;
+	vector<char> re;
+	while(1)
+	{
+		key = getch();
+		if (key==0) key = getch();
+		switch(key)
+		{
+			case ENTER :
+				re.push_back('\0');
+				return re;
+			case BACKSPACE :
+				if(re.size() != 0) 
+				{
+					if(a == 0) 
+					{
+						b--;
+						a = width;
+					}
+					re.pop_back();
+					a--;
+					gotoxy(x + a, y + b); 
+					cout << " ";
+					gotoxy(x + a, y + b); 
+				}	
+				break;
+			default:				
+					if(re.size() != max)
+					{	
+						re.push_back(key);	
+						gotoxy(x + a++, y + b);
+						cout << key;
+						if(a == width){			
+							a = 0;
+							b++;	
+						}
+					}
+				break;	
+		}
+	}
+}
+void input_change(int x, int y, int max, int width, char *data)
+{
+	vector<char> ans = input_check(x, y, max, width);	
+	for(int i = 0; i < ans.size(); i++) data[i] = ans[i];	
+}
 void insert_Lop()
 {
-	int x = 10, y= 10;
-	int i;
-	//gotoxy(x, y);
-	cout << "So lop muon them: ";
-	cin >> i;
-	cin.ignore();
-	for (int j = 0; j < i; j++)
-	{
-		int k = 0;
-		LISTLOP.nodesL[j] = new Lop; 
-		//gotoxy(x + j + 1, y + j + 1);
-		cout << "Nhap vao ma lop: ";
-		cin.getline(LISTLOP.nodesL[j ]->maLop, 15);
-		while(k < j )
-		{
-			if(LISTLOP.nodesL[j]->maLop != LISTLOP.nodesL[k]->maLop)
-			{
-				//cout << "Ma lop hop le ";
-				k++;
-			}
-			else
-			{
-				cout << "Ma lop da bi trung ";
-			}
-		}
-		//gotoxy(x + j + 1, y + j + 2);
-		// cout << "Nhap vao ten lop: ";
-		// cin.getline(LISTLOP.nodesL[j]->tenLop, 50);
-		// LISTLOP.slLop ++;
-		// cout<<endl;
-
-	}
+	int x = 108, y= 10;
+	 int i;
+	 gotoxy(x, y);
+	 cout << "So lop muon them: ";
+	 cin >> i;
+	 for (int j = 0; j < i; j++)
+	 {
+	 	LISTLOP.nodesL[j] = new Lop;
+	 	gotoxy(x, y + j + 1);
+	 	cout << "Nhap vao ma lop: ";
+	 	input_change(x + 17, y + 1, 15, 15, LISTLOP.nodesL[j]->maLop);
+	 	gotoxy(x, y + j + 2);
+	 	cout << "Nhap vao ten lop: ";
+	 	input_change(x + 18, y + 2, 50, 17, LISTLOP.nodesL[j]->tenLop);
+	 	LISTLOP.slLop ++;
+	 	cout<<endl;
+	 }
+	
 }
 void table_LOP()
 {
@@ -368,14 +401,17 @@ void output_Lop()
 	cout << "So luong lop: " << LISTLOP.slLop <<"/200";
 	for (int i = 0; i < LISTLOP.slLop; i ++)
 	{
-		gotoxy(x, y);	
-		cout << LISTLOP.nodesL[i]->maLop ;
-		gotoxy(x + 30, y);
-		cout << LISTLOP.nodesL[i]->tenLop  ;
-		x = 2;
-		y = y + 1; 
+		 gotoxy(x, y + i);	
+		 cout << LISTLOP.nodesL[i]->maLop;
+		 gotoxy(x + 30, y );
+		 cout << LISTLOP.nodesL[i]->tenLop;
+		x = 7;
+		y++; 
 	}
 }
+
+
+
 //------------------ DOC GHI FILE LOP ---------------
 // void write_Lop(LISTLOP l)
 // {
@@ -432,160 +468,122 @@ bool empty_MH(NODEMH root){
 // 			if(p->MH < a) 
 // 			insert_MH(p->right,a);
 // }
-
-////////////////SINHVIEN////////////
-// void initialize_SV(LISTSV &l)
-// {
-// 	l.svFirst = l.svLast = NULL;
-// }
-
-// NODESV* Get_nodeSV(SinhVien a)
-// {
-// 	NODESV p = new NODESV;
-// 	if(p == NULL)
-// 	{
-// 		return NULL;
-// 	} -> sv = a;
-// 	p -> svn
-// 	pext = NULL;
-// 	return p;
-// }
-
-// void insertFist_SV(LISTSV &l, NODESV *p)
-// {
-// 	if(l.svFirst == NULL)
-// 	{
-// 		l.svFirst == l.svLast == NULL;
-// 	}
-// 	else
-// 	{
-// 		p -> svnext = l.svFirst;
-// 		l.svFirst = p;
-// 	}
-// }
-// void insertLast_SV(LISTSV &l, NODESV *p)
-// {
-// 	if(l.svFirst == NULL)
-// 	{
-// 		l.svFirst == l.svLast == NULL;
-// 	}
-// 	else
-// 	{
-// 		l.svLast -> svnext = p;
-// 		l.svLast = p; 
-// 	}
-	
-// }
-// void input_SV(LISTSV &l)
-// {
-
-// 	initialize_SV(l);
-
-// 		SinhVien a;
-// 		gotoxy(112, 10);
-// 		cout << "Ma Sinh Vien: ";
-// 		cin >> a.maSV;
-// 		// gotoxy(112, 11);
-// 		// cout << "Ho: ";
-// 		// cin >> a.Ho;
-// 		// gotoxy(112, 12);
-// 		// cout << "Ten: ";
-// 		// cin >> a.Ten;
-// 		// gotoxy(112, 13);
-// 		// cout << "Phai: ";
-// 		// cin >> a.phai;
-// 		// gotoxy(112, 14);
-// 		// cout << "Password: ";
-// 		// cin >> a.password;
-// 		NODESV *p = Get_nodeSV(a);
-// 		insertFist_SV(l, p);
-
-// }
-// void table_SV()
-// {
-// 	gotoxy(2, 13);
-// 	cout << "         MASV       ||              Ho             ||          Ten            ||    Phai   ||";
-// }
-
-// void sex_SV(bool x)
-// {
-// 	if(x == 1)
-// 	{
-// 		cout << "nam";
-// 	}
-// 	else cout << "nu";
-// }
-
-// void output_SV(LISTSV l)
-// {
-
-// 	int x = 2, y = 14;
-// 	table_SV();
-// 	for(NODESV *p = l.svFirst; l.svFirst != NULL; p = p -> svnext)
-// 	{	
-// 		gotoxy(x, y);
-// 		cout << p->sv.maSV;
-// 		// gotoxy(x + 23, y); 
-// 		// cout << p->sv.Ho;
-// 		// gotoxy(x + 31, y);
-// 		// cout << p->sv.Ten;
-// 		// gotoxy(x + 19, y);
-// 		// sex_SV(p->sv.phai);
-// 		// x = 2;
-// 		// y++;
-// 	}
-// }
-///////////////////////////////////
-
-///////////////////////////Sinh Vien -> Duong /////////////////
-void createListSV()
+//////////////////////////////////SINH VIEN/////////////
+void create_ListSV(LISTSV &l)
 {
-	LISTSV.svFirst = LISTSV.svLast = NULL;
+	l.svFirst = l.svLast = NULL;
 }
-
-NODESV* createNodeSv(SinhVien sv)
+NODESV* createNode_SV(SinhVien x)
 {
-	NODESV* node = new NODESV;
-	node->sv = sv;
-	node->svnext = NULL;
-	return node;
+	NODESV *p = new NODESV;
+	if(p == NULL)
+	{
+		return NULL;
+	}
+	p->sv = x;
+	p->svnext = NULL;
+	return p;
 	
 }
-void AddHead()
+void AddHead_SV(LISTSV &l, NODESV *p)
 {
-   if (!LISTSV.svFirst) //xÈt danh s·ch r?ng
-      LISTSV.svFirst  = LISTSV.svLast = node;
+   if (l.svFirst == NULL) 
+      l.svFirst  = l.svLast = p;
    else
    {
-      NODESV->svnext = LISTSV.svFirst; //s?a lk node c?n thÍm
-      LISTSV.svFirst = NODESV; //ch?nh l?i con tr? c?a danh s·ch
+      p->svnext = l.svFirst; 
+      l.svFirst = p; 
    }
 }
  
-void AddTail()
+void AddTail_SV(LISTSV &l, NODESV *p)
 {
-   if (!LISTSV.svFirst)
-      LISTSV.svFirst = LISTSV.svLast = NODESV;
+   if (l.svFirst == NULL) 
+    	l.svFirst  = l.svLast = p;
    else
    {
-      LISTSV.svLast->svnext = NODESV;
-      LISTSV.svLast = NODESV;
+      	l.svLast->svnext = p;
+      	l.svLast = p;
    }
 }
- 
-void AddAfter(NODESV *node, NODESV *before)
+
+void input_SV(SinhVien &sv)
 {
-   if (!before)
-   {
-      node->svnext = before->svnext; //s?a liÍn k?t c?a node m?i
-      before->svnext = node; //s?a l?i lk c?a node cÛ s?n
-      if (LISTSV.svLast == before)
-         LISTSV.svLast = node; //s?a l?i con tr? ch? danh s·ch
-   }
-   else
-      AddHead();
+	
+	int x = 108, y = 11; 
+	fflush(stdin);
+	gotoxy(x, y);
+	cout << "Nhap ma sinh vien: ";
+	input_change(127, 11, 10, 10, sv.maSV);
+	gotoxy(x, y + 1);
+	cout << "Nhap Ho: ";
+	input_change(117, y + 1, 30, 17, sv.Ho);
+	gotoxy(x, y + 2);
+	cout << "Nhap Ten: ";
+	input_change(118, y + 2, 20, 10, sv.Ten);
+	gotoxy(x, y + 3);
+	cout << "phai: ";
+	cin >> sv.phai;
 }
-///////////////////////////////////
+void table_SV()
+{
+	gotoxy(7, 13);
+	cout << "  MASV            ||     Ho                       ||    Ten                  ||    Phai   ";
+}
+
+void sex_SV(bool x)
+{
+	if(x == 1)
+	{
+		cout << "nam";
+	}
+	else cout << "nu";
+}
+void output_SV(int x, int y, SinhVien sv)
+{
+	gotoxy(x, y);
+	cout << sv.maSV;
+	gotoxy(x + 23, y);
+	cout << sv.Ho;
+	gotoxy(x + 54, y);
+	cout << sv.Ten;
+	gotoxy(x + 81, y);
+	sex_SV(sv.phai);
+}
+
+void inputlist_SV(LISTSV &l)
+{
+
+	create_ListSV(l);
+	SinhVien x;
+	input_SV(x);
+	NODESV *p = createNode_SV(x);
+	AddTail_SV(l, p);	
+}
+void outputlist_SV(LISTSV l)
+{
+	table_SV();
+	NODESV *p;
+	p = l.svFirst;
+	while(p != NULL)
+	{
+		output_SV(9, 14, p->sv);
+		p = p->svnext;
+	}
+}
+// void AddAfter(NODESV *node, NODESV *before)
+// {
+//    if (!before)
+//    {
+// 		node->svnext = before->svnext; //s?a li√™n k?t c?a node m?i
+// 		before->svnext = node; //s?a l?i lk c?a node c√≥ s?n
+// 		if (LISTSV.svLast == before)
+// 			LISTSV.svLast = node; //s?a l?i con tr? ch? danh s√°ch
+//    }
+//    else
+//       AddHead();
+// }
+////////////////////////
 void resizeConsole(){	
 	HWND console = GetConsoleWindow();
 	SetWindowPos(console, 0, 50, 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER );
@@ -594,11 +592,23 @@ void resizeConsole(){
 	MoveWindow(console, r.left, r.top, 1200, 700, TRUE);
 }
 
-
-
-
 int main(){
+	
+ //	ios::sync_with_stdio(0);
+ //	cin.tie(0);
+ 	resizeConsole();
+ 	DangNhap();
+ 	getch();
+ 	// ThongBaoDN();
+ 	MenuGV(menu1);
+ 	SetBGColor(BLACK);
 
+ 	
+	LISTSV l;
+ 	inputlist_SV(l);
+ 	outputlist_SV(l);
+ 	// insert_Lop();
+ 	// output_Lop();
 
 //	ios::sync_with_stdio(0);
 //	cin.tie(0);
@@ -616,6 +626,5 @@ int main(){
 	insert_Lop();
 	//output_Lop();
 
-	getch();
 	return 0;
 }
