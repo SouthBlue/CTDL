@@ -2,7 +2,7 @@
 #include <iomanip>
 #include "mylib.h"
 #include <string>
-#include "Display.h"
+#include <vector>
 using namespace std;
 
 const int so_item1 = 4;
@@ -12,7 +12,7 @@ const int dong = 4;
 const int cot = 10;
 
 
-const int MAXLOP = 500;
+#define MAXLOP 500
 #define MAXCAUHOI 2000
 
 #define Up 72
@@ -25,6 +25,7 @@ const int MAXLOP = 500;
 #define	DELETE 46
 #define SPACE 32
 #define TAB 9
+#define BACKSPACE 8
 #define MAXLOP 500
 #define MAXCAUHOI 2000
 #define WHITE 15
@@ -70,7 +71,7 @@ typedef struct listDiemThi LISTDIEM;
 // Khai bao thong tin sinhvien
 typedef struct SinhVien{
 	char maSV[11];
-	char Ho[20];
+	char Ho[30];
 	char Ten[20];
 	float phai;
 	char password[32];
@@ -126,8 +127,8 @@ typedef struct listGiaoVien LISTGV;
 
 // Khai bao lop
 typedef struct Lop{
-	char maLop[15];
-	char tenLop[50];
+	char maLop[16];
+	char tenLop[51];
 	NODESV First;
 };
 
@@ -142,11 +143,11 @@ struct CauHoi{
 	int id;
 	char maMonHoc[16];
 	char noiDung[1000];
-	char A[1];
-	char B[1];
-	char C[1];
-	char D[1];
-	char dapAn[1];
+	char A[50];
+	char B[50];
+	char C[50];
+	char D[50];
+	int dapAn;
 };
 struct nodeCauHoi{
 	int slCauHoi;
@@ -210,7 +211,7 @@ void GiaoDienGV(){
 void press_key(char td2[so_item2][50]){
 	SetColor(WHITE);
 	for(int i = 0; i< so_item2; i++){
-		gotoxy(3+i*20, 37);
+		gotoxy(3+i*20, 38);
 		cout<< td2[i];
 	}
 }
@@ -308,27 +309,75 @@ void ThongBaoDN(){
 
 ///////////////////Code doi voi cac danh sach//////////////////
 
+vector<char> input_check(int x, int y, int max, int width)
+{
+	int a = 0, b = 0;
+	char key;
+	vector<char> re;
+	while(1)
+	{
+		key = getch();
+		if (key==0) key = getch();
+		switch(key)
+		{
+			case ENTER :
+				re.push_back('\0');
+				return re;
+			case BACKSPACE :
+				if(re.size() != 0) 
+				{
+					if(a == 0) 
+					{
+						b--;
+						a = width;
+					}
+					re.pop_back();
+					a--;
+					gotoxy(x + a, y + b); 
+					cout << " ";
+					gotoxy(x + a, y + b); 
+				}	
+				break;
+			default:				
+					if(re.size() != max)
+					{	
+						re.push_back(key);	
+						gotoxy(x + a++, y + b);
+						cout << key;
+						if(a == width){			
+							a = 0;
+							b++;	
+						}
+					}
+				break;	
+		}
+	}
+}
+void input_change(int x, int y, int max, int width, char *data)
+{
+	vector<char> ans = input_check(x, y, max, width);	
+	for(int i = 0; i < ans.size(); i++) data[i] = ans[i];	
+}
 void insert_Lop()
 {
 	int x = 108, y= 10;
-	int i;
-	gotoxy(x, y);
-	cout << "So lop muon them: ";
-	cin >> i;
-	cin.ignore();
-	for (int j = 0; j < i; j++)
-	{
-		LISTLOP.nodesL[j] = new Lop;
-		gotoxy(x, y + j + 1);
-		cout << "Nhap vao ma lop: ";
-		cin.getline(LISTLOP.nodesL[j]->maLop, 15); 
-		gotoxy(x, y + j + 2);
-		cout << "Nhap vao ten lop: ";
-		cin.getline(LISTLOP.nodesL[j]->tenLop, 50);
-		LISTLOP.slLop ++;
-		cout<<endl;
-
-	}
+	 int i;
+	 gotoxy(x, y);
+	 cout << "So lop muon them: ";
+	 cin >> i;
+	 for (int j = 0; j < i; j++)
+	 {
+	 	LISTLOP.nodesL[j] = new Lop;
+	 	gotoxy(x, y + j + 1);
+	 	cout << "Nhap vao ma lop: ";
+	 	input_change(x + 17, y + 1, 15, 15, LISTLOP.nodesL[j]->maLop);
+	 	gotoxy(x, y + j + 2);
+	 	cout << "Nhap vao ten lop: ";
+	 	input_change(x + 18, y + 2, 50, 17, LISTLOP.nodesL[j]->tenLop);
+	 	LISTLOP.slLop ++;
+	 	cout<<endl;
+	 }
+	
 }
 void table_LOP()
 {
@@ -351,14 +400,17 @@ void output_Lop()
 	cout << "So luong lop: " << LISTLOP.slLop <<"/200";
 	for (int i = 0; i < LISTLOP.slLop; i ++)
 	{
-		gotoxy(x, y);	
-		cout << LISTLOP.nodesL[i]->maLop ;
-		gotoxy(x + 30, y);
-		cout << LISTLOP.nodesL[i]->tenLop  ;
-		x = 2;
-		y = y + 1; 
+		 gotoxy(x, y + i);	
+		 cout << LISTLOP.nodesL[i]->maLop;
+		 gotoxy(x + 30, y );
+		 cout << LISTLOP.nodesL[i]->tenLop;
+		x = 7;
+		y++; 
 	}
 }
+
+
+
 //------------------ DOC GHI FILE LOP ---------------
 // void write_Lop(LISTLOP l)
 // {
@@ -506,27 +558,23 @@ void resizeConsole(){
 	MoveWindow(console, r.left, r.top, 1200, 700, TRUE);
 }
 
-
-
-
 int main(){
+	
+ //	ios::sync_with_stdio(0);
+ //	cin.tie(0);
+ 	resizeConsole();
+ 	DangNhap();
+ 	getch();
+ 	// ThongBaoDN();
+ 	MenuGV(menu1);
+ 	SetBGColor(BLACK);
+ 	// LISTSV l;
+ 	// input_SV(l);
+ 	// output_SV(l);
+ 	insert_Lop();
+ 	output_Lop();
 
+ 	getch();
 
-//	ios::sync_with_stdio(0);
-//	cin.tie(0);
-	resizeConsole();
-	DangNhap();
-	getch();
-	// ThongBaoDN();
-	MenuGV(menu1);
-
-	SetBGColor(BLACK);
-	// LISTSV l;
-	// input_SV(l);
-	// output_SV(l);
-	insert_Lop();
-	output_Lop();
-
-	getch();
 	return 0;
 }
