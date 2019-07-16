@@ -22,7 +22,7 @@ const int cot = 10;
 #define	ENTER 13
 #define	ESC 27
 #define	INSERT 45
-#define	DELETE 46
+//#define	DELETE 46
 #define SPACE 32
 #define TAB 9
 #define BACKSPACE 8
@@ -286,6 +286,7 @@ void TieuDe(){
 }
  	
 void DangNhap(){
+	char x;
 	rectangle(0, 0, 145, 39, GREEN);
 	TieuDe();
 	rectangle(45, 15, 50 , 15, GREEN);
@@ -298,6 +299,7 @@ void DangNhap(){
 	rectangle(52, 23, 37, 3, GREEN);
 	mauChu(57, 23, WHITE, "MatKhau:");
 	gotoxy(55, 20);
+	cin >> x;
 }
 
 void ThongBaoDN(){
@@ -405,6 +407,71 @@ void output_Lop()
 		 cout << LISTLOP.nodesL[i]->maLop;
 		 gotoxy(x + 30, y );
 		 cout << LISTLOP.nodesL[i]->tenLop;
+		x = 7;
+		y++; 
+	}
+}
+///////////////////////Câu hỏi/////////////////////
+void insert_Cauhoi()
+{
+	int x = 108, y= 10;
+	 int i;
+	 gotoxy(x, y);
+	 cout << "So cau hoi muon them: ";
+	 cin >> i;
+	 for (int j = 0; j < i; j++)
+	 {
+	 	LISTCAUHOI.nodesCH[j] = new CauHoi;
+	 	gotoxy(x, y + j + 1);
+	 	cout << "Nhap noi dung cau hỏi : ";
+	 	input_change(x + 17, y + 1, 15, 15, LISTCAUHOI.nodesCH[j]->noiDung);
+	 	gotoxy(x, y + j + 2);
+	 	cout << "Nhap vao dap an A: ";
+	 	input_change(x + 18, y + 2, 50, 17, LISTCAUHOI.nodesCH[j]->A);
+		cout << "Nhap vao dap an B: ";
+		input_change(x + 19, y + 3, 50, 17, LISTCAUHOI.nodesCH[j]->B);
+		cout << "Nhap vao dap an C: ";
+		input_change(x + 19, y + 3, 50, 17, LISTCAUHOI.nodesCH[j]->C);
+		cout << "Nhap vao dap an D: ";
+		input_change(x + 19, y + 3, 50, 17, LISTCAUHOI.nodesCH[j]->D);
+		LISTCAUHOI.nodesCH[j]->id ++;
+	 	LISTCAUHOI.slCauHoi ++;
+	 	cout<<endl;
+	 }	
+}
+
+void table_CauHoi()
+{
+	mauChu(35, 11, RED, "=====** DANH SACH CAC CAU HOI **=====");
+	mauChu(6, 14, WHITE, " Ma Lop                   ||   Ten Lop                     ||  So luong SV");
+}
+
+void output_CauHoi()
+{
+
+
+	int x = 7, y = 15;
+	if(LISTCAUHOI.slCauHoi == 0)
+	{
+		gotoxy(x + 20, y);
+		cout << "Danh sach cau hoi trong!";
+		return;
+	}
+	table_LOP();
+	gotoxy(x, y - 3);
+	cout << "So luong cau hoi: " << LISTCAUHOI.slCauHoi <<"/2000";
+	for (int i = 0; i < LISTCAUHOI.slCauHoi; i ++)
+	{
+		 gotoxy(x, y + i);	
+		 cout << LISTCAUHOI.nodesCH[i]->noiDung;
+		 gotoxy(x + 30, y );
+		 cout << LISTCAUHOI.nodesCH[i]->A;
+		 gotoxy(x, y + 3);
+		 cout << LISTCAUHOI.nodesCH[i]->B;
+		 gotoxy(x, y + 6);
+		 cout << LISTCAUHOI.nodesCH[i]->C;
+		 gotoxy(x, y + 9);
+		 cout << LISTCAUHOI.nodesCH[i]->D;
 		x = 7;
 		y++; 
 	}
@@ -604,11 +671,13 @@ int main(){
  	SetBGColor(BLACK);
 
  	
-	LISTSV l;
- 	inputlist_SV(l);
- 	outputlist_SV(l);
+	// LISTSV l;
+ 	// inputlist_SV(l);
+ 	// outputlist_SV(l);
  	// insert_Lop();
  	// output_Lop();
+	 insert_Cauhoi();
+	 table_CauHoi();
 
 //	ios::sync_with_stdio(0);
 //	cin.tie(0);
