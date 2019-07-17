@@ -10,7 +10,7 @@ const int so_item2 = 3;
 const int so_item3 = 5;
 const int dong = 4;
 const int cot = 10;
-
+int xmh = 7, ymh = 15;
 
 #define MAXLOP 500
 #define MAXCAUHOI 2000
@@ -38,7 +38,7 @@ const int cot = 10;
 // Khai bao mon hoc (cay nhi phan)
 typedef struct MonHoc{
 	char maMonHoc[16];
-	char tenMonHoc[100];
+	char tenMonHoc[51];
 };
 // Khoi tao cay nhi phan
 typedef struct nodeMonHoc{
@@ -46,8 +46,8 @@ typedef struct nodeMonHoc{
 	struct nodeMonHoc *left;
 	struct nodeMonHoc *right;
 };
-typedef struct nodeMonHoc *NODEMH;
-NODEMH TREEMH;
+typedef struct nodeMonHoc NODEMH;
+typedef NODEMH *TREEMH;
 // Khoi tao thong tin diem thi
 typedef struct DiemThi{
 	char maMonHoc[16];
@@ -71,9 +71,9 @@ typedef struct listDiemThi LISTDIEM;
 // Khai bao thong tin sinhvien
 typedef struct SinhVien{
 	char maSV[11];
-	char Ho[31];
-	char Ten[21];
-	float phai;
+	char Ho[26];
+	char Ten[16];
+	bool phai;
 	char password[17];
 	NODEDIEM FirstDiem;
 };
@@ -423,41 +423,143 @@ void output_Lop()
 
 /////////////////////////////////////////
 /////////////////////////MonHocKhoiTao////////////
-void KhoiTao_MH(NODEMH &root){
 
-	root = NULL;
-
+int compare_MH(MonHoc a, MonHoc b)
+{
+	return strcmp(a.maMonHoc, b.maMonHoc);
 }
-bool empty_MH(NODEMH root){
-	return(root = NULL);
+MonHoc input_MH()
+{ 
+	int x = 108, y = 11;
+	MonHoc a;
+	gotoxy(x,y);
+	cout << "Nhap ma mon hoc: ";
+	input_change(x + 17, y, 15, 15, a.maMonHoc);
+	gotoxy(x, y + 1);
+	cout << "Nhap ten mon hoc: ";
+	input_change(x + 18, y + 1, 50, 17, a.tenMonHoc);
+	return a;
+}
+void output_MH(int xmh, int &ymh, MonHoc a)
+{
+	gotoxy(xmh, ymh);
+	cout << a.maMonHoc;
+	gotoxy(xmh + 34, ymh);
+	cout<< a.tenMonHoc;
+	ymh++;
 }
 
-// void insert_MH(NODEMH &p, MonHoc a){
-// 	if(p==NULL){
-// 		p = new NODEMH;
-// 		p->MH = a;
-// 		p->left = NULL; p->right = NULL;
-// 	}
-// 	else
-// 		if( p->MH > a)
-// 			insert_MH(p->left,a);
-// 		else 
-// 			if(p->MH < a) 
-// 			insert_MH(p->right,a);
+int insert_MH(TREEMH &t, MonHoc a){
+	if(t != NULL){
+		if(compare_MH(t->MH, a) == 0)
+			return -1;				// node da co
+		if(compare_MH(t->MH, a) > 0)
+			return insert_MH(t->left, a); // chen trai
+		else if(compare_MH(t->MH, a) < 0)
+			return insert_MH(t->right, a); // chen phai
+	}
+	t = new NODEMH;
+	if (t == NULL)
+		return 0;
+	t->MH = a;
+	t->left = t->right = NULL;
+	return 1;
+}
+void createtree_MH(TREEMH &t){
+	MonHoc a;
+	int n = 3;
+	while(n > 0){
+		a = input_MH();
+		int check = insert_MH(t, a);
+		if(check == -1){
+			gotoxy(108, 6);
+			cout << "Ma mon hoc da co!";
+		}
+		if(check == 0)
+			cout<<"Bo nho day";
+		n--;
+	}
+}
+void table_MH(){
+	mauChu(35, 11, RED, "=====** DANH SACH CAC MON **=====");
+	mauChu(6, 14, WHITE, " Ma Mon Hoc                   ||   Ten Mon Hoc              ");
+}
+void LNR(TREEMH &t)
+{
+	table_MH();
+	gotoxy(7, 13);
+	cout << "So mon hoc: ";
+	if(t != NULL)
+	{
+		LNR(t->left);
+		output_MH(xmh, ymh, t->MH);
+		LNR(t->right);
+	}
+}
+// NODEMH* search_MH(TREEMH t, char* data)    
+// {
+//     if (t != NULL) {
+//         if (strcmp(t->MH.maMonHoc, data) < ) {
+//             Node *P = T;
+//             return P;
+//         }
+//         if (T->key.scores >= scores) {
+//             Node *node = searchScores(T->Left, scores);
+//             if (node != NULL)
+//                 return node;
+//             else {
+//                 return searchScores(T->Right, scores);
+//             }
+//         }
+//     }
+//     return NULL;
 // }
+int del_MH(TREEMH &t, char* ma)
+{
+	if(t == NULL)
+	{
+		return 0;
+	}
+	else if(strcmp(t->MH.maMonHoc, ma) > 0)
+		return del_MH(t->left, ma);
+	else if(strcmp(t->MH.maMonHoc, ma) < 0)
+		return del_MH(t->right, ma);
+	else
+	{
+		NODEMH *p = t;
+		if(t->left == NULL)
+			t = t->right;
+		else if(t->right == NULL)
+			t = t->left;
+		else
+		{
+			NODEMH *s = t, *q = s->left;
+			while(q->right != NULL)
+			{
+				s = q;
+				q = q->right;
+			}
+			p->MH= q->MH;
+			s->right = q->right;
+			delete q;
+		}
+		return 1;
+	}
+	
+}
 //////////////////////////////////SINH VIEN/////////////
 void create_ListSV(LISTSV &l)
 {
 	l.svFirst = l.svLast = NULL;
 }
-NODESV* createNode_SV(SinhVien x)
+NODESV* createNode_SV(SinhVien a)
 {
 	NODESV *p = new NODESV;
 	if(p == NULL)
 	{
 		return NULL;
 	}
-	p->sv = x;
+	p->sv = a;
 	p->svnext = NULL;
 	return p;
 	
@@ -483,7 +585,84 @@ void AddTail_SV(LISTSV &l, NODESV *p)
       	l.svLast = p;
    }
 }
+bool sex_SV()
+{
+	char s[2][10] = {" nam ", " nu "};
+	bool chon = true;
+	for(int i = 0; i < 2; i++)
+	{
+		mauChu(120 + i*10, 14, RED, s[i]);
+	}
+	HighLight();
+	mauChu(120, 14, RED, s[0]);
+	char key;
+	do{
+		key = getch();
+		if(key == 0) key= getch();
+		switch (key){
+			case LEFT: 
+				    chon = true;
+					Normal();
+	              	mauChu(120 + 10, 14, RED, s[1]);	
+	              	HighLight();
+	              	mauChu(120, 14, RED, s[0]);
+				break;
+			case RIGHT:
+				    chon = false;
+					Normal();
+	              	mauChu(120, 14, RED, s[0]);
+	              	HighLight();
+	              	mauChu(120 + 10, 14, RED, s[1]);
+				break;
+			case ENTER:
+				 	SetBGColor(BLACK);
+					return chon;
+		}
+	} while(1);
 
+}
+// vector<char> password_in(int x, int y, int max)
+// {
+// 	int a = 0;
+// 	char key;
+// 	vector<char> pass;
+// 	while(1)
+// 	{
+// 		key = getch();
+// 		if (key==0) key = getch();
+// 		switch(key)
+// 		{
+// 			case ENTER :
+// 				pass.push_back('\0');
+// 				return pass;
+// 			case BACKSPACE :
+// 				if(pass.size() != 0) 
+// 				{
+// 					pass.pop_back();
+// 					a--;
+// 					gotoxy(x + a, y); 
+// 					cout << " ";
+// 					gotoxy(x + a, y); 
+// 				}	
+// 				break;
+// 			case SPACE :	
+// 				break;
+// 			default:				
+// 					if(pass.size() != max)
+// 					{	
+// 						pass.push_back(key);	
+// 						gotoxy(x + a++, y);
+// 						cout << "*";
+// 					}
+// 				break;	
+// 		}
+// 	}
+// }
+// void passord_out(int x, int y, int max, char *data)
+// {
+// 	vector<char> ans = password_in(x, y, max);	
+// 	for(int i = 0; i < ans.size(); i++) data[i] = ans[i];	
+// }
 void input_SV(SinhVien &sv)
 {
 	
@@ -494,18 +673,22 @@ void input_SV(SinhVien &sv)
 	input_change(127, 11, 10, 10, sv.maSV);
 	gotoxy(x, y + 1);
 	cout << "Nhap Ho: ";
-	input_change(117, y + 1, 30, 17, sv.Ho);
+	input_change(117, y + 1, 25, 25, sv.Ho);
 	gotoxy(x, y + 2);
 	cout << "Nhap Ten: ";
-	input_change(118, y + 2, 20, 10, sv.Ten);
+	input_change(118, y + 2, 15, 15, sv.Ten);
 	gotoxy(x, y + 3);
-	cout << "phai: ";
-	cin >> sv.phai;
+	cout << "Phai: ";
+	sv.phai = sex_SV();
+	gotoxy(x, y + 4);
+	cout << "Password: ";
+	input_change(x + 10, y + 4, 16, 16, sv.password);
 }
 void table_SV()
 {
+	mauChu(30, 11, RED, "=====** DANH SACH SINH VIEN CUA LOP **=====");
 	gotoxy(7, 13);
-	cout << "  MASV            ||     Ho                       ||    Ten                  ||    Phai   ";
+	cout << "  MASV            ||     Ho                          ||    Ten                  ||    Phai   ";
 }
 
 void sex_SV(bool x)
@@ -522,44 +705,51 @@ void output_SV(int x, int y, SinhVien sv)
 	cout << sv.maSV;
 	gotoxy(x + 23, y);
 	cout << sv.Ho;
-	gotoxy(x + 54, y);
+	gotoxy(x + 57, y);
 	cout << sv.Ten;
-	gotoxy(x + 81, y);
+	gotoxy(x + 84, y);
 	sex_SV(sv.phai);
 }
 
 void inputlist_SV(LISTSV &l)
 {
-
+	gotoxy(108, 10);
+	cout << "so luong: ";
+	int n;
+	cin >> n;
 	create_ListSV(l);
 	SinhVien x;
-	input_SV(x);
-	NODESV *p = createNode_SV(x);
-	AddTail_SV(l, p);	
+	for(int i = 0; i < n; i++ )
+	{
+		input_SV(x);
+		NODESV *p = createNode_SV(x);
+		AddTail_SV(l, p);	
+	}
 }
 void outputlist_SV(LISTSV l)
 {
-	table_SV();
+
+	SetBGColor(BLACK);
+
+	int x = 9, y = 14;
 	NODESV *p;
 	p = l.svFirst;
+	if(p == NULL)
+	{
+		gotoxy(x + 20, y);
+		cout << "Danh sach sinh vien trong!";
+		return;
+	}
+	gotoxy(x, y - 2); 
+	cout << "So sinh vien: ";
+	table_SV();
 	while(p != NULL)
 	{
-		output_SV(9, 14, p->sv);
+		output_SV(x, y, p->sv);
 		p = p->svnext;
+		y++;
 	}
 }
-// void AddAfter(NODESV *node, NODESV *before)
-// {
-//    if (!before)
-//    {
-// 		node->svnext = before->svnext; //s?a liên k?t c?a node m?i
-// 		before->svnext = node; //s?a l?i lk c?a node có s?n
-// 		if (LISTSV.svLast == before)
-// 			LISTSV.svLast = node; //s?a l?i con tr? ch? danh sách
-//    }
-//    else
-//       AddHead();
-// }
 ////////////////////////
 void resizeConsole(){	
 	HWND console = GetConsoleWindow();
@@ -579,14 +769,22 @@ int main(){
  	// ThongBaoDN();
  	MenuGV(menu1);
  	SetBGColor(BLACK);
-
- 	
-	LISTSV l;
- 	inputlist_SV(l);
- 	outputlist_SV(l);
+	TREEMH t;
+	t=NULL;
+	createtree_MH(t);
+	LNR(t);
+ 	getch();
+	char c[16];
+	gotoxy(108, 17);
+	cout<<"nhap mh can xoa:";
+	cin>>c;
+	del_MH(t, c);
+	// LISTSV l;
+ 	// inputlist_SV(l);
+ 	// outputlist_SV(l);
  	// insert_Lop();
  	// output_Lop();
-
+	LNR(t);
  	getch();
 
 	return 0;
