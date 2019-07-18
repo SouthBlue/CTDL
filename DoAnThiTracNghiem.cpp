@@ -3,6 +3,8 @@
 #include "mylib.h"
 #include <string>
 #include <vector>
+#include <fstream>
+#include <stdio.h>
 using namespace std;
 
 const int so_item1 = 4;
@@ -35,7 +37,7 @@ const int cot = 10;
 #define RED 4						   
 
 // khai bao ds
-// Khai bao mon hoc (cay nhi phan)
+// Khai bao mon hoc (cay nhi phan) 
 typedef struct MonHoc{
 	char maMonHoc[16];
 	char tenMonHoc[100];
@@ -75,7 +77,7 @@ typedef struct SinhVien{
 	char Ten[21];
 	float phai;
 	char password[17];
-	NODEDIEM FirstDiem;
+	//NODEDIEM FirstDiem;
 };
 // Khoi tao danh sach lien ket don sinh vien
 typedef struct nodeSinhVien{
@@ -282,11 +284,12 @@ void TieuDe(){
 	gotoxy(5, 9);
 	cout << "                                                                            /\\____/                               \n";
 	gotoxy(5, 10);
-	cout << "                                                                            \\_/__/                                \n";
+	cout << "                                                                             \\_/__/                                \n";
 }
  	
 void DangNhap(){
-	char x;
+	char x[10];
+	char y[10];
 	rectangle(0, 0, 145, 39, GREEN);
 	TieuDe();
 	rectangle(45, 15, 50 , 15, GREEN);
@@ -300,6 +303,9 @@ void DangNhap(){
 	mauChu(57, 23, WHITE, "MatKhau:");
 	gotoxy(55, 20);
 	cin >> x;
+	gotoxy(55, 24);
+	cin >> y;
+	
 }
 
 void ThongBaoDN(){
@@ -638,6 +644,34 @@ void outputlist_SV(LISTSV l)
 		p = p->svnext;
 	}
 }
+void readfile1_SV(ifstream &filein, SinhVien sv)
+{
+	getline(filein,sv.maSV, ',');// doc tu file masv
+	filein.seekg(1, 1);// dich 1 byte de bo khoang trang
+	getline(filein,sv.Ho, ',');
+	filein.seekg(1, 1);
+	getline(filein,sv.Ten, ',');
+	filein.seekg(1, 1);
+	getline(filein, sv.phai, ',');
+	filein.seekg(1, 1);
+	getline(filein, sv.password, ',');
+
+}
+void outfile1_SV(SinhVien sv)
+{
+	cout << "Ho ten: " << sv.Ho << sv.Ten << endl;
+	cout << "Ma sinh vien: " << sv.maSV << endl;
+	if(sv.phai == 1)
+	{
+		cout << "Phai: nam" << endl;
+	}
+	else
+	{
+		cout << "Phai: nu" << endl;
+	}
+	cout << "Password: " << sv.password << endl;
+	
+}
 // void AddAfter(NODESV *node, NODESV *before)
 // {
 //    if (!before)
@@ -667,17 +701,24 @@ int main(){
  	DangNhap();
  	getch();
  	// ThongBaoDN();
- 	MenuGV(menu1);
- 	SetBGColor(BLACK);
-
+ 	//MenuGV(menu1);
+ 	//SetBGColor(BLACK);
+	SinhVien sv;
+	ifstream filein;
+	filein.open("SINHVIEN.TXT", ios::in);
+	readfile1_SV(filein, sv);
+	outfile1_SV(sv);
+	filein.close();
+	system("pause");
+	return 0;
  	
-	// LISTSV l;
- 	// inputlist_SV(l);
- 	// outputlist_SV(l);
+	//LISTSV l;
+ 	//inputlist_SV(l);
+ 	//outputlist_SV(l);
  	// insert_Lop();
  	// output_Lop();
-	 insert_Cauhoi();
-	 table_CauHoi();
+	//insert_Cauhoi();
+	//table_CauHoi();
 
 //	ios::sync_with_stdio(0);
 //	cin.tie(0);
@@ -688,11 +729,11 @@ int main(){
 	//MenuGV(menu1);
 
 	SetBGColor(BLACK);
-	// LISTSV l;
-	// input_SV(l);
-	// output_SV(l);
+	//LISTSV l;
+	//input_SV(l);
+	//output_SV(l);
 	//table_LOP();
-	insert_Lop();
+	//insert_Lop();
 	//output_Lop();
 
 	return 0;
