@@ -122,8 +122,6 @@ struct listGiaoVien
 
 typedef struct listGiaoVien LISTGV;
 
-
-
 // Khai bao lop
 typedef struct Lop{
 	char maLop[16];
@@ -141,18 +139,18 @@ listLop LISTLOP;
 struct CauHoi{
 	int id;
 	char maMonHoc[16];
-	char noiDung[1000];
-	char A[50];
-	char B[50];
-	char C[50];
-	char D[50];
+	char noiDung[301];
+	char A[51];
+	char B[51];
+	char C[51];
+	char D[51];
 	int dapAn;
 };
-struct nodeCauHoi{
+struct listCauHoi{
 	int slCauHoi;
 	CauHoi *nodesCH[MAXCAUHOI];	
 };
-
+listCauHoi LISTCH;
 ///////////////////////////
 
 char menu1 [so_item1][30] = {"    Lop    ", " Cau Hoi Thi", "  Mon Hoc  ", " Bang Diem "};					   	 
@@ -305,7 +303,37 @@ void ThongBaoDN(){
 	mauChu(60, 33, GREEN, "vui long nhap lai!");
 	mauChu(50, 35, RED, "~~~~~~~~~~~~~~~~~ENTER~~~~~~~~~~~~~~~~");
 }
-
+void clear_screen(int x, int y, int width, int height)
+{
+	for(int i = 0; i < height; ++i)
+	{
+		gotoxy(x, i + y);
+		for(int j = 0; j < width; ++j)
+		{
+			cout << " ";
+		}
+	}
+}
+void clear_screen1()
+{
+	Normal();
+	clear_screen(1, 1, 100, 8);
+}
+void clear_screen2()
+{
+	Normal();
+	clear_screen(1, 11, 100, 25);
+}
+void clear_screen3()
+{
+	Normal();
+	clear_screen(1, 38, 140, 1);
+}
+void clear_screen4()
+{
+	Normal();
+	clear_screen(107, 1, 36 , 35);
+}
 ///////////////////Code doi voi cac danh sach//////////////////
 
 vector<char> input_check(int x, int y, int max, int width)
@@ -750,6 +778,120 @@ void outputlist_SV(LISTSV l)
 		y++;
 	}
 }
+///////////////////CauHoi//////////
+int select_DA(){
+	int x = 20, y = 8;
+	char da[4][50] = {"  A  ", "  B  ", "  C  ", "  D  "};
+	int chon = 0;
+ 	int i;
+ 	for ( i = 0; i < 4 ; i++){
+	 	mauChu(x + 10*i, y, RED,da[i]);
+ 	}
+	  	HighLight();
+	  	mauChu(x + 10*chon, y, RED, da[chon]);
+	  	char kytu;
+	do {
+	  	kytu = getch();
+	  	if (kytu==0) kytu = getch();
+	  	switch (kytu) {
+	    case LEFT :if (chon+1 >1)
+	  			  {
+	  		        Normal();
+	              	mauChu(x + chon*10, y, RED, da[chon]);
+	              	chon --;
+	              	HighLight();
+	              	mauChu(x + chon*10, y, RED, da[chon]);	
+	  			  }
+	  			  break;
+	  	case RIGHT :if (chon+1 <so_item1)
+	  			  {
+	  		        Normal();
+	              	mauChu(x + chon*10, y, RED, da[chon]);
+	              	chon ++;
+	              	HighLight();
+	              	mauChu(x + chon*10, y, RED, da[chon]);
+	  			  }
+	  			  break;
+	  	case 13 : return chon+1;
+	  } 
+	  } while (1);
+
+}
+void insert_CH()
+{
+	clear_screen1();
+	int x = 3, y = 1;
+	int i = 0;
+	LISTCH.nodesCH[i] = new CauHoi;
+	gotoxy(x, y);
+	cout << "Nhap cau hoi: ";
+	input_change(x + 14, y, 300, 50, LISTCH.nodesCH[i]->noiDung);
+	gotoxy(x, y + 3);
+	cout << "A: ";
+	input_change(x + 2, y + 3, 50, 50, LISTCH.nodesCH[i]->A);
+	gotoxy(x, y + 4);
+	cout << "B: ";
+	input_change(x + 2, y + 4, 50, 50, LISTCH.nodesCH[i]->B);
+	gotoxy(x, y + 5);
+	cout << "C: ";
+	input_change(x + 2, y + 5, 50, 50, LISTCH.nodesCH[i]->C);
+	gotoxy(x, y + 6);
+	cout << "D: ";
+	input_change(x + 2, y + 6, 50, 50, LISTCH.nodesCH[i]->D);
+	gotoxy(x, y + 7);
+	cout << "Dap An: ";
+	LISTCH.nodesCH[i]->dapAn = select_DA(); 
+	LISTCH.slCauHoi++;
+}
+void table_CH()
+{
+	mauChu(35, 11, RED, "=====** DANH SACH CAU HOI **=====");
+	mauChu(6, 14, WHITE, " Cau hoi                                          ||   Dap an  ");
+}
+void dapan(int a)
+{
+	if(a == 1)
+	{
+		cout << "A";
+	}else
+	{
+		if(a == 2)
+		cout << "B";
+		else
+		{
+			if(a == 3)
+			cout << "C";
+			else
+			{
+				cout << "D";
+			}
+			
+		}
+		
+	}
+	
+}
+void output_CH()
+{
+	SetBGColor(BLACK);
+	int x = 7, y = 15;
+	if(LISTCH.slCauHoi == 0)
+	{
+		gotoxy(x + 20, y);
+		cout << "Danh cau hoi trong!";
+		return;
+	}
+	table_CH();
+	for (int i = 0; i < LISTCH.slCauHoi; i++)
+	{
+		 gotoxy(x, y + i);	
+		 cout << LISTCH.nodesCH[i]->noiDung;
+		 gotoxy(x + 54, y + i);
+		 dapan(LISTCH.nodesCH[i]->dapAn);
+		x = 7;
+		y++; 
+	}
+}
 ////////////////////////
 void resizeConsole(){	
 	HWND console = GetConsoleWindow();
@@ -769,22 +911,24 @@ int main(){
  	// ThongBaoDN();
  	MenuGV(menu1);
  	SetBGColor(BLACK);
-	TREEMH t;
-	t=NULL;
-	createtree_MH(t);
-	LNR(t);
- 	getch();
-	char c[16];
-	gotoxy(108, 17);
-	cout<<"nhap mh can xoa:";
-	cin>>c;
-	del_MH(t, c);
+	// TREEMH t;
+	// t=NULL;
+	// createtree_MH(t);
+	// LNR(t);
+ 	// getch();
+	// char c[16];
+	// gotoxy(108, 17);
+	// cout<<"nhap mh can xoa:";
+	// cin>>c;
+	// del_MH(t, c);
 	// LISTSV l;
  	// inputlist_SV(l);
  	// outputlist_SV(l);
  	// insert_Lop();
  	// output_Lop();
-	LNR(t);
+	// LNR(t);
+	insert_CH();
+	output_CH();
  	getch();
 
 	return 0;
