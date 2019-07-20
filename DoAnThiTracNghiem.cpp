@@ -848,7 +848,7 @@ void outputlist_SV(LISTSV l)
 }
 void readfile1_SV(ifstream &filein, SinhVien sv)
 {
-	getline(filein,sv.maSV, ',');// doc tu file masv
+	std::cin.getline(filein,sv.maSV, ',');// doc tu file masv
 	filein.seekg(1, 1);// dich 1 byte de bo khoang trang
 	getline(filein,sv.Ho, ',');
 	filein.seekg(1, 1);
@@ -905,14 +905,14 @@ int main(){
  	// ThongBaoDN();
  	//MenuGV(menu1);
  	//SetBGColor(BLACK);
-	SinhVien sv;
-	ifstream filein;
-	filein.open("SINHVIEN.TXT", ios::in);
-	readfile1_SV(filein, sv);
-	outfile1_SV(sv);
-	filein.close();
-	system("pause");
-	return 0;
+//	SinhVien sv;
+//	ifstream filein;
+//	filein.open("SINHVIEN.TXT", ios::in);
+//	readfile1_SV(filein, sv);
+//	outfile1_SV(sv);
+//	filein.close();
+//	system("pause");
+//	return 0;
  	
 	//LISTSV l;
  	//inputlist_SV(l);
