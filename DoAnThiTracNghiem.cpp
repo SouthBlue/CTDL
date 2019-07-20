@@ -26,6 +26,9 @@ int xmh = 7, ymh = 15;
 #define SPACE 32
 #define TAB 9
 #define BACKSPACE 8
+#define HOME 36
+#define F1 112
+
 #define MAXLOP 500
 #define MAXCAUHOI 2000
 #define WHITE 15
@@ -138,12 +141,11 @@ listLop LISTLOP;
 
 struct CauHoi{
 	int id;
-	char maMonHoc[16];
-	char noiDung[301];
-	char A[51];
-	char B[51];
-	char C[51];
-	char D[51];
+	char noiDung[251];
+	char A[81];
+	char B[81];
+	char C[81];
+	char D[81];
 	int dapAn;
 };
 struct listCauHoi{
@@ -335,7 +337,14 @@ void clear_screen4()
 	clear_screen(107, 1, 36 , 35);
 }
 ///////////////////Code doi voi cac danh sach//////////////////
-
+void guide_Lop(){
+	SetColor(WHITE);
+	char l[6][20] = {"ESC: TRO VE", "HOME: TRANG CHINH", "F1: SUA", "INSERT: THEM", "DELETE: XOA", "ENTER: CHON"};
+	for(int i = 0; i< 6; i++){
+		gotoxy(3+i*20, 38);
+		cout<< l[i];
+	}
+}
 vector<char> input_check(int x, int y, int max, int width)
 {
 	int a = 0, b = 0;
@@ -451,7 +460,14 @@ void output_Lop()
 
 /////////////////////////////////////////
 /////////////////////////MonHocKhoiTao////////////
-
+void guide_MH(){
+	SetColor(WHITE);
+	char l[6][20] = {"ESC: TRO VE", "HOME: TRANG CHINH", "F1: SUA", "INSERT: THEM", "DELETE: XOA", "ENTER: CHON"};
+	for(int i = 0; i< 6; i++){
+		gotoxy(3+i*20, 38);
+		cout<< l[i];
+	}
+}
 int compare_MH(MonHoc a, MonHoc b)
 {
 	return strcmp(a.maMonHoc, b.maMonHoc);
@@ -825,19 +841,19 @@ void insert_CH()
 	LISTCH.nodesCH[i] = new CauHoi;
 	gotoxy(x, y);
 	cout << "Nhap cau hoi: ";
-	input_change(x + 14, y, 300, 50, LISTCH.nodesCH[i]->noiDung);
+	input_change(x + 14, y, 250, 87, LISTCH.nodesCH[i]->noiDung);
 	gotoxy(x, y + 3);
 	cout << "A: ";
-	input_change(x + 2, y + 3, 50, 50, LISTCH.nodesCH[i]->A);
+	input_change(x + 2, y + 3, 80, 80, LISTCH.nodesCH[i]->A);
 	gotoxy(x, y + 4);
 	cout << "B: ";
-	input_change(x + 2, y + 4, 50, 50, LISTCH.nodesCH[i]->B);
+	input_change(x + 2, y + 4, 80, 80, LISTCH.nodesCH[i]->B);
 	gotoxy(x, y + 5);
 	cout << "C: ";
-	input_change(x + 2, y + 5, 50, 50, LISTCH.nodesCH[i]->C);
+	input_change(x + 2, y + 5, 80, 80, LISTCH.nodesCH[i]->C);
 	gotoxy(x, y + 6);
 	cout << "D: ";
-	input_change(x + 2, y + 6, 50, 50, LISTCH.nodesCH[i]->D);
+	input_change(x + 2, y + 6, 80, 80, LISTCH.nodesCH[i]->D);
 	gotoxy(x, y + 7);
 	cout << "Dap An: ";
 	LISTCH.nodesCH[i]->dapAn = select_DA(); 
@@ -892,6 +908,8 @@ void output_CH()
 		y++; 
 	}
 }
+////////////////Diem//////
+
 ////////////////////////
 void resizeConsole(){	
 	HWND console = GetConsoleWindow();
