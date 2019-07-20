@@ -287,7 +287,7 @@ void TieuDe(){
 	cout << "                                                                             \\_/__/                                \n";
 }
  	
-void DangNhap(){
+void DangNhap(char ){
 	char x[10];
 	char y[10];
 	rectangle(0, 0, 145, 39, GREEN);
@@ -848,7 +848,8 @@ void outputlist_SV(LISTSV l)
 }
 void readfile1_SV(ifstream &filein, SinhVien sv)
 {
-	std::cin.getline(filein,sv.maSV, ',');// doc tu file masv
+	string i;
+	std::cin.getline(filein,sv.maSV.str(), ",");// doc tu file masv
 	filein.seekg(1, 1);// dich 1 byte de bo khoang trang
 	getline(filein,sv.Ho, ',');
 	filein.seekg(1, 1);
