@@ -521,14 +521,10 @@ void output_CauHoi()
 
 
 //------------------ DOC GHI FILE LOP ---------------
-// void write_Lop(LISTLOP l)
+// void write_Lop(LISTLOP a,char* fileName)
 // {
-// 	ofstream fo("DSLop.txt");
-// 	if(!fo)
-// 	{
-// 		return;
-// 	}
-// 	fo << 
+// 		ofstream write(fileName);
+// 		write << 
 // }
 
 /////////////////////////////////////////
@@ -976,7 +972,7 @@ void insert_CH()
 	LISTCH.nodesCH[i] = new CauHoi;
 	gotoxy(x, y);
 	cout << "Nhap cau hoi: ";
-	input_change(x + 14, y, 250, 87, LISTCH.nodesCH[i]->noiDung);
+	input_change(x + 14, y, 250, 86, LISTCH.nodesCH[i]->noiDung);
 	gotoxy(x, y + 3);
 	cout << "A: ";
 	input_change(x + 2, y + 3, 80, 80, LISTCH.nodesCH[i]->A);
