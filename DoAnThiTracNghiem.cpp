@@ -135,11 +135,11 @@ typedef struct Lop{
 };
 
 // khai bao mang con tro lop
-struct listLop{
-	int slLop;
+typedef struct listLop{
+	int slLop = 0;
 	Lop *nodesL[MAXLOP];
 };
-listLop LISTLOP;
+typedef struct listLop LISTLOP;
 
 struct CauHoi{
 	int id;
@@ -402,38 +402,49 @@ void input_change(int x, int y, int max, int width, char *data)
 	vector<char> ans = input_check(x, y, max, width);	
 	for(int i = 0; i < ans.size(); i++) data[i] = ans[i];	
 }
-void insert_Lop()
+int empty_Lop(LISTLOP l)
+{
+	return l.slLop == 0;
+}
+int full_Lop(LISTLOP l)
+{
+	return l.slLop == MAXLOP;
+}
+void create_Lop(LISTLOP &l)
+{
+	l.slLop = 0;
+}
+// int search_Lop(LISTLOP &l, char* ma)
+// {
+// 	for(int i = 0; i < l.slLop; i++)
+// 	{
+// 		if(l.nodesL[i].maLop == ma)
+// 		return i;
+// 	}
+// 	return -1;
+// }
+void insert_Lop(LISTLOP &l)
 {
 	int x = 108, y= 10;
-	 int i;
-	 gotoxy(x, y);
-	 cout << "So lop muon them: ";
-	 cin >> i;
-	 for (int j = 0; j < i; j++)
-	 {
-	 	LISTLOP.nodesL[j] = new Lop;
-	 	gotoxy(x, y + j + 1);
-	 	cout << "Nhap vao ma lop: ";
-	 	input_change(x + 17, y + 1, 15, 15, LISTLOP.nodesL[j]->maLop);
-	 	gotoxy(x, y + j + 2);
-	 	cout << "Nhap vao ten lop: ";
-	 	input_change(x + 18, y + 2, 50, 17, LISTLOP.nodesL[j]->tenLop);
-	 	LISTLOP.slLop ++;
-	 	cout<<endl;
-	 }
-	
+	l.nodesL[l.slLop] = new Lop;
+	gotoxy(x, y + 1);
+	cout << "Nhap vao ma lop: ";
+	input_change(x + 17, y + 1, 15, 15, l.nodesL[l.slLop]->maLop);
+	gotoxy(x, y + 2);
+	cout << "Nhap vao ten lop: ";
+	input_change(x + 18, y + 2, 50, 17, l.nodesL[l.slLop]->tenLop);
+	l.slLop++;
 }
 void table_LOP()
 {
 	mauChu(35, 11, RED, "=====** DANH SACH CAC LOP **=====");
 	mauChu(6, 14, WHITE, " Ma Lop                   ||   Ten Lop                     ||  So luong SV");
 }
-void output_Lop()
+void output_Lop(LISTLOP l)
 {
-
-
+	
 	int x = 7, y = 15;
-	if(LISTLOP.slLop == 0)
+	if(l.slLop == 0)
 	{
 		gotoxy(x + 20, y);
 		cout << "Danh sach lop hoc trong!";
@@ -441,13 +452,13 @@ void output_Lop()
 	}
 	table_LOP();
 	gotoxy(x, y - 3);
-	cout << "So luong lop: " << LISTLOP.slLop <<"/200";
-	for (int i = 0; i < LISTLOP.slLop; i ++)
+	cout << "So luong lop: " << l.slLop <<"/200";
+	for (int i = 0; i < l.slLop; i ++)
 	{
-		 gotoxy(x, y + i);	
-		 cout << LISTLOP.nodesL[i]->maLop;
+		 gotoxy(x, y);	
+		 cout << l.nodesL[i]->maLop;
 		 gotoxy(x + 30, y );
-		 cout << LISTLOP.nodesL[i]->tenLop;
+		 cout << l.nodesL[i]->tenLop;
 		x = 7;
 		y++; 
 	}
@@ -521,11 +532,36 @@ void output_CauHoi()
 
 
 //------------------ DOC GHI FILE LOP ---------------
-// void write_Lop(LISTLOP a,char* fileName)
-// {
-// 		ofstream write(fileName);
-// 		write << 
-// }
+void write_Lop(LISTLOP l)
+{
+	ofstream flo("DSlop.txt", ios::in);
+	if(flo.fail()){
+		cout << "that bai";
+	}
+	flo << l.slLop << endl;
+
+	for(int i=0; i < l.slLop; i++)
+	{
+		flo << l.nodesL[i]->maLop <<" ";
+		flo << l.nodesL[i]->tenLop <<"\n";
+	}
+	flo.close();
+}
+void read_Lop(LISTLOP &l)
+{
+	ifstream fli("DSlop.txt");
+	if(fli.fail())
+	{
+		cout << "that bai";
+	}
+	fli >> l.slLop;
+	for(int i = 0; i < l.slLop; i++)
+	{
+		l.nodesL[i] = new Lop;
+		fli >> l.nodesL[i]->maLop;
+		fli >> l.nodesL[i]->tenLop;
+	}
+}
 
 /////////////////////////////////////////
 
@@ -1042,6 +1078,25 @@ void output_CH()
 ////////////////Diem//////
 
 ////////////////////////
+void menu()
+{
+	int chon =  MenuGV(menu1);
+	switch (chon)
+	{
+	case 1:
+		SetBGColor(BLACK);
+		clear_screen3();
+		guide_Lop();
+		LISTLOP l;
+		read_Lop(l);
+		output_Lop(l);
+		insert_Lop(l);
+		write_Lop(l);
+		output_Lop(l);
+		break;
+	
+	}
+}
 void resizeConsole(){	
 	HWND console = GetConsoleWindow();
 	SetWindowPos(console, 0, 50, 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER );
@@ -1055,43 +1110,9 @@ int main(){
  //	ios::sync_with_stdio(0);
  //	cin.tie(0);
  	resizeConsole();
- 	DangNhap();
- 	getch();
+ 	// DangNhap();
+ 	// getch();
  	// ThongBaoDN();
- 	//MenuGV(menu1);
- 	//SetBGColor(BLACK);
-//	SinhVien sv;
-//	ifstream filein;
-//	filein.open("SINHVIEN.TXT", ios::in);
-//	readfile1_SV(filein, sv);
-//	outfile1_SV(sv);
-//	filein.close();
-//	system("pause");
-//	return 0;
- 	
-	//LISTSV l;
- 	//inputlist_SV(l);
- 	//outputlist_SV(l);
- 	// insert_Lop();
- 	// output_Lop();
-	//insert_Cauhoi();
-	//table_CauHoi();
-
-//	ios::sync_with_stdio(0);
-//	cin.tie(0);
-	//resizeConsole();
-	//DangNhap();
-	//getch();
-	// ThongBaoDN();
-	//MenuGV(menu1);
-
-	SetBGColor(BLACK);
-	//LISTSV l;
-	//input_SV(l);
-	//output_SV(l);
-	//table_LOP();
-	//insert_Lop();
-	//output_Lop();
  	// MenuGV(menu1);
  	// SetBGColor(BLACK);
 	// TREEMH t;
@@ -1107,14 +1128,11 @@ int main(){
 	// LISTSV l;
  	// inputlist_SV(l);
  	// outputlist_SV(l);
- 	insert_Lop();
-	output_Lop();
-	table_LOP();
-	output_Lop();
+	menu();
 	// LNR(t);
-	// insert_CH();
-	// output_CH();
- 	// getch();
+//	insert_CH();
+//	output_CH();
+ 	getch();
 
 	return 0;
 }
