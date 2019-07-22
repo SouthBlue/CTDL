@@ -4,8 +4,8 @@
 CPP      = g++.exe
 CC       = gcc.exe
 WINDRES  = windres.exe
-OBJ      = DoAnThiTracNghiem.o test.o
-LINKOBJ  = DoAnThiTracNghiem.o test.o
+OBJ      = DoAnThiTracNghiem.o hienthi.o mylib.o khaibao.o nhapxuat.o
+LINKOBJ  = DoAnThiTracNghiem.o hienthi.o mylib.o khaibao.o nhapxuat.o
 LIBS     = -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib" -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib" -static-libgcc
 INCS     = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"
 CXXINCS  = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"
@@ -27,5 +27,14 @@ $(BIN): $(OBJ)
 DoAnThiTracNghiem.o: DoAnThiTracNghiem.cpp
 	$(CPP) -c DoAnThiTracNghiem.cpp -o DoAnThiTracNghiem.o $(CXXFLAGS)
 
-test.o: test.cpp
-	$(CPP) -c test.cpp -o test.o $(CXXFLAGS)
+hienthi.o: hienthi.cpp
+	$(CPP) -c hienthi.cpp -o hienthi.o $(CXXFLAGS)
+
+mylib.o: mylib.cpp
+	$(CPP) -c mylib.cpp -o mylib.o $(CXXFLAGS)
+
+khaibao.o: khaibao.cpp
+	$(CPP) -c khaibao.cpp -o khaibao.o $(CXXFLAGS)
+
+nhapxuat.o: nhapxuat.cpp
+	$(CPP) -c nhapxuat.cpp -o nhapxuat.o $(CXXFLAGS)

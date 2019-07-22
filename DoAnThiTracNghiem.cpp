@@ -1,228 +1,40 @@
-#include <iostream>
+//#include <iostream>
 #include <iomanip>
-#include "mylib.h"
-#include <string>
+//#include "mylib.h"
+//#include <string>
 #include <vector>
 #include <fstream>
+//#include "hienthi.h"
+//#include "nhapxuat.h"
+#include "khaibao.h"
+
 using namespace std;
 
 const int so_item1 = 4;
-const int so_item2 = 3;
+
 const int so_item3 = 5;
 const int dong = 4;
 const int cot = 10;
 int xmh = 7, ymh = 15;
 
-#define MAXLOP 500
-#define MAXCAUHOI 2000
-
-#define Up 72
-#define Down 80
-#define RIGHT 77
-#define LEFT 75
-#define	ENTER 13
-#define	ESC 27
-#define	INSERT 45
-#define	DELETE 46
-#define SPACE 32
-#define TAB 9
-#define BACKSPACE 8
-#define HOME 36
-#define F1 112
-
-#define MAXLOP 500
-#define MAXCAUHOI 2000
-#define WHITE 15
-#define BLACK 0
-#define BLUE 3
-#define GREEN 10
-#define RED 4						   
-
-// khai bao ds
-// Khai bao mon hoc (cay nhi phan)
-typedef struct MonHoc{
-	char maMonHoc[16];
-	char tenMonHoc[51];
-};
-// Khoi tao cay nhi phan
-typedef struct nodeMonHoc{
-	MonHoc MH;     ///// + ////
-	struct nodeMonHoc *left;
-	struct nodeMonHoc *right;
-};
-typedef struct nodeMonHoc NODEMH;
-typedef NODEMH *TREEMH;
-// Khoi tao thong tin diem thi
-typedef struct DiemThi{
-	char maMonHoc[16];
-	float diem;
-};
-// Khoi tao danh sach diem thi (danh sach lien ket don)
-typedef struct nodeDiemThi{
-	DiemThi dt;
-	struct nodeDiemThi *dnext;
-};
-typedef struct nodeDiemThi *NODEDIEM; /// + ///
-
-struct listDiemThi
-{
-	NODEDIEM *dLast;
-	NODEDIEM *dFirst;
-};
-
-typedef struct listDiemThi LISTDIEM;
-
-// Khai bao thong tin sinhvien
-typedef struct SinhVien{
-	char maSV[11];
-	char Ho[26];
-	char Ten[16];
-	bool phai;
-	char password[17];
-	NODEDIEM FirstDiem;
-};
-// Khoi tao danh sach lien ket don sinh vien
-typedef struct nodeSinhVien{
-	SinhVien sv;
-	struct nodeSinhVien *svnext;
-};
-typedef struct nodeSinhVien NODESV;
-
-struct listSinhVien
-{
-	NODESV *svLast;
-	NODESV *svFirst;
-};
-typedef struct listSinhVien LISTSV;
 
 
-// Khai bao giao vien
-
-typedef struct GiaoVien
-{
-	char MaGV[11];
-	char Ho[50];
-	char Ten[20];
-	char Chucvu[30];
-	float phai;
-	char password[32];
-};
-
-typedef struct nodeGiaoVien
-{
-	GiaoVien GV;
-	struct nodeGiaoVien *gvnext;
-};
-
-typedef struct nodeGiaoVien* NODEGV;
-
-///Khoi tao danh sach lien ket don giao vien
-
-struct listGiaoVien
-{
-	NODEGV *pFirst;
-	NODEGV *pLast;
-};
-
-typedef struct listGiaoVien LISTGV;
-
-// Khai bao lop
-typedef struct Lop{
-	char maLop[16];
-	char tenLop[51];
-	NODESV First;
-};
-
-// khai bao mang con tro lop
-typedef struct listLop{
-	int slLop = 0;
-	Lop *nodesL[MAXLOP];
-};
-typedef struct listLop LISTLOP;
-
-struct CauHoi{
-	int id;
-	char noiDung[251];
-	char A[81];
-	char B[81];
-	char C[81];
-	char D[81];
-	int dapAn;
-};
-struct listCauHoi{
-	int slCauHoi;
-	CauHoi *nodesCH[MAXCAUHOI];	
-};
-listCauHoi LISTCH;
 ///////////////////////////
 
-char menu1 [so_item1][30] = {"    Lop    ", " Cau Hoi Thi", "  Mon Hoc  ", " Bang Diem "};					   	 
-char menu2 [so_item2][50] = {"<-  ->: Di chuyen", "      Enter: Chon", "       Esc: Thoat"};
-char menuLop [so_item3][50] = {"Esc: Quay lai", "F1: Menu chinh", "Enter: Chon lop", "Delete: Xoa lop", "Insert: Them lop"};
+string menu1 [so_item1]= {"    Lop    ", " Cau Hoi Thi", "  Mon Hoc  ", " Bang Diem "};					   	 
+string menuLop [so_item3] = {"Esc: Quay lai", "F1: Menu chinh", "Enter: Chon lop", "Delete: Xoa lop", "Insert: Them lop"};
+const int so_item2 = 3;
+const char menu2 [so_item2][50] = {"<-  ->: Di chuyen", "      Enter: Chon", "       Esc: Thoat"};
 
-void Normal(){
-	SetColor(3);
-	SetBGColor(0);
-}
-void HighLight(){
-	SetColor(3);
-	SetBGColor(15);
-}
-void rectangle(int x, int y, int width, int height, int color)
-{
-	SetColor(color);
-	gotoxy(x, y);
-	cout << static_cast<char>(201);
-	for (int i = x; i < x + width - 2; i++) {
-		gotoxy(i + 1, y);
-		cout << static_cast<char>(205);
-		gotoxy(i + 1, y + height - 1);
-		cout << static_cast<char>(205);
-	}
-	gotoxy(x + width - 1, y);
-	cout << static_cast<char>(187) << endl;
-	for (int i = y; i < y + height - 1; i++) {
-		gotoxy(x, i + 1);
-		cout << static_cast<char>(186);
-		gotoxy(x + width - 1, i + 1);
-		cout << static_cast<char>(186) << endl;
-	}
-	gotoxy(x, y + height - 1);
-	cout << static_cast<char>(200);
-	gotoxy(x + width - 1, y + height - 1);
-	cout << static_cast<char>(188);
-	SetColor(WHITE);
-}
-void mauChu(int x, int y, int color, string chu){
-	SetColor(color);
-	gotoxy(x, y);
-	cout << chu;
-	SetColor(WHITE);
-}
-void GiaoDienGV(){
-	SetColor(3);
-	rectangle(0, 0, 105, 10, BLUE);
-	rectangle(0, 10, 105, 27, BLUE);
-	rectangle(106, 0, 38, 37, BLUE);
-	rectangle(0, 37, 144, 3, BLUE);
-	mauChu(112, 1, RED, "=======> THONG TIN <========");
-	mauChu(3, 37, RED, "---> HUONG DAN <---");
-}
-void press_key(char td2[so_item2][50]){
-	SetColor(WHITE);
-	for(int i = 0; i< so_item2; i++){
-		gotoxy(3+i*20, 38);
-		cout<< td2[i];
-	}
-}
-int MenuGV(char td[so_item1][30]){
+
+int MenuGV(string td[so_item1]){
 	system("cls");
 	GiaoDienGV();
 	rectangle(8, 3, 15, 3, BLUE);
 	rectangle(34, 3, 15, 3, BLUE);
 	rectangle(58, 3, 15, 3, BLUE);
 	rectangle(83, 3, 15, 3, BLUE);
-	press_key(menu2);
+	press_key();
 	int chon =0;
  	int i;
  	for ( i=0; i< so_item1 ; i++){
@@ -230,6 +42,7 @@ int MenuGV(char td[so_item1][30]){
  	}
 	  	HighLight();
 	  	mauChu(cot + 25*chon, dong, BLUE, td[chon]);
+		Nocursortype();
 	  	char kytu;
 	do {
 	  	kytu = getch();
@@ -237,12 +50,12 @@ int MenuGV(char td[so_item1][30]){
 	  	switch (kytu) {
 	    case LEFT :if (chon+1 >1)
 	  			  {
-	  		        Normal();
-	              	mauChu(cot + chon*25, dong, BLUE, td[chon]);
-	              	chon --;
-	              	HighLight();
-	              	mauChu(cot + chon*25, dong, BLUE, td[chon]);	
-					gotoxy(0, 0);	
+					Normal();
+					mauChu(cot + chon*25, dong, BLUE, td[chon]);
+					chon --;
+					HighLight();
+					mauChu(cot + chon*25, dong, BLUE, td[chon]);
+					Nocursortype();		
 	  			  }
 	  			  break;
 	  	case RIGHT :if (chon+1 <so_item1)
@@ -252,52 +65,16 @@ int MenuGV(char td[so_item1][30]){
 	              	chon ++;
 	              	HighLight();
 	              	mauChu(cot + chon*25, dong, BLUE, td[chon]);
-					gotoxy(0, 0);
-
+					Nocursortype();	
 	  			  }
 	  			  break;
-	  	case 13 : return chon+1;
+	  	case ENTER : return chon+1;
 	  } 
 	  } while (1);
 
 }	
 						   
-void TieuDe(){
-	SetColor(GREEN);
-	gotoxy(5, 2);
-	cout << "       ______  __              ______                          __  __          __                   \n";
-	gotoxy(5, 3);
-	cout << "      /\\__  _\\/\\ \\      __    /\\__  _\\                        /\\ \\/\\ \\        /\\ \\      __              \n";
-	gotoxy(5, 4); 
-	cout << "      \\/_/\\ \\/\\ \\ \\___ /\\_\\   \\/_/\\ \\/ _ __    __      ___    \\ \\ `\\\\ \\     __\\ \\ \\___ /\\_\\     __    ___ ___     \n";
-	gotoxy(5, 5);
-	cout << "         \\ \\ \\ \\ \\  _ `\\/\\ \\     \\ \\ \\/\\`'__\\/'__`\\   /'___\\   \\ \\ , ` \\  /'_ `\\ \\  _ `\\/\\ \\  /'__`\\/' __` __`\\   \n";
-	gotoxy(5, 6);
-	cout << "          \\ \\ \\ \\ \\ \\ \\ \\ \\ \\     \\ \\ \\ \\ \\//\\ \\L\\.\\_/\\ \\__/    \\ \\ \\`\\ \\/\\ \\L\\ \\ \\ \\ \\ \\ \\ \\/\\  __//\\ \\/\\ \\/\\ \\  \n";
-	gotoxy(5, 7);
-	cout << "           \\ \\_\\ \\ \\_\\ \\_\\ \\_\\     \\ \\_\\ \\_\\\\ \\__/.\\_\\ \\____\\    \\ \\_\\ \\_\\ \\____ \\ \\_\\ \\_\\ \\_\\ \\____\\ \\_\\ \\_\\ \\_\\ \n";
-	gotoxy(5, 8);
-	cout << "            \\/_/  \\/_/\\/_/\\/_/      \\/_/\\/_/ \\/__/\\/_/\\/____/     \\/_/\\/_/\\/___L\\ \\/_/\\/_/\\/_/\\/____/\\/_/\\/_/\\/_/ \n";
-	gotoxy(5, 9);
-	cout << "                                                                            /\\____/                               \n";
-	gotoxy(5, 10);
-	cout << "                                                                            \\_/__/                                \n";
-}
- 	
-void DangNhap(){
-	rectangle(0, 0, 145, 39, GREEN);
-	TieuDe();
-	rectangle(45, 15, 50 , 15, GREEN);
-	rectangle(46, 16, 48 , 14, GREEN);	
-	rectangle(52, 19, 37, 3, GREEN);
-	mauChu(63, 16, RED, "=> DANG NHAP <=");
-	rectangle(65, 26, 10, 3, GREEN);
-	mauChu(69, 27, RED, "OK");
-	mauChu(55, 19, WHITE, "NguoiDung:");
-	rectangle(52, 23, 37, 3, GREEN);
-	mauChu(57, 23, WHITE, "MatKhau:");
-	gotoxy(55, 20);
-}
+
 
 void ThongBaoDN(){
 	rectangle(40, 31, 60, 6, GREEN);
@@ -306,95 +83,10 @@ void ThongBaoDN(){
 	mauChu(60, 33, GREEN, "vui long nhap lai!");
 	mauChu(50, 35, RED, "~~~~~~~~~~~~~~~~~ENTER~~~~~~~~~~~~~~~~");
 }
-void clear_screen(int x, int y, int width, int height)
-{
-	for(int i = 0; i < height; ++i)
-	{
-		gotoxy(x, i + y);
-		for(int j = 0; j < width; ++j)
-		{
-			cout << " ";
-		}
-	}
-}
-void clear_screen1()
-{
-	Normal();
-	clear_screen(1, 1, 100, 8);
-}
-void clear_screen2()
-{
-	Normal();
-	clear_screen(1, 11, 100, 25);
-}
-void clear_screen3()
-{
-	Normal();
-	clear_screen(1, 38, 140, 1);
-}
-void clear_screen4()
-{
-	Normal();
-	clear_screen(107, 1, 36 , 35);
-}
+
 ///////////////////Code doi voi cac danh sach//////////////////
-void guide_Lop(){
-	SetColor(WHITE);
-	char l[6][20] = {"ESC: TRO VE", "HOME: TRANG CHINH", "F1: SUA", "INSERT: THEM", "DELETE: XOA", "ENTER: CHON"};
-	for(int i = 0; i< 6; i++){
-		gotoxy(3+i*20, 38);
-		cout<< l[i];
-	}
-}
-vector<char> input_check(int x, int y, int max, int width)
-{
-	int a = 0, b = 0;
-	char key;
-	vector<char> re;
-	while(1)
-	{
-		key = getch();
-		if (key==0) key = getch();
-		switch(key)
-		{
-			case ENTER :
-				re.push_back('\0');
-				return re;
-			case BACKSPACE :
-				if(re.size() != 0) 
-				{
-					if(a == 0) 
-					{
-						b--;
-						a = width;
-					}
-					re.pop_back();
-					a--;
-					gotoxy(x + a, y + b); 
-					cout << " ";
-					gotoxy(x + a, y + b); 
-				}	
-				break;
-			default:				
-					if(re.size() != max)
-					{	
-						re.push_back(key);	
-						gotoxy(x + a++, y + b);
-						cout << key;
-						if(a == width){			
-							a = 0;
-							b++;	
-						}
-					}
-				break;	
-		}
-	}
-}
-void input_change(int x, int y, int max, int width, char *data)
-{
-	vector<char> ans = input_check(x, y, max, width);	
-	for(int i = 0; i < ans.size(); i++) data[i] = ans[i];	
-}
+
+
 int empty_Lop(LISTLOP l)
 {
 	return l.slLop == 0;
@@ -407,7 +99,7 @@ void create_Lop(LISTLOP &l)
 {
 	l.slLop = 0;
 }
-// int search_Lop(LISTLOP &l, char* ma)
+// int search_Lop(LISTLOP &l, string* ma)
 // {
 // 	for(int i = 0; i < l.slLop; i++)
 // 	{
@@ -416,46 +108,9 @@ void create_Lop(LISTLOP &l)
 // 	}
 // 	return -1;
 // }
-void insert_Lop(LISTLOP &l)
-{
-	int x = 108, y= 10;
-	l.nodesL[l.slLop] = new Lop;
-	gotoxy(x, y + 1);
-	cout << "Nhap vao ma lop: ";
-	input_change(x + 17, y + 1, 15, 15, l.nodesL[l.slLop]->maLop);
-	gotoxy(x, y + 2);
-	cout << "Nhap vao ten lop: ";
-	input_change(x + 18, y + 2, 50, 17, l.nodesL[l.slLop]->tenLop);
-	l.slLop++;
-}
-void table_LOP()
-{
-	mauChu(35, 11, RED, "=====** DANH SACH CAC LOP **=====");
-	mauChu(6, 14, WHITE, " Ma Lop                   ||   Ten Lop                     ||  So luong SV");
-}
-void output_Lop(LISTLOP l)
-{
-	
-	int x = 7, y = 15;
-	if(l.slLop == 0)
-	{
-		gotoxy(x + 20, y);
-		cout << "Danh sach lop hoc trong!";
-		return;
-	}
-	table_LOP();
-	gotoxy(x, y - 3);
-	cout << "So luong lop: " << l.slLop <<"/200";
-	for (int i = 0; i < l.slLop; i ++)
-	{
-		 gotoxy(x, y);	
-		 cout << l.nodesL[i]->maLop;
-		 gotoxy(x + 30, y );
-		 cout << l.nodesL[i]->tenLop;
-		x = 7;
-		y++; 
-	}
-}
+
+
+
 
 
 
@@ -470,8 +125,9 @@ void write_Lop(LISTLOP l)
 
 	for(int i=0; i < l.slLop; i++)
 	{
-		flo << l.nodesL[i]->maLop <<" ";
-		flo << l.nodesL[i]->tenLop <<"\n";
+
+		flo << l.nodesL[i]->maLop <<"@ ";
+		flo << l.nodesL[i]->tenLop <<'@' <<"\n";
 	}
 	flo.close();
 }
@@ -486,24 +142,21 @@ void read_Lop(LISTLOP &l)
 	for(int i = 0; i < l.slLop; i++)
 	{
 		l.nodesL[i] = new Lop;
-		fli >> l.nodesL[i]->maLop;
-		fli >> l.nodesL[i]->tenLop;
+//		// fli >> l.nodesL[i]->maLop;
+//		// fli >> l.nodesL[i]->tenLop;
+		fli.ignore();
+		getline(fli, l.nodesL[i]->maLop, '@');
+		fli.ignore();
+		getline(fli, l.nodesL[i]->tenLop, '@');
 	}
 }
 
 /////////////////////////////////////////
 /////////////////////////MonHocKhoiTao////////////
-void guide_MH(){
-	SetColor(WHITE);
-	char l[6][20] = {"ESC: TRO VE", "HOME: TRANG CHINH", "F1: SUA", "INSERT: THEM", "DELETE: XOA", "ENTER: CHON"};
-	for(int i = 0; i< 6; i++){
-		gotoxy(3+i*20, 38);
-		cout<< l[i];
-	}
-}
+
 int compare_MH(MonHoc a, MonHoc b)
 {
-	return strcmp(a.maMonHoc, b.maMonHoc);
+	return (a.maMonHoc.compare(b.maMonHoc));
 }
 MonHoc input_MH()
 { 
@@ -511,10 +164,10 @@ MonHoc input_MH()
 	MonHoc a;
 	gotoxy(x,y);
 	cout << "Nhap ma mon hoc: ";
-	input_change(x + 17, y, 15, 15, a.maMonHoc);
+	input_check(x + 17, y, 15, 15, a.maMonHoc);
 	gotoxy(x, y + 1);
 	cout << "Nhap ten mon hoc: ";
-	input_change(x + 18, y + 1, 50, 17, a.tenMonHoc);
+	input_check(x + 18, y + 1, 50, 17, a.tenMonHoc);
 	return a;
 }
 void output_MH(int xmh, int &ymh, MonHoc a)
@@ -557,10 +210,7 @@ void createtree_MH(TREEMH &t){
 		n--;
 	}
 }
-void table_MH(){
-	mauChu(35, 11, RED, "=====** DANH SACH CAC MON **=====");
-	mauChu(6, 14, WHITE, " Ma Mon Hoc                   ||   Ten Mon Hoc              ");
-}
+
 void LNR(TREEMH &t)
 {
 	table_MH();
@@ -591,15 +241,15 @@ void LNR(TREEMH &t)
 //     }
 //     return NULL;
 // }
-int del_MH(TREEMH &t, char* ma)
+int del_MH(TREEMH &t, string ma)
 {
 	if(t == NULL)
 	{
 		return 0;
 	}
-	else if(strcmp(t->MH.maMonHoc, ma) > 0)
+	else if((t->MH.maMonHoc.compare(ma)) > 0)
 		return del_MH(t->left, ma);
-	else if(strcmp(t->MH.maMonHoc, ma) < 0)
+	else if((t->MH.maMonHoc.compare(ma)) < 0)
 		return del_MH(t->right, ma);
 	else
 	{
@@ -664,7 +314,7 @@ void AddTail_SV(LISTSV &l, NODESV *p)
 }
 bool sex_SV()
 {
-	char s[2][10] = {" nam ", " nu "};
+	string s[2] = {" nam ", " nu "};
 	bool chon = true;
 	for(int i = 0; i < 2; i++)
 	{
@@ -747,26 +397,21 @@ void input_SV(SinhVien &sv)
 	fflush(stdin);
 	gotoxy(x, y);
 	cout << "Nhap ma sinh vien: ";
-	input_change(127, 11, 10, 10, sv.maSV);
+	input_check(127, 11, 10, 10, sv.maSV);
 	gotoxy(x, y + 1);
 	cout << "Nhap Ho: ";
-	input_change(117, y + 1, 25, 25, sv.Ho);
+	input_check(117, y + 1, 25, 25, sv.Ho);
 	gotoxy(x, y + 2);
 	cout << "Nhap Ten: ";
-	input_change(118, y + 2, 15, 15, sv.Ten);
+	input_check(118, y + 2, 15, 15, sv.Ten);
 	gotoxy(x, y + 3);
 	cout << "Phai: ";
 	sv.phai = sex_SV();
 	gotoxy(x, y + 4);
 	cout << "Password: ";
-	input_change(x + 10, y + 4, 16, 16, sv.password);
+	input_check(x + 10, y + 4, 16, 16, sv.password);
 }
-void table_SV()
-{
-	mauChu(30, 11, RED, "=====** DANH SACH SINH VIEN CUA LOP **=====");
-	gotoxy(7, 13);
-	cout << "  MASV            ||     Ho                          ||    Ten                  ||    Phai   ";
-}
+
 
 void sex_SV(bool x)
 {
@@ -830,7 +475,7 @@ void outputlist_SV(LISTSV l)
 ///////////////////CauHoi//////////
 int select_DA(){
 	int x = 20, y = 8;
-	char da[4][50] = {"  A  ", "  B  ", "  C  ", "  D  "};
+	string da[4] = {"  A  ", "  B  ", "  C  ", "  D  "};
 	int chon = 0;
  	int i;
  	for ( i = 0; i < 4 ; i++){
@@ -868,35 +513,31 @@ int select_DA(){
 }
 void insert_CH()
 {
-	clear_screen1();
-	int x = 3, y = 1;
-	int i = 0;
-	LISTCH.nodesCH[i] = new CauHoi;
-	gotoxy(x, y);
-	cout << "Nhap cau hoi: ";
-	input_change(x + 14, y, 250, 86, LISTCH.nodesCH[i]->noiDung);
-	gotoxy(x, y + 3);
-	cout << "A: ";
-	input_change(x + 2, y + 3, 80, 80, LISTCH.nodesCH[i]->A);
-	gotoxy(x, y + 4);
-	cout << "B: ";
-	input_change(x + 2, y + 4, 80, 80, LISTCH.nodesCH[i]->B);
-	gotoxy(x, y + 5);
-	cout << "C: ";
-	input_change(x + 2, y + 5, 80, 80, LISTCH.nodesCH[i]->C);
-	gotoxy(x, y + 6);
-	cout << "D: ";
-	input_change(x + 2, y + 6, 80, 80, LISTCH.nodesCH[i]->D);
-	gotoxy(x, y + 7);
-	cout << "Dap An: ";
-	LISTCH.nodesCH[i]->dapAn = select_DA(); 
-	LISTCH.slCauHoi++;
+//	clear_screen1();
+//	int x = 3, y = 1;
+//	int i = 0;
+//	LISTCH.nodesCH[i] = new CauHoi;
+//	gotoxy(x, y);
+//	cout << "Nhap cau hoi: ";
+//	input_check(x + 14, y, 250, 86, LISTCH.nodesCH[i]->noiDung);
+//	gotoxy(x, y + 3);
+//	cout << "A: ";
+//	input_check(x + 2, y + 3, 80, 80, LISTCH.nodesCH[i]->A);
+//	gotoxy(x, y + 4);
+//	cout << "B: ";
+//	input_check(x + 2, y + 4, 80, 80, LISTCH.nodesCH[i]->B);
+//	gotoxy(x, y + 5);
+//	cout << "C: ";
+//	input_check(x + 2, y + 5, 80, 80, LISTCH.nodesCH[i]->C);
+//	gotoxy(x, y + 6);
+//	cout << "D: ";
+//	input_check(x + 2, y + 6, 80, 80, LISTCH.nodesCH[i]->D);
+//	gotoxy(x, y + 7);
+//	cout << "Dap An: ";
+//	LISTCH.nodesCH[i]->dapAn = select_DA(); 
+//	LISTCH.slCauHoi++;
 }
-void table_CH()
-{
-	mauChu(35, 11, RED, "=====** DANH SACH CAU HOI **=====");
-	mauChu(6, 14, WHITE, " Cau hoi                                          ||   Dap an  ");
-}
+
 void dapan(int a)
 {
 	if(a == 1)
@@ -922,45 +563,91 @@ void dapan(int a)
 }
 void output_CH()
 {
-	SetBGColor(BLACK);
-	int x = 7, y = 15;
-	if(LISTCH.slCauHoi == 0)
-	{
-		gotoxy(x + 20, y);
-		cout << "Danh cau hoi trong!";
-		return;
-	}
-	table_CH();
-	for (int i = 0; i < LISTCH.slCauHoi; i++)
-	{
-		 gotoxy(x, y + i);	
-		 cout << LISTCH.nodesCH[i]->noiDung;
-		 gotoxy(x + 54, y + i);
-		 dapan(LISTCH.nodesCH[i]->dapAn);
-		x = 7;
-		y++; 
-	}
+//	SetBGColor(BLACK);
+//	int x = 7, y = 15;
+//	if(LISTCH.slCauHoi == 0)
+//	{
+//		gotoxy(x + 20, y);
+//		cout << "Danh cau hoi trong!";
+//		return;
+//	}
+//	table_CH();
+//	for (int i = 0; i < LISTCH.slCauHoi; i++)
+//	{
+//		 gotoxy(x, y + i);	
+//		 cout << LISTCH.nodesCH[i]->noiDung;
+//		 gotoxy(x + 54, y + i);
+//		 dapan(LISTCH.nodesCH[i]->dapAn);
+//		x = 7;
+//		y++; 
+//	}
 }
 ////////////////Diem//////
 
 ////////////////////////
+void menu();         //////////////////???
+int select_Lop(LISTLOP &l)
+{
+	int x = 1, y = 15;
+	int chon = 0;
+	read_Lop(l);
+	l.output_Lop();
+	HighLight();
+	mauChu(x, y, BLACK, " -> ");
+	char kytu;
+	do {
+	  	kytu = getch();
+	  	if (kytu==0) kytu = getch();
+	  	switch (kytu) {
+	    case UP :if (chon+1 >1)
+	  			  {
+	  		        Normal();
+	              	mauChu(x, y + chon, BLACK, " -> ");
+	              	chon --;
+	              	HighLight();
+	              	mauChu(x, y + chon, BLACK, " -> ");
+					Nocursortype();	
+	  			  }
+	  			  break;
+	  	case DOWN :if (chon + 1 <l.slLop)
+	  			  {
+	  		        Normal();
+	              	mauChu(x, y + chon, BLACK, " -> ");
+	              	chon ++;
+	              	HighLight();
+	              	mauChu(x, y + chon, BLACK, " -> ");
+					Nocursortype();
+	  			  }
+	  			  break;
+		case ESC :	system("cls");
+					SetBGColor(BLACK);
+					menu();
+					break;
+		case INSERT : 	clear_screen4();
+						Normalw();
+						l.insert_Lop();
+						write_Lop(l);
+						select_Lop(l);
+						break;
+	  	case ENTER : return chon + 1;
+	  } 
+	  } while (1);
+}
 void menu()
 {
 	int chon =  MenuGV(menu1);
 	switch (chon)
 	{
-	case 1:
-		SetBGColor(BLACK);
-		clear_screen3();
-		guide_Lop();
-		LISTLOP l;
-		read_Lop(l);
-		output_Lop(l);
-		insert_Lop(l);
-		write_Lop(l);
-		output_Lop(l);
-		break;
-	
+		case 1:
+			SetBGColor(BLACK);
+			clear_screen3();
+			guide_Lop();
+			LISTLOP l;
+			select_Lop(l);
+			break;
+		// case 2:
+		// 	SetBGColor(BLACK);
+
 	}
 }
 void resizeConsole(){	
@@ -976,7 +663,7 @@ int main(){
  //	ios::sync_with_stdio(0);
  //	cin.tie(0);
  	resizeConsole();
- 	// DangNhap();
+// 	 DangNhap();
  	// getch();
  	// ThongBaoDN();
  	// MenuGV(menu1);
