@@ -6,6 +6,7 @@ void Nocursortype()
 	Info.dwSize = 20;
 	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &Info);
 }
+
 char* Pwd () {
      char S[40]; int i=0;
      while ((S[i]= getch()) != Enter ) 

@@ -1,20 +1,7 @@
-19
+6
 D16CQCN01-N@ CN1@
-D16CQCN02-N@ CN2@
 ID3@ CN13@
 ID4@ CN14@
 ID5@ CN15@
 ID6@ CN16@
 ID7@ CN17@
-ID8@ CN18@
-ID9@ CN19@
-ID10@ CN20@
-ID11@ CN21@
-ID12@ CN22@
-ID13@ CN23@
-nn@ ll@
-D16CQCN03-N@ CN3@
-ha@ hah@
-ashahs@ j@
-hahah hahah@ hihih hihi@
-nha aa@ kk h@

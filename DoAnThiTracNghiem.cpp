@@ -111,12 +111,10 @@ void create_Lop(LISTLOP &l)
 
 
 
-
-
 //------------------ DOC GHI FILE LOP ---------------
 void write_Lop(LISTLOP l)
 {
-	ofstream flo("DSlop.txt", ios::in);
+	ofstream flo("DSlop.txt");
 	if(flo.fail()){
 		cout << "that bai";
 	}
@@ -647,24 +645,25 @@ void output_CH()
 
 ////////////////////////
 void menu();         //////////////////???
-int select_Lop(LISTLOP &l)
+int select_Lop(LISTLOP &l, int chon)
 {
 	int x = 1, y = 15;
-	int chon = 0;
 	read_Lop(l);
 	l.output_Lop();
-	HighLight();
-	mauChu(x, y, BLACK, " -> ");
+	if(l.slLop > 0){
+		HighLight();
+		mauChu(x, y + chon, BLACK, " -> ");
+	}
 	char kytu;
 	do {
 	  	kytu = getch();
 	  	if (kytu==0) kytu = getch();
 	  	switch (kytu) {
-	    case UP :if (chon+1 >1)
+	    case UP :if (chon > 0)
 	  			  {
 	  		        Normal();
 	              	mauChu(x, y + chon, BLACK, " -> ");
-	              	chon --;
+	              	chon--;
 	              	HighLight();
 	              	mauChu(x, y + chon, BLACK, " -> ");
 					Nocursortype();	
@@ -674,7 +673,7 @@ int select_Lop(LISTLOP &l)
 	  			  {
 	  		        Normal();
 	              	mauChu(x, y + chon, BLACK, " -> ");
-	              	chon ++;
+	              	chon++;
 	              	HighLight();
 	              	mauChu(x, y + chon, BLACK, " -> ");
 					Nocursortype();
@@ -684,13 +683,32 @@ int select_Lop(LISTLOP &l)
 					SetBGColor(BLACK);
 					menu();
 					break;
-		case INSERT : 	clear_screen4();
+		case INSERT : 	clear_screen5();
 						Normalw();
 						l.insert_Lop();
 						write_Lop(l);
-						select_Lop(l);
+						clear_screen2();
+						select_Lop(l, chon);
 						break;
-	  	case ENTER : return chon + 1;
+		case DELETE :	if(l.slLop <= 0)
+							break;
+						else{
+							clear_screen4();
+							clear_screen2();
+							Normalw();
+							if(chon == 0 ){
+								l.del_Lop(chon);
+								write_Lop(l);
+								select_Lop(l, chon);
+							}
+							else{
+								l.del_Lop(chon);
+								write_Lop(l);
+								select_Lop(l, chon - 1);
+							}						
+							break;
+						}
+	  	case ENTER : return chon;
 	  } 
 	  } while (1);
 }
@@ -704,7 +722,7 @@ void menu()
 			clear_screen3();
 			guide_Lop();
 			LISTLOP l;
-			select_Lop(l);
+			select_Lop(l, 0);
 			break;
 		// case 2:
 		// 	SetBGColor(BLACK);
