@@ -18,5 +18,4 @@ void clreol( );
 void SetColor(WORD color);
 void SetBGColor(WORD color);
 void clrscr();
-
 #endif

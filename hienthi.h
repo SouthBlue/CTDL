@@ -26,10 +26,12 @@ void clear_screen1();
 void clear_screen2();
 void clear_screen3();
 void clear_screen4();
+void clear_screen5();
 void guide_Lop();
 void table_LOP();
 void guide_MH();
 void table_MH();
 void table_SV();
 void table_CH();
+//void message_add(int x, int y, string title);
 #endif

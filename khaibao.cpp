@@ -2,8 +2,8 @@
 
 void listLop::insert_Lop()
 {
-	int x = 108, y= 10;
-	
+	int x = 108, y= 12;
+	mauChu(x, y, RED, "-----THEM LOP-----");
 	nodesL[slLop] = new Lop;
 	gotoxy(x, y + 1);
 	cout << "Nhap vao ma lop: ";
@@ -17,15 +17,15 @@ void listLop::output_Lop()
 {
 	
 	int x = 7, y = 15;
-	if(slLop == 0)
+	table_LOP();
+	gotoxy(x, y - 3);
+	cout << "So luong lop: " << slLop <<"/200";
+	if(slLop <= 0)
 	{
 		gotoxy(x + 20, y);
 		cout << "Danh sach lop hoc trong!";
 		return;
 	}
-	table_LOP();
-	gotoxy(x, y - 3);
-	cout << "So luong lop: " << slLop <<"/200";
 	for (int i = 0; i < slLop; i ++)
 	{
 		 gotoxy(x, y);	
@@ -35,5 +35,14 @@ void listLop::output_Lop()
 		x = 7;
 		y++; 
 	}
+}
+void listLop::del_Lop( int vitri)
+{
+	for(int i = vitri; i < slLop - 1; i++)
+	{
+		nodesL[i]->maLop = nodesL[i + 1]->maLop;
+		nodesL[i]->tenLop = nodesL[i + 1]->tenLop;
+	}
+	slLop--;
 }
 

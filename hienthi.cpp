@@ -63,6 +63,7 @@ void GiaoDienGV(){
 	rectangle(106, 0, 38, 37, BLUE);
 	rectangle(0, 37, 144, 3, BLUE);
 	mauChu(112, 1, RED, "=======> THONG TIN <========");
+	mauChu(112, 10, RED, "========> TAC VU <=========");
 	mauChu(3, 37, RED, "---> HUONG DAN <---");
 }
 void TieuDe(){
@@ -119,7 +120,7 @@ void clear_screen1()
 void clear_screen2()
 {
 	Normal();
-	clear_screen(1, 11, 100, 25);
+	clear_screen(1, 12, 100, 25);
 }
 void clear_screen3()
 {
@@ -129,7 +130,12 @@ void clear_screen3()
 void clear_screen4()
 {
 	Normal();
-	clear_screen(107, 2, 36 , 35);
+	clear_screen(107, 2, 36 , 7);
+}
+void clear_screen5()
+{
+	Normal();
+	clear_screen(107, 11, 36 , 25);
 }
 void guide_Lop(){
 	SetColor(WHITE);
@@ -167,3 +173,7 @@ void table_CH()
 	mauChu(35, 11, RED, "=====** DANH SACH CAU HOI **=====");
 	mauChu(6, 14, WHITE, " Cau hoi                                          ||   Dap an  ");
 }
+//void message_add(int x, int y, string title)
+//{
+//	gotoxy()
+//}
