@@ -2,6 +2,8 @@
 #include "mylib.h"
 #include "hienthi.h"
 #include "nhapxuat.h"
+//#include <iostream>
+//#include<stdio.h>
 
 #define MAXLOP 500
 #define MAXCAUHOI 2000
@@ -78,10 +80,11 @@ typedef struct listLop{
 	Lop *nodesL[MAXLOP];
 	void insert_Lop();
 	void output_Lop();
-	void del_Lop(int vitri);
 };
+
 typedef struct listLop LISTLOP;
-////////////////////////////
+
+
 typedef struct CauHoi{
 	int id;
 	string noiDung;

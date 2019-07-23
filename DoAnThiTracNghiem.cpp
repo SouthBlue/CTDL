@@ -1,11 +1,11 @@
-//#include <iostream>
+#include <iostream>
 #include <iomanip>
-//#include "mylib.h"
-//#include <string>
+#include "mylib.h"
+#include <string>
 #include <vector>
 #include <fstream>
-//#include "hienthi.h"
-//#include "nhapxuat.h"
+#include "hienthi.h"
+#include "nhapxuat.h"
 #include "khaibao.h"
 
 using namespace std;
@@ -111,10 +111,12 @@ void create_Lop(LISTLOP &l)
 
 
 
+
+
 //------------------ DOC GHI FILE LOP ---------------
 void write_Lop(LISTLOP l)
 {
-	ofstream flo("DSlop.txt");
+	ofstream flo("DSlop.txt", ios::in);
 	if(flo.fail()){
 		cout << "that bai";
 	}
@@ -152,21 +154,21 @@ void read_Lop(LISTLOP &l)
 
 
 /////////////////////////////////////////CauHoi///////////
-void insert_cauhoi()
+void insert_cauhoi(LISTCH &l)
 {
 	int i;
 	cout << "So Cau Hoi muon them: ";
 	cin >> i;
 	for (int j = 0; j < i; j ++)
 	{
-		LISTCH.nodesCH[j] = new CauHoi;
-		cout << "Nhap ma mon hoc: ";
-		cin >> LISTCH.nodesCH[j]->
+		l.nodesCH[j] = new CauHoi;
+//		cout << "Nhap ma mon hoc: ";
+//		cin >> l.nodesCH[j]->
 		cout << "Nhap vao cau hoi:  ";
-		cin >> LISTCH.nodesCH[j]->noiDung;
+		cin >> l.nodesCH[j]->noiDung;
 		cout << "Nhap dap an: ";
-		cin >> LISTCH.nodesCH[j]->dapAn;
-		LISTCH.slCauHoi ++;
+		cin >> l.nodesCH[j]->dapAn;
+		l.slCauHoi ++;
 
 	}
 }
@@ -645,25 +647,24 @@ void output_CH()
 
 ////////////////////////
 void menu();         //////////////////???
-int select_Lop(LISTLOP &l, int chon)
+int select_Lop(LISTLOP &l)
 {
 	int x = 1, y = 15;
+	int chon = 0;
 	read_Lop(l);
 	l.output_Lop();
-	if(l.slLop > 0){
-		HighLight();
-		mauChu(x, y + chon, BLACK, " -> ");
-	}
+	HighLight();
+	mauChu(x, y, BLACK, " -> ");
 	char kytu;
 	do {
 	  	kytu = getch();
 	  	if (kytu==0) kytu = getch();
 	  	switch (kytu) {
-	    case UP :if (chon > 0)
+	    case UP :if (chon+1 >1)
 	  			  {
 	  		        Normal();
 	              	mauChu(x, y + chon, BLACK, " -> ");
-	              	chon--;
+	              	chon --;
 	              	HighLight();
 	              	mauChu(x, y + chon, BLACK, " -> ");
 					Nocursortype();	
@@ -673,7 +674,7 @@ int select_Lop(LISTLOP &l, int chon)
 	  			  {
 	  		        Normal();
 	              	mauChu(x, y + chon, BLACK, " -> ");
-	              	chon++;
+	              	chon ++;
 	              	HighLight();
 	              	mauChu(x, y + chon, BLACK, " -> ");
 					Nocursortype();
@@ -683,32 +684,13 @@ int select_Lop(LISTLOP &l, int chon)
 					SetBGColor(BLACK);
 					menu();
 					break;
-		case INSERT : 	clear_screen5();
+		case INSERT : 	clear_screen4();
 						Normalw();
 						l.insert_Lop();
 						write_Lop(l);
-						clear_screen2();
-						select_Lop(l, chon);
+						select_Lop(l);
 						break;
-		case DELETE :	if(l.slLop <= 0)
-							break;
-						else{
-							clear_screen4();
-							clear_screen2();
-							Normalw();
-							if(chon == 0 ){
-								l.del_Lop(chon);
-								write_Lop(l);
-								select_Lop(l, chon);
-							}
-							else{
-								l.del_Lop(chon);
-								write_Lop(l);
-								select_Lop(l, chon - 1);
-							}						
-							break;
-						}
-	  	case ENTER : return chon;
+	  	case ENTER : return chon + 1;
 	  } 
 	  } while (1);
 }
@@ -722,7 +704,7 @@ void menu()
 			clear_screen3();
 			guide_Lop();
 			LISTLOP l;
-			select_Lop(l, 0);
+			select_Lop(l);
 			break;
 		// case 2:
 		// 	SetBGColor(BLACK);
