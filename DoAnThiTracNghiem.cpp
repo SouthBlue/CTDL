@@ -6,7 +6,7 @@
 #include <fstream>
 #include "hienthi.h"
 #include "nhapxuat.h"
-#include "khaibao.h"
+#include "dslists.h"
 
 using namespace std;
 
@@ -42,7 +42,7 @@ int MenuGV(string td[so_item1]){
  	}
 	  	HighLight();
 	  	mauChu(cot + 25*chon, dong, BLUE, td[chon]);
-		Nocursortype();
+		Nocursortype(0);
 	  	char kytu;
 	do {
 	  	kytu = getch();
@@ -54,8 +54,7 @@ int MenuGV(string td[so_item1]){
 					mauChu(cot + chon*25, dong, BLUE, td[chon]);
 					chon --;
 					HighLight();
-					mauChu(cot + chon*25, dong, BLUE, td[chon]);
-					Nocursortype();		
+					mauChu(cot + chon*25, dong, BLUE, td[chon]);		
 	  			  }
 	  			  break;
 	  	case RIGHT :if (chon+1 <so_item1)
@@ -64,8 +63,7 @@ int MenuGV(string td[so_item1]){
 	              	mauChu(cot + chon*25, dong, BLUE, td[chon]);
 	              	chon ++;
 	              	HighLight();
-	              	mauChu(cot + chon*25, dong, BLUE, td[chon]);
-					Nocursortype();	
+	              	mauChu(cot + chon*25, dong, BLUE, td[chon]);	
 	  			  }
 	  			  break;
 	  	case ENTER : return chon+1;
@@ -112,43 +110,6 @@ void create_Lop(LISTLOP &l)
 
 
 
-
-//------------------ DOC GHI FILE LOP ---------------
-void write_Lop(LISTLOP l)
-{
-	ofstream flo("DSlop.txt", ios::in);
-	if(flo.fail()){
-		cout << "that bai";
-	}
-	flo << l.slLop << endl;
-
-	for(int i=0; i < l.slLop; i++)
-	{
-
-		flo << l.nodesL[i]->maLop <<"@ ";
-		flo << l.nodesL[i]->tenLop <<'@' <<"\n";
-	}
-	flo.close();
-}
-void read_Lop(LISTLOP &l)
-{
-	ifstream fli("DSlop.txt");
-	if(fli.fail())
-	{
-		cout << "that bai";
-	}
-	fli >> l.slLop;
-	for(int i = 0; i < l.slLop; i++)
-	{
-		l.nodesL[i] = new Lop;
-//		// fli >> l.nodesL[i]->maLop;
-//		// fli >> l.nodesL[i]->tenLop;
-		fli.ignore();
-		getline(fli, l.nodesL[i]->maLop, '@');
-		fli.ignore();
-		getline(fli, l.nodesL[i]->tenLop, '@');
-	}
-}
 
 /////////////////////////////////////////
 
@@ -295,244 +256,43 @@ int del_MH(TREEMH &t, string ma)
 	
 }
 //////////////////////////////////SINH VIEN/////////////
-void create_ListSV(LISTSV &l)
-{
-	l.svFirst = l.svLast = NULL;
-}
-NODESV* createNode_SV(SinhVien a)
-{
-	NODESV *p = new NODESV;
-	if(p == NULL)
-	{
-		return NULL;
-	}
-	p->sv = a;
-	p->svnext = NULL;
-	return p;
-	
-}
-void AddHead_SV(LISTSV &l, NODESV *p)
-{
-   if (l.svFirst == NULL) 
-      l.svFirst  = l.svLast = p;
-   else
-   {
-      p->svnext = l.svFirst; 
-      l.svFirst = p; 
-   }
-}
- 
-void AddTail_SV(LISTSV &l, NODESV *p)
-{
-   if (l.svFirst == NULL) 
-    	l.svFirst  = l.svLast = p;
-   else
-   {
-      	l.svLast->svnext = p;
-      	l.svLast = p;
-   }
-}
-bool sex_SV()
-{
-	string s[2] = {" nam ", " nu "};
-	bool chon = true;
-	for(int i = 0; i < 2; i++)
-	{
-		mauChu(120 + i*10, 14, RED, s[i]);
-	}
-	HighLight();
-	mauChu(120, 14, RED, s[0]);
-	char key;
-	do{
-		key = getch();
-		if(key == 0) key= getch();
-		switch (key){
-			case LEFT: 
-				    chon = true;
-					Normal();
-	              	mauChu(120 + 10, 14, RED, s[1]);	
-	              	HighLight();
-	              	mauChu(120, 14, RED, s[0]);
-				break;
-			case RIGHT:
-				    chon = false;
-					Normal();
-	              	mauChu(120, 14, RED, s[0]);
-	              	HighLight();
-	              	mauChu(120 + 10, 14, RED, s[1]);
-				break;
-			case ENTER:
-				 	SetBGColor(BLACK);
-					return chon;
-		}
-	} while(1);
-
-}
-// vector<char> password_in(int x, int y, int max)
-// {
-// 	int a = 0;
-// 	char key;
-// 	vector<char> pass;
-// 	while(1)
-// 	{
-// 		key = getch();
-// 		if (key==0) key = getch();
-// 		switch(key)
-// 		{
-// 			case ENTER :
-// 				pass.push_back('\0');
-// 				return pass;
-// 			case BACKSPACE :
-// 				if(pass.size() != 0) 
-// 				{
-// 					pass.pop_back();
-// 					a--;
-// 					gotoxy(x + a, y); 
-// 					cout << " ";
-// 					gotoxy(x + a, y); 
-// 				}	
-// 				break;
-// 			case SPACE :	
-// 				break;
-// 			default:				
-// 					if(pass.size() != max)
-// 					{	
-// 						pass.push_back(key);	
-// 						gotoxy(x + a++, y);
-// 						cout << "*";
-// 					}
-// 				break;	
-// 		}
-// 	}
-// }
-// void passord_out(int x, int y, int max, char *data)
-// {
-// 	vector<char> ans = password_in(x, y, max);	
-// 	for(int i = 0; i < ans.size(); i++) data[i] = ans[i];	
-// }
-void input_SV(SinhVien &sv)
-{
-	
-	int x = 108, y = 11; 
-	fflush(stdin);
-	gotoxy(x, y);
-	cout << "Nhap ma sinh vien: ";
-	input_check(127, 11, 10, 10, sv.maSV);
-	gotoxy(x, y + 1);
-	cout << "Nhap Ho: ";
-	input_check(117, y + 1, 25, 25, sv.Ho);
-	gotoxy(x, y + 2);
-	cout << "Nhap Ten: ";
-	input_check(118, y + 2, 15, 15, sv.Ten);
-	gotoxy(x, y + 3);
-	cout << "Phai: ";
-	sv.phai = sex_SV();
-	gotoxy(x, y + 4);
-	cout << "Password: ";
-	input_check(x + 10, y + 4, 16, 16, sv.password);
-}
 
 
-void sex_SV(bool x)
-{
-	if(x == 1)
-	{
-		cout << "nam";
-	}
-	else cout << "nu";
-}
-void output_SV(int x, int y, SinhVien sv)
-{
-	gotoxy(x, y);
-	cout << sv.maSV;
-	gotoxy(x + 23, y);
-	cout << sv.Ho;
-	gotoxy(x + 57, y);
-	cout << sv.Ten;
-	gotoxy(x + 84, y);
-	sex_SV(sv.phai);
-}
 
-void inputlist_SV(LISTSV &l)
+void insertlist_SV(LISTSV &l)
 {
-	gotoxy(108, 10);
-	cout << "so luong: ";
-	int n;
-	cin >> n;
-	create_ListSV(l);
-	SinhVien x;
-	for(int i = 0; i < n; i++ )
-	{
-		input_SV(x);
-		NODESV *p = createNode_SV(x);
-		AddTail_SV(l, p);	
-	}
+	clear_screen5();
+	SinhVien a;
+	a.insert_SV();
+	l.AddTail_SV(a);	
+	l.slsv++;
 }
 void outputlist_SV(LISTSV l)
 {
-
+	clear_screen2();
 	SetBGColor(BLACK);
-
 	int x = 9, y = 14;
-	NODESV *p;
-	p = l.svFirst;
-	if(p == NULL)
+	if(l.slsv == 0)
 	{
 		gotoxy(x + 20, y);
 		cout << "Danh sach sinh vien trong!";
 		return;
 	}
 	gotoxy(x, y - 2); 
-	cout << "So sinh vien: ";
+	cout << "So sinh vien: " << l.slsv;
 	table_SV();
-	while(p != NULL)
+	for(NODESV *p = l.svFirst; p != NULL; p = p->svnext)
 	{
-		output_SV(x, y, p->sv);
-		p = p->svnext;
+		p->sv.output_SV(x, y);
 		y++;
 	}
 }
-// void readfile1_SV(ifstream &filein, SinhVien sv)
-// {
-// 	string i;
-// 	std::cin.getline(filein,sv.maSV.str(), ",");// doc tu file masv
-// 	filein.seekg(1, 1);// dich 1 byte de bo khoang trang
-// 	getline(filein,sv.Ho, ',');
-// 	filein.seekg(1, 1);
-// 	getline(filein,sv.Ten, ',');
-// 	filein.seekg(1, 1);
-// 	getline(filein, sv.phai, ',');
-// 	filein.seekg(1, 1);
-// 	getline(filein, sv.password, ',');
 
-// }
-// void outfile1_SV(SinhVien sv)
-// {
-// 	cout << "Ho ten: " << sv.Ho << sv.Ten << endl;
-// 	cout << "Ma sinh vien: " << sv.maSV << endl;
-// 	if(sv.phai == 1)
-// 	{
-// 		cout << "Phai: nam" << endl;
-// 	}
-// 	else
-// 	{
-// 		cout << "Phai: nu" << endl;
-// 	}
-// 	cout << "Password: " << sv.password << endl;
-	
-// }
-// void AddAfter(NODESV *node, NODESV *before)
-// {
-//    if (!before)
-//    {
-// 		node->svnext = before->svnext; //s?a liên k?t c?a node m?i
-// 		before->svnext = node; //s?a l?i lk c?a node có s?n
-// 		if (LISTSV.svLast == before)
-// 			LISTSV.svLast = node; //s?a l?i con tr? ch? danh sách
-//    }
-//    else
-//       AddHead();
-// }
+///////////Doc ghi file SV////
+
+
+
+
 ///////////////////CauHoi//////////
 int select_DA(){
 	int x = 20, y = 8;
@@ -646,12 +406,16 @@ void output_CH()
 ////////////////Diem//////
 
 ////////////////////////
+void select_SV(LISTSV &l, int chon)
+{
+	
+}
+
 void menu();         //////////////////???
 int select_Lop(LISTLOP &l)
 {
 	int x = 1, y = 15;
-	int chon = 0;
-	read_Lop(l);
+	l.read_Lop();
 	l.output_Lop();
 	HighLight();
 	mauChu(x, y, BLACK, " -> ");
@@ -666,8 +430,7 @@ int select_Lop(LISTLOP &l)
 	              	mauChu(x, y + chon, BLACK, " -> ");
 	              	chon --;
 	              	HighLight();
-	              	mauChu(x, y + chon, BLACK, " -> ");
-					Nocursortype();	
+	              	mauChu(x, y + chon, BLACK, " -> ");	
 	  			  }
 	  			  break;
 	  	case DOWN :if (chon + 1 <l.slLop)
@@ -677,7 +440,6 @@ int select_Lop(LISTLOP &l)
 	              	chon ++;
 	              	HighLight();
 	              	mauChu(x, y + chon, BLACK, " -> ");
-					Nocursortype();
 	  			  }
 	  			  break;
 		case ESC :	system("cls");
@@ -687,15 +449,35 @@ int select_Lop(LISTLOP &l)
 		case INSERT : 	clear_screen4();
 						Normalw();
 						l.insert_Lop();
-						write_Lop(l);
-						select_Lop(l);
+						l.write_Lop();
+						clear_screen2();
+						select_Lop(l, chon);
 						break;
-	  	case ENTER : return chon + 1;
+		case DELETE :	if(l.slLop <= 0)
+							break;
+						else{
+							clear_screen4();
+							clear_screen2();
+							Normalw();
+							if(chon == 0 ){
+								l.del_Lop(chon);
+								l.write_Lop();
+								select_Lop(l, chon);
+							}
+							else{
+								l.del_Lop(chon);
+								l.write_Lop();
+								select_Lop(l, chon - 1);
+							}						
+							break;
+						}
+	  	case ENTER : return chon;
 	  } 
 	  } while (1);
 }
 void menu()
 {
+	Nocursortype(0);
 	int chon =  MenuGV(menu1);
 	switch (chon)
 	{
@@ -727,7 +509,7 @@ int main(){
 // 	 DangNhap();
  	// getch();
  	// ThongBaoDN();
- 	// MenuGV(menu1);
+// 	 MenuGV(menu1);
  	// SetBGColor(BLACK);
 	// TREEMH t;
 	// t=NULL;
@@ -739,13 +521,26 @@ int main(){
 	// cout<<"nhap mh can xoa:";
 	// cin>>c;
 	// del_MH(t, c);
-	// LISTSV l;
- 	// inputlist_SV(l);
- 	// outputlist_SV(l);
-	menu();
+	LISTSV l;
+ 	l.read_listSV();
+ 	l.outputlist_SV();
+	l.insertlist_SV();
+ 	l.outputlist_SV();
+	l.write_listSV();
+
+//	ifstream fsv("DSsv.txt");
+//	if(fsv.fail())
+//	{
+//		cout<<"loi";
+//	}
+////	fsv.ignore();
+//	getline(fsv, sv.maSV, '@');
+//	cout << sv.maSV;
+	
+//	menu();
 	// LNR(t);
 //	insert_CH();
-//	output_CH();
+//	output_CH);
  	getch();
 
 	return 0;

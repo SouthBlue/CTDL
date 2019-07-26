@@ -101,7 +101,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit6]
-FileName=khaibao.h
+FileName=dslists.h
 CompileCpp=1
 Folder=headerFile
 Compile=1
@@ -111,7 +111,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit7]
-FileName=khaibao.cpp
+FileName=dslists.cpp
 CompileCpp=1
 Folder=sourcefile
 Compile=1

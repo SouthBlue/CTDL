@@ -1,10 +1,8 @@
-#ifndef KHAIBAO_H
+#ifndef DSLISTS_H
 #include "mylib.h"
 #include "hienthi.h"
 #include "nhapxuat.h"
-//#include <iostream>
-//#include<stdio.h>
-
+#include <fstream>
 #define MAXLOP 500
 #define MAXCAUHOI 2000
 
@@ -51,19 +49,33 @@ typedef struct SinhVien{
 	bool phai;
 	string password;
 	NODEDIEM FirstDiem;
+	bool sexs_SV();
+	void password_in(int x, int y, int width, string &pass);
+	void insert_SV();
+	void sex_SV(bool x);
+	void output_SV(int x, int y);
+	void read_SV(ifstream &fsv);
+	void write_SV(ofstream &fsv);
 };
 // Khoi tao danh sach lien ket don sinh vien
 typedef struct nodeSinhVien{
 	SinhVien sv;
 	struct nodeSinhVien *svnext;
+//	NODESV *createNode_SV();
 };
 typedef struct nodeSinhVien NODESV;
 struct listSinhVien
 {
-	NODESV *svLast;
-	NODESV *svFirst;
+	int slsv = 0;
+	NODESV *svLast = NULL;
+	NODESV *svFirst = NULL;
+	void insertlist_SV();
+	void outputlist_SV();
+//	void AddHead_SV(SinhVien sv);
+	void AddTail_SV(SinhVien sv);
+	void read_listSV();
+	void write_listSV();
 };
-
 typedef struct listSinhVien LISTSV;
 //////////////////lop
 typedef struct Lop{
@@ -80,6 +92,9 @@ typedef struct listLop{
 	Lop *nodesL[MAXLOP];
 	void insert_Lop();
 	void output_Lop();
+	void del_Lop(int vitri);
+	void write_Lop();
+	void read_Lop();
 };
 
 typedef struct listLop LISTLOP;

@@ -8,7 +8,7 @@
 #include <windows.h>
 #define Enter 13
 #define PASSWORD "abcdef"
-void Nocursortype();
+void Nocursortype(bool);
 char* Pwd (); 
 int CheckPwd (); 
 void gotoxy(short x,short y);

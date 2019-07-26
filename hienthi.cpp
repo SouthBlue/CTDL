@@ -97,6 +97,7 @@ void clear_screen(int x, int y, int width, int height)
 			cout << " ";
 		}
 	}
+	SetColor(WHITE);
 }
 void DangNhap(){
 	rectangle(0, 0, 145, 39, GREEN);
