@@ -1,8 +1,9 @@
 #include "mylib.h"
-void Nocursortype()
+void Nocursortype(bool isVisible)
 {
 	CONSOLE_CURSOR_INFO Info;
-	Info.bVisible = FALSE;
+	if(isVisible) Info.bVisible = TRUE;
+	else Info.bVisible = FALSE;
 	Info.dwSize = 20;
 	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &Info);
 }
