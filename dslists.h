@@ -1,34 +1,54 @@
 #ifndef DSLISTS_H
-#include "mylib.h"
+//#include "mylib.h"
 #include "hienthi.h"
 #include "nhapxuat.h"
 #include <fstream>
 
-#define MAXLOP 500
-#define MAXCAUHOI 2000
+const int MAXLOP = 500;
+const int MAXCAUHOI = 2000;
+
 
 using namespace std;
-// khai bao ds
-// Khai bao mon hoc (cay nhi phan)
-typedef struct MonHoc{
+
+struct MonHoc{
 	string maMonHoc;
 	string tenMonHoc;
+	void read_MH(ifstream &file);
+	void write_MH(ofstream &file);
 };
 // Khoi tao cay nhi phan
-typedef struct nodeMonHoc{
-	MonHoc MH;     ///// + ////
+struct nodeMonHoc{
+	nodeMonHoc(MonHoc a){
+		MH = a;
+		left = NULL;
+		right = NULL;
+	}
+	MonHoc MH;     	
 	struct nodeMonHoc *left;
 	struct nodeMonHoc *right;
 };
-typedef struct nodeMonHoc NODEMH;
-typedef NODEMH *TREEMH;
-// Khoi tao thong tin diem thi
-typedef struct DiemThi{
+typedef struct nodeMonHoc *NODEMH;
+struct listMonHoc
+{
+	int slmh;
+	NODEMH root = NULL;
+//	void LNR(NODEMH &t);
+	void LNRkodequy();
+	NODEMH CreateNode(MonHoc a);
+	NODEMH FindInsert(MonHoc a);
+	bool InsertNode(MonHoc a);
+	NODEMH SearchNode_Re(NODEMH p, MonHoc a);
+	void add_MH();
+	void read_listMH();
+	void write_listMH();
+};
+
+struct DiemThi{
 	string maMonHoc;
 	float diem;
 };
 // Khoi tao danh sach diem thi (danh sach lien ket don)
-typedef struct nodeDiemThi{
+struct nodeDiemThi{
 	DiemThi dt;
 	struct nodeDiemThi *dnext;
 };
@@ -43,7 +63,7 @@ struct listDiemThi
 typedef struct listDiemThi LISTDIEM;
 
 // Khai bao thong tin sinhvien
-typedef struct SinhVien{
+struct SinhVien{
 	string maSV;
 	string Ho;
 	string Ten;
@@ -52,17 +72,16 @@ typedef struct SinhVien{
 	NODEDIEM FirstDiem;
 	bool sexs_SV();
 	void password_in(int x, int y, int width, string &pass);
-	void insert_SV();
+	bool insert_SV();
 	void sex_SV(bool x);
 	void output_SV(int x, int y);
-	void read_SV(ifstream &fsv);
-	void write_SV(ofstream &fsv);
+	void read_SV(ifstream &);
+	void write_SV(ofstream &);
 };
 // Khoi tao danh sach lien ket don sinh vien
-typedef struct nodeSinhVien{
+struct nodeSinhVien{
 	SinhVien sv;
 	struct nodeSinhVien *svnext;
-//	NODESV *createNode_SV();
 };
 typedef struct nodeSinhVien NODESV;
 struct listSinhVien
@@ -74,32 +93,41 @@ struct listSinhVien
 	void outputlist_SV();
 //	void AddHead_SV(SinhVien sv);
 	void AddTail_SV(SinhVien sv);
-	void read_listSV();
-	void write_listSV();
+	bool find(SinhVien a);
+	void del_SV(int);
+	void delall_SV();
+	void read_listSV(ifstream &);
+	void write_listSV(ofstream &);
 };
 typedef struct listSinhVien LISTSV;
 //////////////////lop
-typedef struct Lop{
+struct Lop{
 	string maLop;
 	string tenLop;
-	NODESV First;
+	LISTSV First;
+	bool insertinfo_Lop();
+	void read_Lop(ifstream &);
+	void write_Lop(ofstream &);
 };
 
 // khai bao mang con tro lop
 
 
-typedef struct listLop{
+struct listLop{
 	int slLop = 0;
 	Lop *nodesL[MAXLOP];
 	void insert_Lop();
 	void output_Lop();
+	int select_Lop(int chon);
+	bool find_Lop(string);
 	void del_Lop(int vitri);
-	void write_Lop();
-	void read_Lop();
+	void write_listLop();
+	void read_listLop();
+	
 };
 typedef struct listLop LISTLOP;
 ////////////////////////////
-typedef struct CauHoi{
+struct CauHoi{
 	int id;
 	string noiDung;
 	string A;
@@ -108,7 +136,7 @@ typedef struct CauHoi{
 	string D;
 	int dapAn;
 };
-typedef struct listCauHoi{
+struct listCauHoi{
 	int slCauHoi;
 	CauHoi *nodesCH[MAXCAUHOI];	
 };

@@ -4,14 +4,15 @@
 #include "constain.h"
 #include <string>
 #include <iostream>
-#define WHITE 15
-#define BLACK 0
-#define BLUE 3
-#define GREEN 10
-#define RED 4
+
+const int YELLOW = 14;
+const int WHITE = 15;
+const int BLACK = 0;
+const int BLUE = 3;
+const int GREEN = 10;
+const int RED = 4;
+
 using namespace std;
-
-
 void press_key();
 void Normal();
 void Normalw();
@@ -33,5 +34,6 @@ void guide_MH();
 void table_MH();
 void table_SV();
 void table_CH();
-//void message_add(int x, int y, string title);
+void guide_SV();
+
 #endif
