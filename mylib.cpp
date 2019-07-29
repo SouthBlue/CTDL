@@ -8,24 +8,24 @@ void Nocursortype(bool isVisible)
 	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &Info);
 }
 
-char* Pwd () {
-     char S[40]; int i=0;
-     while ((S[i]= getch()) != Enter ) 
-     { printf ("%c", '*') ; i++ ; 
-     }
-     S[i]='\0';
-     return S;
-}
-
-int CheckPwd () {
-    int dem =0; 
-    for ( dem =1 ; dem <=3 ; dem++)
-    { printf( "Password :"); 
-      if (strcmp(Pwd(),PASSWORD) ==0)   return 1;
-      else printf ( "\nPassword sai. Hay nhap lai\n")  ; 
-    }
-    return 0;  
-}
+//char* Pwd () {
+//     char s[40]; int i=0;
+//     while ((s[i]= getch()) != Enter ) cout << '*'
+//     { printf ("%c", '*') ; i++ ; 
+//     }
+//    s[i]='\0';
+//     return s;
+//}
+//
+//int CheckPwd () {
+//    int dem =0; 
+//    for ( dem =1 ; dem <=3 ; dem++)
+//    { printf( "Password :"); 
+//      if (strcmp(Pwd(),PASSWORD) ==0)   return 1;
+//      else printf ( "\nPassword sai. Hay nhap lai\n")  ; 
+//    }
+//    return 0;  
+//}
 
 void gotoxy(short x,short y)
 {
@@ -53,15 +53,15 @@ int wherey( void )
     return screen_buffer_info.dwCursorPosition.Y;
 }
 void clreol( ) {
-COORD coord;
-DWORD written;
-CONSOLE_SCREEN_BUFFER_INFO info;
-GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &info);
-coord.X = info.dwCursorPosition.X;
-coord.Y = info.dwCursorPosition.Y;
-FillConsoleOutputCharacter (GetStdHandle(STD_OUTPUT_HANDLE), ' ',
-  info.dwSize.X - info.dwCursorPosition.X * info.dwCursorPosition.Y, coord, &written);
-gotoxy (info.dwCursorPosition.X , info.dwCursorPosition.Y );
+	COORD coord;
+	DWORD written;
+	CONSOLE_SCREEN_BUFFER_INFO info;
+	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &info);
+	coord.X = info.dwCursorPosition.X;
+	coord.Y = info.dwCursorPosition.Y;
+	FillConsoleOutputCharacter (GetStdHandle(STD_OUTPUT_HANDLE), ' ',
+	  info.dwSize.X - info.dwCursorPosition.X * info.dwCursorPosition.Y, coord, &written);
+	gotoxy (info.dwCursorPosition.X , info.dwCursorPosition.Y );
 }
 
 void SetColor(WORD color)
@@ -97,4 +97,11 @@ void SetBGColor(WORD color)
 }
 void clrscr() {
 	system("cls");
+}
+void resizeConsole(){	
+	HWND console = GetConsoleWindow();
+	SetWindowPos(console, 0, 50, 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER );
+	RECT r;
+	GetWindowRect(console, &r);
+	MoveWindow(console, r.left, r.top, 1200, 700, TRUE);
 }

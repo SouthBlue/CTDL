@@ -29,7 +29,7 @@ IncludeVersionInfo=0
 SupportXPThemes=0
 CompilerSet=0
 CompilerSettings=0000000000000000000000000
-UnitCount=11
+UnitCount=12
 
 [VersionInfo]
 Major=1
@@ -151,8 +151,29 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit11]
-FileName=resource.rc
-Folder=Resources
+FileName=giaovien.h
+CompileCpp=1
+Folder=headerFile
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit12]
+FileName=giaovien.cpp
+CompileCpp=1
+Folder=sourcefile
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit14]
+FileName=treemh.cpp
+CompileCpp=1
+Folder=sourcefile
 Compile=1
 Link=1
 Priority=1000

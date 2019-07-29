@@ -121,7 +121,7 @@ void clear_screen1()
 void clear_screen2()
 {
 	Normal();
-	clear_screen(1, 12, 100, 25);
+	clear_screen(1, 12, 100, 24);
 }
 void clear_screen3()
 {
@@ -151,6 +151,14 @@ void table_LOP()
 	mauChu(35, 11, RED, "=====** DANH SACH CAC LOP **=====");
 	mauChu(6, 14, WHITE, " Ma Lop                   ||   Ten Lop                     ||  So luong SV");
 }
+void guide_SV(){
+	SetColor(WHITE);
+	char l[4][20] = {"ESC: TRO VE", "HOME: TRANG CHINH", "     INSERT: THEM", "DELETE: XOA"};
+	for(int i = 0; i< 4; i++){
+		gotoxy(3+i*20, 38);
+		cout<< l[i];
+	}
+}
 void guide_MH(){
 	SetColor(WHITE);
 	char l[6][20] = {"ESC: TRO VE", "HOME: TRANG CHINH", "F1: SUA", "INSERT: THEM", "DELETE: XOA", "ENTER: CHON"};
@@ -166,15 +174,12 @@ void table_MH(){
 void table_SV()
 {
 	mauChu(30, 11, RED, "=====** DANH SACH SINH VIEN CUA LOP **=====");
-	gotoxy(7, 13);
-	cout << "  MASV            ||     Ho                          ||    Ten                  ||    Phai   ";
+	gotoxy(7, 14);
+	cout << "MASV              ||     Ho                          ||    Ten                  ||    Phai   ";
 }
 void table_CH()
 {
 	mauChu(35, 11, RED, "=====** DANH SACH CAU HOI **=====");
 	mauChu(6, 14, WHITE, " Cau hoi                                          ||   Dap an  ");
 }
-//void message_add(int x, int y, string title)
-//{
-//	gotoxy()
-//}
+
