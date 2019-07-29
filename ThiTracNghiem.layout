@@ -1,15 +1,25 @@
 [Editors]
+<<<<<<< HEAD
 Order=0,11,5,6,10,8,2,1
 Focused=0
 [Editor_0]
 CursorCol=17
 CursorRow=281
 TopLine=265
+=======
+Order=0,1,2,5,6,9,7,4,3
+Focused=0
+[Editor_0]
+CursorCol=22
+CursorRow=694
+TopLine=245
+>>>>>>> parent of 2f7b472... update 29/7
 LeftChar=1
 [Editors]
 Order=1
 Focused=1
 [Editor_1]
+<<<<<<< HEAD
 CursorCol=23
 CursorRow=8
 TopLine=1
@@ -23,6 +33,21 @@ LeftChar=1
 CursorCol=6
 CursorRow=12
 TopLine=1
+=======
+CursorCol=1
+CursorRow=36
+TopLine=11
+LeftChar=1
+[Editor_2]
+CursorCol=31
+CursorRow=138
+TopLine=111
+LeftChar=1
+[Editor_3]
+CursorCol=23
+CursorRow=11
+TopLine=2
+>>>>>>> parent of 2f7b472... update 29/7
 LeftChar=1
 [Editor_4]
 CursorCol=9
@@ -30,6 +55,7 @@ CursorRow=15
 TopLine=1
 LeftChar=1
 [Editor_5]
+<<<<<<< HEAD
 CursorCol=1
 CursorRow=35
 TopLine=28
@@ -42,6 +68,20 @@ LeftChar=1
 [Editor_7]
 CursorCol=16
 CursorRow=7
+=======
+CursorCol=15
+CursorRow=62
+TopLine=51
+LeftChar=1
+[Editor_6]
+CursorCol=21
+CursorRow=56
+TopLine=50
+LeftChar=1
+[Editor_7]
+CursorCol=1
+CursorRow=13
+>>>>>>> parent of 2f7b472... update 29/7
 TopLine=1
 LeftChar=1
 [Editor_8]
@@ -72,10 +112,5 @@ LeftChar=1
 [Editor_13]
 CursorCol=1
 CursorRow=2
-TopLine=1
-LeftChar=1
-[Editor_10]
-CursorCol=10
-CursorRow=5
 TopLine=1
 LeftChar=1

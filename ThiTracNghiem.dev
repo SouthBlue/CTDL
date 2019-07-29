@@ -6,7 +6,7 @@ Ver=2
 ObjFiles=
 Includes=
 Libs=
-PrivateResource=ThiTracNghiem_private.rc
+PrivateResource=
 ResourceIncludes=
 MakeIncludes=
 Compiler=
@@ -29,7 +29,11 @@ IncludeVersionInfo=0
 SupportXPThemes=0
 CompilerSet=0
 CompilerSettings=0000000000000000000000000
+<<<<<<< HEAD
 UnitCount=12
+=======
+UnitCount=10
+>>>>>>> parent of 2f7b472... update 29/7
 
 [VersionInfo]
 Major=1
@@ -150,6 +154,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
+<<<<<<< HEAD
 [Unit11]
 FileName=giaovien.h
 CompileCpp=1
@@ -180,3 +185,5 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
+=======
+>>>>>>> parent of 2f7b472... update 29/7
