@@ -336,6 +336,124 @@ void outputlist_SV(LISTSV l)
 }
 
 ///////////Doc ghi file SV////
+<<<<<<< HEAD
+=======
+
+
+
+
+///////////////////CauHoi//////////
+int select_DA(){
+	int x = 20, y = 8;
+	string da[4] = {"  A  ", "  B  ", "  C  ", "  D  "};
+	int chon = 0;
+ 	int i;
+ 	for ( i = 0; i < 4 ; i++){
+	 	mauChu(x + 10*i, y, RED,da[i]);
+ 	}
+	  	HighLight();
+	  	mauChu(x + 10*chon, y, RED, da[chon]);
+	  	char kytu;
+	do {
+	  	kytu = getch();
+	  	if (kytu==0) kytu = getch();
+	  	switch (kytu) {
+	    case LEFT :if (chon+1 >1)
+	  			  {
+	  		        Normal();
+	              	mauChu(x + chon*10, y, RED, da[chon]);
+	              	chon --;
+	              	HighLight();
+	              	mauChu(x + chon*10, y, RED, da[chon]);	
+	  			  }
+	  			  break;
+	  	case RIGHT :if (chon+1 <so_item1)
+	  			  {
+	  		        Normal();
+	              	mauChu(x + chon*10, y, RED, da[chon]);
+	              	chon ++;
+	              	HighLight();
+	              	mauChu(x + chon*10, y, RED, da[chon]);
+	  			  }
+	  			  break;
+	  	case 13 : return chon+1;
+	  } 
+	  } while (1);
+
+}
+void insert_CH()
+{
+//	clear_screen1();
+//	int x = 3, y = 1;
+//	int i = 0;
+//	LISTCH.nodesCH[i] = new CauHoi;
+//	gotoxy(x, y);
+//	cout << "Nhap cau hoi: ";
+//	input_check(x + 14, y, 250, 86, LISTCH.nodesCH[i]->noiDung);
+//	gotoxy(x, y + 3);
+//	cout << "A: ";
+//	input_check(x + 2, y + 3, 80, 80, LISTCH.nodesCH[i]->A);
+//	gotoxy(x, y + 4);
+//	cout << "B: ";
+//	input_check(x + 2, y + 4, 80, 80, LISTCH.nodesCH[i]->B);
+//	gotoxy(x, y + 5);
+//	cout << "C: ";
+//	input_check(x + 2, y + 5, 80, 80, LISTCH.nodesCH[i]->C);
+//	gotoxy(x, y + 6);
+//	cout << "D: ";
+//	input_check(x + 2, y + 6, 80, 80, LISTCH.nodesCH[i]->D);
+//	gotoxy(x, y + 7);
+//	cout << "Dap An: ";
+//	LISTCH.nodesCH[i]->dapAn = select_DA(); 
+//	LISTCH.slCauHoi++;
+}
+
+void dapan(int a)
+{
+	if(a == 1)
+	{
+		cout << "A";
+	}else
+	{
+		if(a == 2)
+		cout << "B";
+		else
+		{
+			if(a == 3)
+			cout << "C";
+			else
+			{
+				cout << "D";
+			}
+			
+		}
+		
+	}
+	
+}
+void output_CH()
+{
+//	SetBGColor(BLACK);
+//	int x = 7, y = 15;
+//	if(LISTCH.slCauHoi == 0)
+//	{
+//		gotoxy(x + 20, y);
+//		cout << "Danh cau hoi trong!";
+//		return;
+//	}
+//	table_CH();
+//	for (int i = 0; i < LISTCH.slCauHoi; i++)
+//	{
+//		 gotoxy(x, y + i);	
+//		 cout << LISTCH.nodesCH[i]->noiDung;
+//		 gotoxy(x + 54, y + i);
+//		 dapan(LISTCH.nodesCH[i]->dapAn);
+//		x = 7;
+//		y++; 
+//	}
+}
+////////////////Diem//////
+>>>>>>> parent of 2f7b472... update 29/7
 
 
 
@@ -557,6 +675,7 @@ void menu()
 
 }
 <<<<<<< HEAD
+<<<<<<< HEAD
 void insert_CH()
 {
 //	clear_screen1();
@@ -628,6 +747,8 @@ void output_CH()
 //		y++; 
 //	}
 =======
+=======
+>>>>>>> parent of 2f7b472... update 29/7
 void resizeConsole(){	
 	HWND console = GetConsoleWindow();
 	SetWindowPos(console, 0, 50, 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER );
@@ -681,6 +802,7 @@ t.read_listMH();
 	// cin>>c;
 	// del_MH(t, c);
 <<<<<<< HEAD
+<<<<<<< HEAD
 //	LISTSV l;
 // 	l.read_listSV();
 // 	l.outputlist_SV();
@@ -688,12 +810,17 @@ t.read_listMH();
 // 	l.outputlist_SV();
 //	l.write_listSV();
 =======
+=======
+>>>>>>> parent of 2f7b472... update 29/7
 	LISTSV l;
  	l.read_listSV();
  	l.outputlist_SV();
 	l.insertlist_SV();
  	l.outputlist_SV();
 	l.write_listSV();
+<<<<<<< HEAD
+>>>>>>> parent of 2f7b472... update 29/7
+=======
 >>>>>>> parent of 2f7b472... update 29/7
 
 //	ifstream fsv("DSsv.txt");

@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 7
 D16CQCN01-N@ CN1@ 4
 N16DCCN002@ VO THANH@ AN@ 123 1
@@ -19,9 +20,14 @@ ID5@ CN15@ 0
 ID6@ CN16@ 0
 ID7@ CN17@ 0
 =======
+=======
+>>>>>>> parent of 2f7b472... update 29/7
 4
 ID3@ CN13@
 ID4@ CN14@
 D16CQCN01-N@ CN1@
 D16CQCN02-N@ CN2@
+<<<<<<< HEAD
+>>>>>>> parent of 2f7b472... update 29/7
+=======
 >>>>>>> parent of 2f7b472... update 29/7
