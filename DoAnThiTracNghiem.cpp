@@ -111,29 +111,30 @@ void create_Lop(LISTLOP &l)
 
 
 
-/////////////////////////////////////////
-
-
-/////////////////////////////////////////CauHoi///////////
-void insert_cauhoi(LISTCH &l)
-{
-	int i;
-	cout << "So Cau Hoi muon them: ";
-	cin >> i;
-	for (int j = 0; j < i; j ++)
-	{
-		l.nodesCH[j] = new CauHoi;
-//		cout << "Nhap ma mon hoc: ";
-//		cin >> l.nodesCH[j]->
-		cout << "Nhap vao cau hoi:  ";
-		cin >> l.nodesCH[j]->noiDung;
-		cout << "Nhap dap an: ";
-		cin >> l.nodesCH[j]->dapAn;
-		l.slCauHoi ++;
-
-	}
-}
 /////////////////////////MonHocKhoiTao////////////
+
+void KhoitaoMH(TREEMH &t)
+{
+	t = NULL;
+}
+
+//int insert_MH(TREEMH &t, MonHoc a){
+//	if(t != NULL){
+//		if(compare_MH(t->MH, a) == 0)
+//			return -1;				// node da co
+//		if(compare_MH(t->MH, a) > 0)
+//			return insert_MH(t->left, a); // chen trai
+//		else if(compare_MH(t->MH, a) < 0)
+//			return insert_MH(t->right, a); // chen phai
+//	}
+//	t = new NODEMH;
+//	if (t == NULL)
+//		return 0;
+//	t->MH = a;
+//	t->left = t->right = NULL;
+//	return 1;
+//}
+
 
 int compare_MH(MonHoc a, MonHoc b)
 {
@@ -160,37 +161,22 @@ void output_MH(int xmh, int &ymh, MonHoc a)
 	ymh++;
 }
 
-int insert_MH(TREEMH &t, MonHoc a){
-	if(t != NULL){
-		if(compare_MH(t->MH, a) == 0)
-			return -1;				// node da co
-		if(compare_MH(t->MH, a) > 0)
-			return insert_MH(t->left, a); // chen trai
-		else if(compare_MH(t->MH, a) < 0)
-			return insert_MH(t->right, a); // chen phai
-	}
-	t = new NODEMH;
-	if (t == NULL)
-		return 0;
-	t->MH = a;
-	t->left = t->right = NULL;
-	return 1;
-}
-void createtree_MH(TREEMH &t){
-	MonHoc a;
-	int n = 3;
-	while(n > 0){
-		a = input_MH();
-		int check = insert_MH(t, a);
-		if(check == -1){
-			gotoxy(108, 6);
-			cout << "Ma mon hoc da co!";
-		}
-		if(check == 0)
-			cout<<"Bo nho day";
-		n--;
-	}
-}
+
+//void createtree_MH(TREEMH &t){
+//	MonHoc a;
+//	int n = 3;
+//	while(n > 0){
+//		a = input_MH();
+//		int check = insert_MH(t, a);
+//		if(check == -1){
+//			gotoxy(108, 6);
+//			cout << "Ma mon hoc da co!";
+//		}
+//		if(check == 0)
+//			cout<<"Bo nho day";
+//		n--;
+//	}
+//}
 
 void LNR(TREEMH &t)
 {
@@ -288,121 +274,6 @@ void outputlist_SV(LISTSV l)
 	}
 }
 
-///////////Doc ghi file SV////
-
-
-
-
-///////////////////CauHoi//////////
-int select_DA(){
-	int x = 20, y = 8;
-	string da[4] = {"  A  ", "  B  ", "  C  ", "  D  "};
-	int chon = 0;
- 	int i;
- 	for ( i = 0; i < 4 ; i++){
-	 	mauChu(x + 10*i, y, RED,da[i]);
- 	}
-	  	HighLight();
-	  	mauChu(x + 10*chon, y, RED, da[chon]);
-	  	char kytu;
-	do {
-	  	kytu = getch();
-	  	if (kytu==0) kytu = getch();
-	  	switch (kytu) {
-	    case LEFT :if (chon+1 >1)
-	  			  {
-	  		        Normal();
-	              	mauChu(x + chon*10, y, RED, da[chon]);
-	              	chon --;
-	              	HighLight();
-	              	mauChu(x + chon*10, y, RED, da[chon]);	
-	  			  }
-	  			  break;
-	  	case RIGHT :if (chon+1 <so_item1)
-	  			  {
-	  		        Normal();
-	              	mauChu(x + chon*10, y, RED, da[chon]);
-	              	chon ++;
-	              	HighLight();
-	              	mauChu(x + chon*10, y, RED, da[chon]);
-	  			  }
-	  			  break;
-	  	case 13 : return chon+1;
-	  } 
-	  } while (1);
-
-}
-void insert_CH()
-{
-//	clear_screen1();
-//	int x = 3, y = 1;
-//	int i = 0;
-//	LISTCH.nodesCH[i] = new CauHoi;
-//	gotoxy(x, y);
-//	cout << "Nhap cau hoi: ";
-//	input_check(x + 14, y, 250, 86, LISTCH.nodesCH[i]->noiDung);
-//	gotoxy(x, y + 3);
-//	cout << "A: ";
-//	input_check(x + 2, y + 3, 80, 80, LISTCH.nodesCH[i]->A);
-//	gotoxy(x, y + 4);
-//	cout << "B: ";
-//	input_check(x + 2, y + 4, 80, 80, LISTCH.nodesCH[i]->B);
-//	gotoxy(x, y + 5);
-//	cout << "C: ";
-//	input_check(x + 2, y + 5, 80, 80, LISTCH.nodesCH[i]->C);
-//	gotoxy(x, y + 6);
-//	cout << "D: ";
-//	input_check(x + 2, y + 6, 80, 80, LISTCH.nodesCH[i]->D);
-//	gotoxy(x, y + 7);
-//	cout << "Dap An: ";
-//	LISTCH.nodesCH[i]->dapAn = select_DA(); 
-//	LISTCH.slCauHoi++;
-}
-
-void dapan(int a)
-{
-	if(a == 1)
-	{
-		cout << "A";
-	}else
-	{
-		if(a == 2)
-		cout << "B";
-		else
-		{
-			if(a == 3)
-			cout << "C";
-			else
-			{
-				cout << "D";
-			}
-			
-		}
-		
-	}
-	
-}
-void output_CH()
-{
-//	SetBGColor(BLACK);
-//	int x = 7, y = 15;
-//	if(LISTCH.slCauHoi == 0)
-//	{
-//		gotoxy(x + 20, y);
-//		cout << "Danh cau hoi trong!";
-//		return;
-//	}
-//	table_CH();
-//	for (int i = 0; i < LISTCH.slCauHoi; i++)
-//	{
-//		 gotoxy(x, y + i);	
-//		 cout << LISTCH.nodesCH[i]->noiDung;
-//		 gotoxy(x + 54, y + i);
-//		 dapan(LISTCH.nodesCH[i]->dapAn);
-//		x = 7;
-//		y++; 
-//	}
-}
 ////////////////Diem//////
 
 ////////////////////////
@@ -412,7 +283,7 @@ void select_SV(LISTSV &l, int chon)
 }
 
 void menu();         //////////////////???
-int select_Lop(LISTLOP &l)
+int select_Lop(LISTLOP &l,int chon)
 {
 	int x = 1, y = 15;
 	l.read_Lop();
@@ -446,7 +317,7 @@ int select_Lop(LISTLOP &l)
 					SetBGColor(BLACK);
 					menu();
 					break;
-		case INSERT : 	clear_screen4();
+		case INSERT : 	clear_screen2();
 						Normalw();
 						l.insert_Lop();
 						l.write_Lop();
@@ -486,10 +357,103 @@ void menu()
 			clear_screen3();
 			guide_Lop();
 			LISTLOP l;
-			select_Lop(l);
+			select_Lop(l,0);
 			break;
 		// case 2:
 		// 	SetBGColor(BLACK);
+
+	}
+}
+
+int select_CauHoi(listCauHoi &l,int chon)
+{
+	int x = 1, y = 15;
+	l.read_CauHoi();
+	l.output_CH();
+	HighLight();
+	mauChu(x, y + chon, BLACK, " -> ");
+	char kytu;
+	do {
+	  	kytu = getch();
+	  	if (kytu==0) kytu = getch();
+	  	switch (kytu) {
+	    case UP :if (chon+1 >1)
+	  			  {
+	  		        Normal();
+	              	mauChu(x, y + chon, BLACK, " -> ");
+	              	chon --;
+	              	HighLight();
+	              	mauChu(x, y + chon, BLACK, " -> ");	
+	  			  }
+	  			  break;
+	  	case DOWN :if (chon + 1 <l.slCauHoi)
+	  			  {
+	  		        Normal();
+	              	mauChu(x, y + chon, BLACK, " -> ");
+	              	chon ++;
+	              	HighLight();
+	              	mauChu(x, y + chon, BLACK, " -> ");
+	  			  }
+	  			  break;
+		case ESC :	system("cls");
+					SetBGColor(BLACK);
+					menu();
+					break;
+		case INSERT : 	clear_screen4();
+						Normalw();
+						l.insert_CH();
+						l.write_CauHoi();
+						clear_screen2();
+						select_CauHoi(l, chon);
+						break;
+		case DELETE :	if(l.slCauHoi <= 0)
+							break;
+						else{
+							clear_screen4();
+							clear_screen2();
+							Normalw();
+							if(chon == 0 ){
+								l.del_CauHoi(chon);
+								l.write_CauHoi();
+								select_CauHoi(l, chon);
+							}
+							else{
+								l.del_CauHoi(chon);
+								l.write_CauHoi();
+								select_CauHoi(l, chon - 1);
+							}						
+							break;
+						}
+	  	case ENTER  : 	clear_screen1();
+	  					//l.slCauHoi = chon;
+	  					l.output1_CH(chon);
+	  					//clear_screen2();
+						select_CauHoi(l,chon); 
+							
+		  				return chon;
+	  } 
+	  } while (1);
+}
+void menu_CH()
+{
+	Nocursortype(0);
+	int chon =  MenuGV(menu1);
+	switch (chon)
+	{
+//		case 1:
+//			SetBGColor(BLACK);
+//			clear_screen3();
+//			guide_Lop();
+//			LISTLOP l;
+//			select_Lop(l,0);
+//			break;
+		case 2:
+			SetBGColor(BLACK);
+			clear_screen3();
+			guide_MH();
+			listCauHoi lc;
+			select_CauHoi(lc,0);
+			break;
 
 	}
 }
@@ -521,12 +485,23 @@ int main(){
 	// cout<<"nhap mh can xoa:";
 	// cin>>c;
 	// del_MH(t, c);
-	LISTSV l;
- 	l.read_listSV();
- 	l.outputlist_SV();
-	l.insertlist_SV();
- 	l.outputlist_SV();
-	l.write_listSV();
+//	LISTSV l;
+// 	l.read_listSV();
+// 	l.outputlist_SV();
+//	l.insertlist_SV();
+// 	l.outputlist_SV();
+//	l.write_listSV();
+//	LISTCH l;
+//	l.read_CauHoi();
+//	l.output_CH();
+//	l.insert_CH();
+//	l.output_CH();
+//	l.write_CauHoi();
+//	listCauHoi lc;
+	//l.select_DA();
+//	l.write_CauHoi();
+
+	menu_CH(); 
 
 //	ifstream fsv("DSsv.txt");
 //	if(fsv.fail())

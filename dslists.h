@@ -111,7 +111,16 @@ typedef struct CauHoi{
 };
 typedef struct listCauHoi{
 	int slCauHoi;
-	CauHoi *nodesCH[MAXCAUHOI];	
+	CauHoi *nodesCH[MAXCAUHOI];
+	//void dapan(int a);
+	int select_DA();
+	void DA_CauHoi(int x);
+	void insert_CH();
+	void output_CH();
+	void write_CauHoi();
+	void read_CauHoi();
+	void output1_CH(int chon);
+	void del_CauHoi( int vitri);
 };
 typedef struct listCauHoi LISTCH;
 #endif

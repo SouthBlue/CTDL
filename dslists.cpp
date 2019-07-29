@@ -308,3 +308,204 @@ void listSinhVien::write_listSV()
 	}
 	fsv.close();
 }
+int listCauHoi::select_DA()
+{
+	int x = 20, y = 8;
+	string da[4] = {"  A  ", "  B  ", "  C  ", "  D  "};
+	int chon = 0;
+ 	int i;
+ 	for ( i = 0; i < 4 ; i++){
+	 	mauChu(x + 10*i, y, RED,da[i]);
+ 	}
+	  	HighLight();
+	  	mauChu(x + 10*chon, y, RED, da[chon]);
+	  	char kytu;
+	do {
+	  	kytu = getch();
+	  	if (kytu==0) kytu = getch();
+	  	switch (kytu) {
+	    case LEFT :if (chon+1 >1)
+	  			  {
+	  		        Normal();
+	              	mauChu(x + chon*10, y, RED, da[chon]);
+	              	chon --;
+	              	HighLight();
+	              	mauChu(x + chon*10, y, RED, da[chon]);	
+	  			  }
+	  			  break;
+	  	case RIGHT :if (chon+1 < 4)
+	  			  {
+	  		        Normal();
+	              	mauChu(x + chon*10, y, RED, da[chon]);
+	              	chon ++;
+	              	HighLight();
+	              	mauChu(x + chon*10, y, RED, da[chon]);
+	  			  }
+	  			  break;
+	  	case ENTER : 
+	  				SetBGColor(BLACK);
+	  				//cout << chon;
+	  				return chon;
+	  } 
+	  } while (1);
+
+}
+void listCauHoi::DA_CauHoi(int x)
+{
+	if(x == 0)
+	{
+		cout << "A";
+	}
+	else if(x == 1)
+	{
+		cout << "B";
+	}
+	else if(x == 2)
+	{
+		cout << "C";
+	}
+	else
+	{
+		cout << "D";
+	}
+}
+void listCauHoi::insert_CH()
+{
+	clear_screen1();
+	int x = 3, y = 1;
+	int i = 0;
+	nodesCH[slCauHoi] = new CauHoi;
+	gotoxy(x, y);
+	cout << "Nhap cau hoi: ";
+	input_check(x + 14, y, 250, 86, nodesCH[slCauHoi]->noiDung);
+	gotoxy(x, y + 3);
+	cout << "A: ";
+	input_check(x + 2, y + 3, 80, 80, nodesCH[slCauHoi]->A);
+	gotoxy(x, y + 4);
+	cout << "B: ";
+	input_check(x + 2, y + 4, 80, 80, nodesCH[slCauHoi]->B);
+	gotoxy(x, y + 5);
+	cout << "C: ";
+	input_check(x + 2, y + 5, 80, 80, nodesCH[slCauHoi]->C);
+	gotoxy(x, y + 6);
+	cout << "D: ";
+	input_check(x + 2, y + 6, 80, 80, nodesCH[slCauHoi]->D);
+	gotoxy(x, y + 7);
+	cout << "Dap An: ";
+	nodesCH[slCauHoi]->dapAn = select_DA();
+	//cout << nodesCH[slCauHoi]->dapAn;
+	slCauHoi++;
+}
+void listCauHoi::output_CH()
+{
+	SetBGColor(BLACK);
+	int x = 7, y = 15;
+	if(slCauHoi == 0)
+	{
+		gotoxy(x + 20, y);
+		cout << "Danh cau hoi trong!";
+		return;
+	}
+	table_CH();
+	for (int i = 0; i < slCauHoi; i++)
+	{
+		 gotoxy(x, y);	
+		 cout << nodesCH[i]->noiDung;
+		 gotoxy(x + 54, y);
+		 DA_CauHoi(nodesCH[i]->dapAn);
+		x = 7;
+		y++; 
+	}
+}
+void listCauHoi::output1_CH(int chon)
+{
+	int x = 3, y = 1;
+	gotoxy(x,y);
+	cout << "Noi dung cau hoi: " <<nodesCH[chon]->noiDung;
+	gotoxy(x, y + 3);
+	cout << "A:    " << nodesCH[chon]->A;
+	gotoxy(x, y + 4);
+	cout << "B:    " << nodesCH[chon]->B;
+	gotoxy(x, y + 5);
+	cout << "C:    " << nodesCH[chon]->C;
+	gotoxy(x, y + 6);
+	cout << "D:    " << nodesCH[chon]->D;
+	if(nodesCH[chon]->dapAn == 0)
+	{
+		gotoxy(x+3,y+3);
+		cout << "*";
+	}
+		else if(nodesCH[chon]->dapAn == 1)
+		{
+			gotoxy(x+3,y+4);
+			cout << "*";
+		}
+			else if(nodesCH[chon]->dapAn == 2)
+			{
+				gotoxy(x+3,y+5);
+				cout << "*";
+			}
+				else if(nodesCH[chon]->dapAn == 3)
+				{
+					gotoxy(x+3,y+6);
+					cout << "*";
+				}
+}
+void listCauHoi::write_CauHoi()
+{
+	ofstream flo("DScauhoi.txt");
+	if(flo.fail()){
+		cout << "that bai";
+	}
+	flo << slCauHoi << "\n";
+	for(int i = 0; i < slCauHoi; i++)
+	{
+		flo << nodesCH[i]->noiDung <<"@ ";
+		flo << nodesCH[i]->A <<"@ ";
+		flo << nodesCH[i]->B <<"@ ";
+		flo << nodesCH[i]->C <<"@ ";
+		flo << nodesCH[i]->D <<" ";
+		flo << nodesCH[i]->dapAn <<"\n" ;
+		
+	}
+	flo.close();
+}
+void listCauHoi::read_CauHoi()
+{
+	ifstream fli("DScauhoi.txt");
+	if(fli.fail())
+	{
+		cout << "that bai";
+	}
+	fli >> slCauHoi;
+	for(int i = 0; i < slCauHoi; i++)
+	{
+		nodesCH[i] = new CauHoi;
+		fli.ignore();
+		getline(fli, nodesCH[i]->noiDung, '@');
+		fli.ignore();
+		getline(fli, nodesCH[i]->A, '@');
+		fli.ignore();
+		getline(fli, nodesCH[i]->B, '@');
+		fli.ignore();
+		getline(fli, nodesCH[i]->C, '@');
+		fli.ignore();
+		getline(fli, nodesCH[i]->D, ' ');
+		//fli.ignore();
+		fli >> nodesCH[i]->dapAn;
+	}
+}
+void listCauHoi::del_CauHoi( int vitri)
+{
+	for(int i = vitri; i < slCauHoi - 1; i++)
+	{
+		nodesCH[i]->noiDung = nodesCH[i + 1]->noiDung;
+		nodesCH[i]->A = nodesCH[i + 1]->A;
+		nodesCH[i]->B = nodesCH[i + 1]->B;
+		nodesCH[i]->C = nodesCH[i + 1]->C;
+		nodesCH[i]->D = nodesCH[i + 1]->D;
+		nodesCH[i]->dapAn = nodesCH[i + 1]->dapAn;
+		
+	}
+	slCauHoi--;
+}
