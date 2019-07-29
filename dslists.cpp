@@ -435,6 +435,7 @@ void listSinhVien::write_listSV(ofstream &fsv)
 <<<<<<< HEAD
 }
 <<<<<<< HEAD
+<<<<<<< HEAD
 //////////////////////Mon Hoc//////////////
 MonHoc input_MH(MonHoc a)
 { 
@@ -625,5 +626,7 @@ void listMonHoc::write_listMH()
 	fsv.close();
 >>>>>>> parent of 2f7b472... update 29/7
 }
+=======
+>>>>>>> parent of 2f7b472... update 29/7
 =======
 >>>>>>> parent of 2f7b472... update 29/7

@@ -32,7 +32,11 @@ CompilerSettings=0000000000000000000000000
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 UnitCount=12
+=======
+UnitCount=10
+>>>>>>> parent of 2f7b472... update 29/7
 =======
 UnitCount=10
 >>>>>>> parent of 2f7b472... update 29/7
@@ -165,6 +169,7 @@ BuildCmd=
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 [Unit11]
 FileName=giaovien.h
 CompileCpp=1
@@ -195,6 +200,8 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
+=======
+>>>>>>> parent of 2f7b472... update 29/7
 =======
 >>>>>>> parent of 2f7b472... update 29/7
 =======

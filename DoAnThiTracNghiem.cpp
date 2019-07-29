@@ -338,7 +338,10 @@ void outputlist_SV(LISTSV l)
 ///////////Doc ghi file SV////
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> parent of 2f7b472... update 29/7
 =======
 >>>>>>> parent of 2f7b472... update 29/7
 
@@ -680,6 +683,7 @@ void menu()
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 void insert_CH()
 {
 //	clear_screen1();
@@ -755,6 +759,8 @@ void output_CH()
 >>>>>>> parent of 2f7b472... update 29/7
 =======
 >>>>>>> parent of 2f7b472... update 29/7
+=======
+>>>>>>> parent of 2f7b472... update 29/7
 void resizeConsole(){	
 	HWND console = GetConsoleWindow();
 	SetWindowPos(console, 0, 50, 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER );
@@ -810,6 +816,7 @@ t.read_listMH();
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 //	LISTSV l;
 // 	l.read_listSV();
 // 	l.outputlist_SV();
@@ -817,6 +824,8 @@ t.read_listMH();
 // 	l.outputlist_SV();
 //	l.write_listSV();
 =======
+=======
+>>>>>>> parent of 2f7b472... update 29/7
 =======
 >>>>>>> parent of 2f7b472... update 29/7
 =======
@@ -829,6 +838,9 @@ t.read_listMH();
 	l.write_listSV();
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> parent of 2f7b472... update 29/7
+=======
 >>>>>>> parent of 2f7b472... update 29/7
 =======
 >>>>>>> parent of 2f7b472... update 29/7
