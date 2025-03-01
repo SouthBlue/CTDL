@@ -1,0 +1,45 @@
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+7
+D16CQCN01-N@ CN1@ 4
+N16DCCN002@ VO THANH@ AN@ 123 1
+N16DCCN003@ LE QUANG@ ANH@ 123 1
+N16DCCN004@ LE THI HONG@ ANH@ 123 0
+N16DCCN007@ LE QUANG@ AU@ 123 1
+D16CQCN02-N@ CN2@ 5
+N16DCCN061@ NGUYEN BA@ HOANG@ 123 1
+N16DCCN062@ TRAN DUY@ HOANG@ 123 1
+N16DCCN063@ DO CONG@ HUNG@ 123 1
+N16DCCN064@ PHAM @ HUNG@ 123 1
+N16DCCN065@ NGUYEN GIA@ HUY@ 123 1
+ID3@ CN13@ 2
+N16DCCN0100@ LE TRUC@ LAM@ 123 1
+N16DCCN096@ VO THANH@ TU@ 123 1
+ID4@ CN14@ 0
+ID5@ CN15@ 0
+ID6@ CN16@ 0
+ID7@ CN17@ 0
+=======
+=======
+>>>>>>> parent of 2f7b472... update 29/7
+=======
+>>>>>>> parent of 2f7b472... update 29/7
+=======
+>>>>>>> parent of 2f7b472... update 29/7
+4
+ID3@ CN13@
+ID4@ CN14@
+D16CQCN01-N@ CN1@
+D16CQCN02-N@ CN2@
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> parent of 2f7b472... update 29/7
+=======
+>>>>>>> parent of 2f7b472... update 29/7
+=======
+>>>>>>> parent of 2f7b472... update 29/7
+=======
+>>>>>>> parent of 2f7b472... update 29/7
